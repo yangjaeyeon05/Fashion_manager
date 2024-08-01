@@ -9,3 +9,6 @@ public class AppStart {
         SpringApplication.run(AppStart.class);
     }
 }
+
+
+// 김민석 커밋함
