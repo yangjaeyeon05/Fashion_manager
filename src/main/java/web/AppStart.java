@@ -8,8 +8,4 @@ public class AppStart {
     public static void main(String[] args) {
         SpringApplication.run(AppStart.class);
     }
-    // syeon8344
 }
-
-
-// 김민석 커밋함
