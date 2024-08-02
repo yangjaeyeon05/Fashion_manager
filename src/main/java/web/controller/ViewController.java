@@ -14,11 +14,11 @@ public class ViewController {
 
     // 4-1. 매출/정
     @GetMapping("/sales")
-    public String sales(){return "/sales.html";}
+    public String sales(){return "/sales/sales.html";}
 
     // 4-2. 매출/상품분석
     @GetMapping("/sales/items")
-    public String salesItem(){return "/sales/item.html";}
+    public String salesItem(){return "/sales/items.html";}
 
     // 4-3. 매출/매출추이분석
     @GetMapping("/sales/weekly")
