@@ -1,0 +1,9 @@
+#title{
+    border-bottom: 3px solid black;
+    margin-top: 20px;
+}
+#title > span{
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: 700;
+}

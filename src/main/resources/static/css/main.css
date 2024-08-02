@@ -1,0 +1,20 @@
+/* 1. 공통 CSS */
+*{  
+    list-style-type: none;  /* 글머리 제거 */
+    box-sizing : border-box;    /* 구역 사이즈 기준 */
+    color :black;
+    font-size : 13px;
+    font-family: "Nanum Gothic Coding", monospace;
+}
+a{ 
+    text-decoration: non;
+    color: black;
+}
+#main{
+    margin-left: 250px;
+}
+.nanum-gothic-coding-regular {
+    font-family: "Nanum Gothic Coding", monospace;
+    font-weight: 400;
+    font-style: normal;
+}
