@@ -12,13 +12,30 @@ public class ViewController {
         return "/index.html";   // templates 폴더내 반환할 경로와 파일명
     }
 
+    // 상담목록 페이지 요청
+    @GetMapping("/support")    // http://localhost:8080/ // 페이지 요청은 HTTP의 GET방식을 주로 사용한다.
+    public String support(){
+        return "/support/support.html";   // templates 폴더내 반환할 경로와 파일명
+    }
+
+    // 로그인페이지
+    @GetMapping("/login")
+    public String login(){
+        return "/login.html";
+    }
+
+    // 회원 목록 페이지
+    @GetMapping("/member/read")
+    public String mRead(){
+        return "/member.html";
+    }
 
     // 주문 목록 페이지
     @GetMapping("/order")
     public String order(){
         return "/order.html";
     }
-    
+
     // 주문 반품 페이지
     @GetMapping("order/return")
     public String orderReturn(){
@@ -30,4 +47,18 @@ public class ViewController {
     public String orderCancel(){
         return "/orderCancel";
     }
+    // 상품등록 페이지
+    @GetMapping("/product/add")
+    public String productAdd(){return "/product/productadd.html";}
+    // 4-1. 매출/정
+    @GetMapping("/sales")
+    public String sales(){return "/sales/sales.html";}
+
+    // 4-2. 매출/상품분석
+    @GetMapping("/sales/items")
+    public String salesItem(){return "/sales/items.html";}
+
+    // 4-3. 매출/매출추이분석
+    @GetMapping("/sales/weekly")
+    public String salesWeekly(){return "/sales/weekly.html";}
 }   // class end
