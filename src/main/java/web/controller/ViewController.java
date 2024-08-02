@@ -29,4 +29,22 @@ public class ViewController {
     public String mRead(){
         return "/member.html";
     }
+
+    // 주문 목록 페이지
+    @GetMapping("/order")
+    public String order(){
+        return "/order.html";
+    }
+
+    // 주문 반품 페이지
+    @GetMapping("order/return")
+    public String orderReturn(){
+        return "/orderReturn.html";
+    }
+
+    // 주문 취소 페이지
+    @GetMapping("/order/cancel")
+    public String orderCancel(){
+        return "/orderCancel";
+    }
 }   // class end

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="/static/css/order.css">
+</head>
+<body>
+    <div th:replace="~{/sidebar.html:: sidebar}"></div>
+
+    <div style="margin : 0px 0px 0px 250px"> <!--메인페이지 -->
+    <h3> 주문 목록페이지 </h3>
+
+    <div>
+        조회기간 : <input type="date" style="width : 250px"/> ~ <input type="date" style="width : 250px"/> <br/>
+        <button type="button" style="width : 280px"> 검색 </button>
+    </div>
+
+    <div>
+        목록출력페이지 <select>
+        <option> 10개씩 </option>
+        <option> 20개씩 </option>
+        <option> 30개씩 </option>
+    </select>
+
+        <table style="width : 1000px">
+            <thead>
+                <tr>
+                    <th> <input type="checkbox"> </th>
+                    <th> 주문상세코드 </th>
+                    <th> 주문코드 </th>
+                    <th> 주문일시 </th>
+                    <th> 주문상태 </th>
+                    <th> 상품상세코드 </th>
+                    <th> 상품명 </th>
+                    <th> 쿠폰코드 </th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    </div>
+
+</body>
+</html>
