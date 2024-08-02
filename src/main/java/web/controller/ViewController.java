@@ -12,7 +12,15 @@ public class ViewController {
         return "/index.html";   // templates 폴더내 반환할 경로와 파일명
     }
 
-    // 4-1. 매출/매출분석
+    // 4-1. 매출/정
     @GetMapping("/sales")
     public String sales(){return "/sales.html";}
+
+    // 4-2. 매출/상품분석
+    @GetMapping("/sales/items")
+    public String salesItem(){return "/sales/item.html";}
+
+    // 4-3. 매출/매출추이분석
+    @GetMapping("/sales/weekly")
+    public String salesWeekly(){return "/sales/weekly.html";}
 }   // class end
