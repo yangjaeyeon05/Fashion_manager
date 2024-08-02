@@ -12,4 +12,7 @@ public class ViewController {
         return "/index.html";   // templates 폴더내 반환할 경로와 파일명
     }
 
+    // 상품등록 페이지
+    @GetMapping("/product/add")
+    public String productAdd(){return "/product/productadd.html";}
 }   // class end
