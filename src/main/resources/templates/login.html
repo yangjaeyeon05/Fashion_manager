@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='/css/login.css'>
+
+</head>
+
+<body>
+    <div th:replace="~{/sidebar.html:: sidebar}"></div>
+    <div class="loginArea">
+        <input type="text" id="adminID"> <br>
+        <input type="password" id="adminPW"> <br>
+        <button type="button" onclick="doLogin()"> 로그인 </button>
+    </div>
+
+    <script src="/js/login.js"></script>
+</body>
+
+</html>
