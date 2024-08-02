@@ -47,4 +47,7 @@ public class ViewController {
     public String orderCancel(){
         return "/orderCancel";
     }
+    // 상품등록 페이지
+    @GetMapping("/product/add")
+    public String productAdd(){return "/product/productadd.html";}
 }   // class end
