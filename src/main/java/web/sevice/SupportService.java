@@ -16,7 +16,14 @@ public class SupportService {
     // 1. 상담 목록 출력
     public ArrayList<SupportDto> supAllread(){
         System.out.println("SupportService.supAllread");
-        return supportDao.supAllread();
+        ArrayList<SupportDto> supportDto = supportDao.supAllread();
+        // supportDto
+        return supportDto;
     }   // supportDto() end
+
+    // 2. 카테고리 이름 변환
+    public int tranceSupCa(){
+        return supportDao.tranceSupCa();
+    }   // tranceSupCa() end
 
 }   // class end
