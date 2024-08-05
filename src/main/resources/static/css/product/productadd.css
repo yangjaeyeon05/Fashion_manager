@@ -2,32 +2,20 @@
 
 body {
     font-family: Arial, sans-serif;
-
-    margin: 0;
-    padding: 0;
+    background-color: #f4f4f9;
 }
 
-#container {
-    display: flex;
-    margin-left: 250px;
-    max-width: 1200px;
-}
-
-#sidebar {
-    width: 250px; /* 사이드바의 너비 설정 */
-    background-color: #f8f8f8;
-    border-right: 1px solid #ddd;
+#main {
+    max-width: 800px;
+    margin-left: 660px;
     padding: 20px;
-    box-sizing: border-box;
-}
-
-#content {
-    flex: 1; /* 콘텐츠 영역이 나머지 공간을 차지하도록 설정 */
-    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-    text-align: left; /* 제목을 왼쪽에 붙이기 */
+    text-align: center;
     margin-bottom: 20px;
 }
 
@@ -36,48 +24,36 @@ form {
     flex-direction: column;
 }
 
-.input-box, .description-box {
-    margin-bottom: 20px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    background-color: #fafafa;
-    border-radius: 5px;
-}
-
-.description-box {
-    margin-bottom: 30px; /* 상품설명 박스와 하단 버튼 사이에 여백 추가 */
-}
-
 .form-group {
     display: flex;
-    margin-bottom: 20px;
-    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #fafafa;
 }
 
 label {
-    flex: 0 0 150px; /* 레이블의 고정 너비 설정 */
-    margin-right: 10px;
+    flex: 1;
     text-align: left;
+    margin-right: 10px;
+    align-self: center;
 }
 
-input, select {
-    flex: 1; /* 입력 필드가 남은 공간을 차지하도록 설정 */
+input, select, textarea {
+    flex: 2;
     padding: 8px;
+    box-sizing: border-box;
     border: 1px solid #ddd;
     background-color: #ffffff;
 }
 
 textarea {
-    flex: 1;
-    width: 100%; /* 상품설명 입력창을 오른쪽 끝까지 늘리기 */
-    padding: 8px;
-    border: 1px solid #ddd;
-    background-color: #ffffff;
     resize: vertical;
 }
 
 .submit-button {
     text-align: center;
+    margin-top: 20px;
 }
 
 button {
@@ -87,7 +63,6 @@ button {
     border: none;
     cursor: pointer;
     font-size: 16px;
-    border-radius: 5px;
 }
 
 button:hover {
