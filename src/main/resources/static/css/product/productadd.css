@@ -1,35 +1,95 @@
-#main{
-    margin-left: 250px;
-    
-}
+/* CSS 파일: productadd.css */
+
 body {
     font-family: Arial, sans-serif;
-    max-width: 600px;
-    margin: 0 auto;
+
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    display: flex;
+    margin-left: 250px;
+    max-width: 1200px;
+}
+
+#sidebar {
+    width: 250px; /* 사이드바의 너비 설정 */
+    background-color: #f8f8f8;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#content {
+    flex: 1; /* 콘텐츠 영역이 나머지 공간을 차지하도록 설정 */
     padding: 20px;
 }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input, select, textarea {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        input[type="file"] {
-            padding: 3px;
-        }
-        button {
-            padding: 10px 15px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
+
+h1 {
+    text-align: left; /* 제목을 왼쪽에 붙이기 */
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-box, .description-box {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background-color: #fafafa;
+    border-radius: 5px;
+}
+
+.description-box {
+    margin-bottom: 30px; /* 상품설명 박스와 하단 버튼 사이에 여백 추가 */
+}
+
+.form-group {
+    display: flex;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+label {
+    flex: 0 0 150px; /* 레이블의 고정 너비 설정 */
+    margin-right: 10px;
+    text-align: left;
+}
+
+input, select {
+    flex: 1; /* 입력 필드가 남은 공간을 차지하도록 설정 */
+    padding: 8px;
+    border: 1px solid #ddd;
+    background-color: #ffffff;
+}
+
+textarea {
+    flex: 1;
+    width: 100%; /* 상품설명 입력창을 오른쪽 끝까지 늘리기 */
+    padding: 8px;
+    border: 1px solid #ddd;
+    background-color: #ffffff;
+    resize: vertical;
+}
+
+.submit-button {
+    text-align: center;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
