@@ -21,7 +21,7 @@ public class MemberDao extends Dao{
     public List<MemberDto> memberPrint(){
         List<MemberDto> list = new ArrayList<>();
         try{
-            String sql = "select * from members";
+            String sql = "select *from members join color on members.memcolor = color.colorcode";
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()){
@@ -31,7 +31,7 @@ public class MemberDao extends Dao{
                         .memcontact(rs.getString("memcontact"))
                         .mememail(rs.getString("mememail"))
                         .memgender(rs.getString("memgender"))
-                        .memcolor(rs.getInt("memcolor"))
+                        .colorname(rs.getString("colorname"))
                         .memsize(rs.getString("memsize"))
                         .memjoindate(rs.getString("memjoindate"))
                         .memlastdate(rs.getString("memlastdate"))

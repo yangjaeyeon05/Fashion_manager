@@ -18,6 +18,7 @@ public class MemberController {
     MemberService memberService;
 
     // 회원목록 출력
+    @GetMapping("/list")
     public List<MemberDto> memberPrint(){
         return memberService.memberPrint();
     }
