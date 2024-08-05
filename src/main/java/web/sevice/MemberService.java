@@ -18,4 +18,8 @@ public class MemberService {
         return memberDao.memberPrint();
     }
 
+    // 회원 정보 수정(블랙리스트만)
+    public boolean memberEdit(MemberDto memberDto){
+        return memberDao.memberEdit(memberDto);
+    }
 }

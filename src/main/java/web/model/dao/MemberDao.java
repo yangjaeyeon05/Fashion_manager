@@ -44,5 +44,30 @@ public class MemberDao extends Dao{
         return list;
     }
 
+    // 회원 정보 수정(블랙리스트만)
+    public boolean memberEdit(MemberDto memberDto){
+        try{
+            if(memberDto.getBlacklist() == 1){
+                String sql = "update members set blacklist = 0 where memcode = ?";
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1,memberDto.getMemcode());
+                int count = ps.executeUpdate();
+                if(count == 1){
+                    return true;
+                }
+            }else{
+                String sql = "update members set blacklist = 1 where memcode = ?";
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1,memberDto.getMemcode());
+                int count = ps.executeUpdate();
+                if(count == 1){
+                    return true;
+                }
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }
 
 }
