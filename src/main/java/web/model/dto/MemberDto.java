@@ -19,4 +19,5 @@ public class MemberDto {
     private String memjoindate;
     private String memlastdate;
     private int blacklist;
+    private String colorname;
 }

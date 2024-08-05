@@ -28,6 +28,7 @@ public class SupportDao extends Dao{
                         .suptitle(rs.getString("suptitle"))
                         .supdate(rs.getString("supdate"))
                         .supstate(rs.getInt("supstate"))
+                        .memname(rs.getString("memname"))
                         .build();
                 list.add(supportDto);
             }
@@ -36,5 +37,21 @@ public class SupportDao extends Dao{
         }
         return list;
     }   // supportDto() end
+
+    // 2. 카테고리 이름 변환
+    public  int tranceSupCa(){
+        int supcategory = 0;
+        try{
+            String sql = "select * from support";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                supcategory = rs.getInt("supcategory");
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return supcategory;
+    }   // tranceSupCa() end
 
 }   // class end
