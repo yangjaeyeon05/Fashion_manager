@@ -24,6 +24,8 @@ public class MemberController {
     // 회원 정보 수정(블랙리스트만)
     @PutMapping("/edit")
     public boolean memberEdit(int memcode, int blacklist){
+        System.out.println(memcode);
+        System.out.println(blacklist);
         return memberService.memberEdit(MemberDto.builder().memcode(memcode).blacklist(blacklist).build());
     }
 }
