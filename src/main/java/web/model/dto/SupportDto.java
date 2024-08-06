@@ -19,4 +19,6 @@ public class SupportDto {
     private int supstate;
     private int ordcode;
     private String memname;
+    private String supcategoryname;
+    private String supstatename;
 }   // class end

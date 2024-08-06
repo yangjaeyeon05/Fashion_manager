@@ -18,4 +18,10 @@ public class MemberService {
         return memberDao.memberPrint();
     }
 
+    // 회원 정보 수정(블랙리스트만)
+    public boolean memberEdit(MemberDto memberDto){
+        System.out.println(memberDto.getMemcode());
+        System.out.println(memberDto.getBlacklist());
+        return memberDao.memberEdit(memberDto);
+    }
 }
