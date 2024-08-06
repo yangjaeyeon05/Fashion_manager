@@ -224,3 +224,5 @@ insert into admin(adminid, adminpw) values ('asd456', 'asd456');
 insert into admin(adminid, adminpw) values ('zxc789', 'zxc789');
 insert into admin(adminid, adminpw) values ('rty012', 'rty012');
 insert into admin(adminid, adminpw) values ('fgh345', 'fgh345');
+select * from product;
+select * from productdetail;
