@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import web.model.dto.SupportDto;
-import web.sevice.SupportService;
+import web.service.SupportService;
 
 import java.util.ArrayList;
 
