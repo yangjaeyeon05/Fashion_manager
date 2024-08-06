@@ -68,3 +68,13 @@ button {
 button:hover {
     background-color: #45a049;
 }
+*{
+    list-style-type: none;  /* 글머리 제거 */
+    font-size : 13px;
+    font-family: "Nanum Gothic Coding", monospace;
+}
+.nanum-gothic-coding-regular {
+    font-family: "Nanum Gothic Coding", monospace;
+    font-weight: 400;
+    font-style: normal;
+}
