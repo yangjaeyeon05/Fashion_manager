@@ -4,7 +4,7 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.MemberDto;
-import web.sevice.MemberService;
+import web.service.MemberService;
 
 import java.util.List;
 
