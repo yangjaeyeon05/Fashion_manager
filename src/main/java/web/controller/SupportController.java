@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import web.model.dto.SupportDto;
+import web.model.dto.SupportSearchDto;
 import web.sevice.SupportService;
 
 import java.util.ArrayList;
@@ -17,9 +18,10 @@ public class SupportController {
 
     // 1. 상담 목록 출력
     @GetMapping("/allread")
-    public ArrayList<SupportDto> supAllread(){
+    public ArrayList<SupportDto> supAllread(SupportSearchDto supportSearchDto){
         System.out.println("SupportController.supAllread");
-        return supportService.supAllread();
+        System.out.println("supportSearchDto = " + supportSearchDto);
+        return supportService.supAllread(supportSearchDto);
     }   // supportDto() end
 
 }   // class end

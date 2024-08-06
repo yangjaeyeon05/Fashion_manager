@@ -47,3 +47,7 @@ body {
 .sidebar .dropdown-container a:hover {
     background-color: #555;
 }
+.logoImg{
+    width: 100px;
+    height: 100px;
+}

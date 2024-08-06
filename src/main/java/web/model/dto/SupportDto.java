@@ -19,6 +19,7 @@ public class SupportDto {
     private int supstate;
     private int ordcode;
     private String memname;
+    // 미리 정한 카테고리 이름과 처리 상태 필드명
     private String supcategoryname;
     private String supstatename;
 }   // class end

@@ -35,10 +35,28 @@
 .searchBtn{
     margin-top: 20px;
 }
-.dataBox{
+.ref{
     margin-top: 30px;
+}
+.dataBox{
+    margin-top: 10px;
     width: 100%;
 }
 .dateBox{
     display: flex;
 }
+.dateBox button{
+    margin: 0px 2px;
+}
+.dateBox input{
+    margin: 0px 2px;
+}
+.dataBox thead th{
+    position : sticky; top: 0;
+}
+.supportPrintBox{
+    width: 100%; 
+    overflow: auto;
+    height: 200px;
+}
+
