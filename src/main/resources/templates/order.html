@@ -15,25 +15,25 @@
     <h3> 주문 목록페이지 </h3>
 
     <div>
-        조회기간 : <input type="date" value="2024-08-01" style="width : 250px"/> ~ <input type='date' id="todayDate" style="width : 250px"/> <button type="button" style="width : 100px"> 검색 </button>
+        조회기간 : <input type="date" class="firstdate" value="2024-08-01" style="width : 250px"/> ~ <input type='date' id="todayDate" style="width : 250px"/> <button type="button" style="width : 100px" ONCLICK="orddatesearch()"> 검색 </button>
 
-        상세조건 : <select>
-                    <option>주문완료</option>
-                    <option>배송시작</option>
-                    <option>반품</option>
-                    <option>주문취소</option>
-                    <option>정산완료</option>
+        상세조건 : <select class="ordcatagory">
+                    <option value="1">주문완료</option>
+                    <option value="2">배송시작</option>
+                    <option value="3">반품</option>
+                    <option value="4">주문취소</option>
+                    <option value="5">정산완료</option>
                   </select>
     </div>
 
     <div>
         목록 총 (00개)
         <select>
-            <option value="1"> 10개씩 </option>
-            <option value="2"> 20개씩 </option>
-            <option value="3"> 30개씩 </option>
-            <option value="4"> 40개씩 </option>
-            <option value="5"> 50개씩 </option>
+            <option value="10"> 10개씩 </option>
+            <option value="20"> 20개씩 </option>
+            <option value="30"> 30개씩 </option>
+            <option value="40"> 40개씩 </option>
+            <option value="50"> 50개씩 </option>
         </select>
 
         <table class="table table-hover" style="width : 1000px">
