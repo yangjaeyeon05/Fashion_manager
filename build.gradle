@@ -31,6 +31,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     // [6] 자바 메일 전송 라이브러리
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+    // [7] Excel 파일 읽어들이기 라이브러리
     implementation 'org.apache.poi:poi:5.3.0'
     implementation 'org.apache.poi:poi-ooxml:5.3.0'
 }

@@ -9,7 +9,7 @@ import web.service.FileService;
 public class FileController {
     //08.07 첨부파일
     @Autowired
-    private FileService fileService;
+    FileService fileService;
 
     @GetMapping("/file/download")
     public void fileDownload(String filename){
