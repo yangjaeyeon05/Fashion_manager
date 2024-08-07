@@ -1,10 +1,5 @@
 orderall();
 
-let pageInfo = {page : 1, bcno : 0, searchKey : 'btitle', searchKeyword : ''};
-
-//페이지 관리 전역변수
-let orderPageInfo = {}
-
 //출력
 function orderall(){
 
@@ -29,7 +24,7 @@ function orderall(){
                         <th> ${ord.prodsize} </th>
                         <th> ${ord.prodname} </th>
                         <th> ${ord.ordamount} </th>
-                        <th> ${ord.ordstate} </th>
+                        <th> ${ord.ordstateStr} </th>
                         <th> ${ord.coupname} </th>
                         </tbody>`
                         });
@@ -37,6 +32,7 @@ function orderall(){
                 orderBox.innerHTML = html;
         }
     })
+
 
 
 }
@@ -72,7 +68,7 @@ function orddatesearch(){ //function start
                         <th> ${ord.prodsize} </th>
                         <th> ${ord.prodname} </th>
                         <th> ${ord.ordamount} </th>
-                        <th> ${ord.ordstate} </th>
+                        <th> ${ord.ordstateStr} </th>
                         <th> ${ord.coupname} </th>
                         </tbody>`
                         });
@@ -85,6 +81,7 @@ function orddatesearch(){ //function start
 
 } //function end
 
+//카테고리 기능 추가 0807
 function ordcategory(){
     let ordcatagory = document.querySelector('.ordcatagory').value
 
@@ -94,10 +91,11 @@ function ordcategory(){
         async : false,
         method : "get",
         url : "/order/manage2",
-        data : {'ordcatagory' : ordcatagory}
+        data : {ordcatagory : ordcatagory},
         success : r =>{
         console.log(r)
-
+        if(r == 0) {orderall();}
+        else {
         //어디에
         let orderBox = document.querySelector('.orderBox');
         //무엇을
@@ -112,13 +110,17 @@ function ordcategory(){
                     <th> ${ord.prodsize} </th>
                     <th> ${ord.prodname} </th>
                     <th> ${ord.ordamount} </th>
-                    <th> ${ord.ordstate} </th>
+                    <th> ${ord.ordstateStr} </th>
                     <th> ${ord.coupname} </th>
                     </tbody>`
                     });
         //출력
          orderBox.innerHTML = html;
-
+            }
         } //success end
    }) //ajax end
 } //function end
+
+function ordstatechange(){
+
+}

@@ -29,18 +29,17 @@ public class OrderController { //class start
     //주문목록 날짜 출력함수
     @GetMapping("/manage")
     public ArrayList<OrderdetailDto> getorderdate ( @RequestParam("firstdate") String firstdate,@RequestParam("todayDate") String todayDate){
-        System.out.println("OrderController.getorderdate");
-        System.out.println("firstdate = " + firstdate + ", todayDate = " + todayDate);
+//        System.out.println("OrderController.getorderdate");
+//        System.out.println("firstdate = " + firstdate + ", todayDate = " + todayDate);
         return orderService.getorderdate(firstdate,todayDate);
     }
 
-    //카테고리 목록 출력함수
+    //카테고리 목록 출력함수 0807 생성
     @GetMapping("/manage2")
-    public ArrayList<OrderdetailDto> manage2 (){
-        System.out.println("OrderController.manage2");
-        return orderService.manage2();
+    public ArrayList<OrderdetailDto> manage2 (int ordcatagory){
+//        System.out.println("OrderController.manage2");
+        return orderService.manage2(ordcatagory);
     }
 
 }//class end
-//
 //

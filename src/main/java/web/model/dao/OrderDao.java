@@ -61,13 +61,13 @@ public class OrderDao extends Dao{
         } catch (Exception e) {System.out.println(e);} return list;
     }
 
-    //카테고리 목록 출력함수
-    public ArrayList<OrderdetailDto> manage2 ( ){
+    //카테고리 목록 출력함수 0807 생성
+    public ArrayList<OrderdetailDto> manage2 (int ordcatagory){
         ArrayList<OrderdetailDto> list = new ArrayList<>();
         try{
             String sql = "SELECT od.orddetailcode AS orddetailcode, m.memname AS memname,  o.orddate AS orddate, pd.prodsize AS prodsize, p.prodname AS prodname, od.ordamount AS ordamount, od.ordstate AS ordstate, c.coupname AS coupname FROM orders o JOIN orderdetail od ON o.ordcode = od.ordcode JOIN  productdetail pd ON od.proddetailcode = pd.proddetailcode JOIN product p ON pd.prodcode = p.prodcode LEFT JOIN  coupon c ON od.coupcode = c.coupcode JOIN members m ON o.memcode = m.memcode where ordstate = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
-//            ps.setString(1,ordcatagory);
+            ps.setInt(1,ordcatagory);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 list.add(OrderdetailDto.builder()

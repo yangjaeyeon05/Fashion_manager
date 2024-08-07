@@ -16,8 +16,9 @@
 
     <div>
         조회기간 : <input type="date" class="firstdate" value="2024-08-01" style="width : 250px"/> ~ <input type='date' id="todayDate" style="width : 250px"/> <button type="button" style="width : 100px" ONCLICK="orddatesearch()"> 검색 </button>
-
-        상세조건 : <select class="ordcatagory">
+        <!--개수별 조회 삭제-->
+        상세조건 : <select onclick="ordcategory()" class="ordcatagory">
+                    <option value="0">전체</option>
                     <option value="1">주문완료</option>
                     <option value="2">배송시작</option>
                     <option value="3">반품</option>
@@ -27,14 +28,6 @@
     </div>
 
     <div>
-        목록 총 (00개)
-        <select>
-            <option value="10"> 10개씩 </option>
-            <option value="20"> 20개씩 </option>
-            <option value="30"> 30개씩 </option>
-            <option value="40"> 40개씩 </option>
-            <option value="50"> 50개씩 </option>
-        </select>
 
         <table class="table table-hover" style="width : 1000px">
             <thead>
@@ -51,6 +44,8 @@
                 </tr>
             </thead>
 
+
+
             <tbody class="orderBox">
 <!--                <th> <input type="checkbox"> </th>-->
 <!--                <th> 1 </th>-->
@@ -62,8 +57,12 @@
 <!--                <th> 1 </th>-->
 <!--                <th> VIP100 </th>-->
             </tbody>
-
         </table>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+            </ul>
+        </nav>
 
     </div>
     </div>
