@@ -1,12 +1,67 @@
 console.log('support.js');
+let date = new Date();
+console.log(date);
+let currentYear = date.getFullYear();
+let currentMonth = date.getMonth()+1 < 10 ? "0"+(date.getMonth()+1) : date.getMonth()+1;
+let currentDay = date.getDate() < 10 ? "0"+(date.getDate()) : date.getDate();
+date = `${currentYear}-${currentMonth}-${currentDay}`;
+console.log(date)
 
-document.querySelector('.endDate').value = new Date().toISOString().substring(0, 10);
+// 날짜 검색 기능 8/7 검색 기능 구현 중
+document.querySelector('.endDate').value = date;
+// 오늘 버튼을 눌렀을 때
+function todayBtn(){
+    console.log("todayBtn()")
+    let startDate = document.querySelector(".startDate");
+    startDate.value = date;
+    let endDate = document.querySelector(".endDate");
+    endDate.value = date;
+}
+// 3일 버튼을 눌렀을 때
+function threeDays(){
+    console.log('threeDays()');
+    let startDate = document.querySelector(".startDate");
+    currentDay = parseInt(currentDay)-3 < 10 ? "0"+(parseInt(currentDay)-3) : parseInt(currentDay)-3;
+    date = `${currentYear}-${currentMonth}-${currentDay}`;
+    startDate.value = date;
+    console.log(date);
+}
+
+// 1주일 버튼을 눌렀을 때
+function aweek(){
+    console.log('aweek()');
+    console.log(currentYear)
+    console.log(currentMonth)
+    console.log(currentDay)
+    let startDate = document.querySelector(".startDate");
+    currentDay = parseInt(currentDay)-7 < 10 ? "0"+(parseInt(currentDay)-7) : parseInt(currentDay)-7;
+    if(currentDay<1){
+        currentDay=31;
+        currentMonth-1
+    }
+
+    date = `${currentYear}-${currentMonth}-${currentDay}`;
+    startDate.value = date;
+    console.log(date);
+}
+
+// 1개월 버튼 눌렀을 때
+function oneMonth(){
+    console.log('oneMonth()')
+}
+// 3개월 버튼 눌렀을 때
+function threeMonth(){
+    console.log('threeMonth()')
+}
+
+// 검색 기능 객체
 let searchInfo = {
     supcode : 0 , 
     supstate : 0 , 
     searchKey : '' , 
     searchKeyword : ''
 }
+
 supAllread();
 // 검색버튼 눌렀을 때
 function onSearch(){
