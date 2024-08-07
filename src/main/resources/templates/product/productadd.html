@@ -5,68 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>상품 등록</title>
     <link href="/css/product/productadd.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" />
 </head>
 <body>
 <div th:replace="~{/sidebar.html:: sidebar}"></div>
 <div id="main">
     <h1>상품 등록</h1>
     <form id="productAdd">
-        <div class="form-group">
-            <label for="productName">상품명</label>
-            <input type="text" id="productName" name="prodName" required>
-        </div>
-        <div class="form-group">
-            <label for="productPrice">상품가격</label>
-            <input type="number" id="productPrice" name="prodPrice" required>
-        </div>
-        <div class="form-group">
-            <label for="gender">성별</label>
-            <select id="gender" name="prodGender" required>
-                <option value="M">남성</option>
-                <option value="F">여성</option>
-                <option value="U">유니섹스</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="productDescription">상품설명</label>
-            <textarea id="productDescription" name="prodDesc" rows="4" required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="productSize">상품사이즈</label>
-            <input type="text" id="productSize" name="prodSize" required>
-        </div>
-        <div class="form-group">
-            <label for="registrationDate">등록날짜</label>
-            <input type="date" id="registrationDate" name="prodDate" required>
-        </div>
-        <div class="form-group">
-            <label for="productColor">상품색깔</label>
-            <select id="productColor" name="colorCode" required>
-                <option value="1">빨강</option>
-                <option value="2">파랑</option>
-                <option value="3">초록</option>
-                <option value="4">검정</option>
-                <option value="5">하양</option>
-                <!-- 추가 색상 옵션들 -->
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="productCategory">상품카테고리</label>
-            <select id="productCategory" name="prodCatecode" required>
-                <option value="1">상의</option>
-                <option value="2">하의</option>
-                <option value="3">아우터</option>
-               <!-- 추가 카테고리 옵션들 -->
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="productImage">첨부파일</label>
-            <input type="file" id="productImage" name="prodFilename" required>
+        <div class="form-container">
+            <div class="form-group">
+                <label for="productName">상품명</label>
+                <input type="text" id="productName" name="prodName" required>
+            </div>
+            <div class="form-group">
+                <label for="productPrice">상품가격</label>
+                <input type="number" id="productPrice" name="prodPrice" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">성별</label>
+                <select id="gender" name="prodGender" required>
+                    <option value="M">남성</option>
+                    <option value="F">여성</option>
+                    <option value="U">유니섹스</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="productDescription">상품설명</label>
+                <textarea class="form-control prodDesc" id="summernote" name="prodDesc" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="productSize">상품사이즈</label>
+                <input type="text" id="productSize" name="prodSize" required>
+            </div>
+            <div class="form-group">
+                <label for="registrationDate">등록날짜</label>
+                <input type="date" id="registrationDate" name="prodDate" required>
+            </div>
+            <div class="form-group">
+                <label for="productColor">상품색깔</label>
+                <select id="productColor" name="colorCode" required>
+                    <!-- 추가 색상 옵션들 -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="productCategory">상품카테고리</label>
+                <select id="productCategory" name="prodCatecode" required>
+                    <option value="1">상의</option>
+                    <option value="2">하의</option>
+                    <option value="3">아우터</option>
+                    <!-- 추가 카테고리 옵션들 -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="productImage">첨부파일</label>
+                <input type="file" id="productImage" name="prodFilename">
+            </div>
         </div>
         <div class="form-group submit-button">
             <button type="submit">등록하기</button>
         </div>
     </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/lang/summernote-ko-KR.min.js"></script>
+    <script src="/js/product/productadd.js"></script>
 </div>
 </body>
 </html>
