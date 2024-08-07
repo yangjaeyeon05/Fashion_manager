@@ -78,7 +78,8 @@ function memberList() {
                                 ${r.blacklist == 0 ? "X" : "O"}
                             </div>
                             <div>
-                                <button type="button" onclick = "memberEdit()"> 수정 </button><br>
+                                <button type="button" onclick = "memberEdit(${r.memcode}, ${r.blacklist})"> 수정 </button><br>
+                                <button type="button" onclick = "memberRecommend(${r.memcode})"> 추천 </button><br>
                                 <button type="button"> 삭제 </button>
                             </div>
                         </div>
@@ -89,19 +90,16 @@ function memberList() {
     })
 }
 
-function memberEdit() {
-    let memcode = document.querySelector(".memcode").value;
-    let blacklist = document.querySelector(".blacklist").value;
-    if (blacklist == "X") {
-        blacklist == 0;
-    } else {
-        blacklist == 1;
-    }
+function memberEdit(memcode, blacklist) {
+
+    console.log(memcode);
+    console.log(blacklist);
     $.ajax({
         async: false,
         method: "put",
         url: "/member/edit",
-        data: { memcode: memcode, blacklist: blacklist },
+        data: JSON.stringify({ memcode: memcode, blacklist: blacklist }),
+        contentType: "application/json",
         success: function response(result) {
             console.log(result);
             if (result) {
@@ -113,3 +111,20 @@ function memberEdit() {
     })
     memberList();
 }
+
+// ===================================  2024-08-05 ========================================= //
+
+function memberRecommend(memcode) {
+    console.log(memcode);
+    $.ajax({
+        async: false,
+        method: "get",
+        url: "/member/recommend",
+        data: { memcode: memcode },
+        success: function response(result) {
+            console.log(result);
+        }
+    })
+}
+
+// ===================================  2024-08-07 ========================================= //
