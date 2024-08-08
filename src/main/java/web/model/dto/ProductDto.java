@@ -25,4 +25,5 @@ public class ProductDto {
     private int prodCatecode;
     private String prodCatename;
     private MultipartFile uploadFile;
+    private int prodAmount;
 }

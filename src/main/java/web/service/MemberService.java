@@ -34,8 +34,11 @@ public class MemberService {
 
     // 회원 번호에 맞는 사이즈 가져오기
     public String memberRecommend(MemberDto memberDto){
+        //  DAO 의 memberRecommend 메소드에 memberDto 를 매개변수로 보내서 회원의 선호 사이즈를 String 타입으로 받아옴
         String s = memberDao.memberRecommend(memberDto);
+        //  Sout 을 통해서 받은 값 확인
         System.out.println(s);
+        //  회원의 선호 사이즈 반환
         return s;
     }
 

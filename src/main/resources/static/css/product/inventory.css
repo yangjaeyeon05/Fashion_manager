@@ -1,0 +1,9 @@
+.inventoryArea {
+    margin-left: 250px;
+}
+
+.inventoryRead {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid black;
+}

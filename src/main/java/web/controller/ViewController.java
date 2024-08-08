@@ -64,4 +64,12 @@ public class ViewController {
     // 4-3. 매출/매출추이분석
     @GetMapping("/sales/weekly")
     public String salesWeekly(){return "/sales/weekly.html";}
+
+
+
+    //  재고 관리 페이지 - 김민석
+    @GetMapping("/product/inventory")   // http://localhost:8080/product/inventory
+    public String inventory(){
+        return "/product/inventory.html";
+    }
 }   // class end
