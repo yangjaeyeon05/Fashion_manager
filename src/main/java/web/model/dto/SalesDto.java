@@ -9,14 +9,16 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SalesDto {
-    private int year;
-    private int month;
-    private int day;
-    private int orders;
-    private int returned;
-    private int canceled;
-    private int completed;
-    private int revenue;
-    private int saleAmount;
-    private int income;
+    // 필드
+    private int year; // 연도
+    private int month; // 월
+    private int day; // 일
+    private int orders; // 총 주문량
+    private int returned; // 반품 주문량
+    private int canceled; // 취소된 주문량
+    private int completed; // 완료된 주문량
+    private int revenue; // 전체 수입
+    private int saleAmount; // 할인된 금액
+    private int income; // 실수익
+
 }
