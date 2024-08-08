@@ -31,9 +31,6 @@ public class SalesController {
         return salesService.monthlySales(year, month);
     }
     // [] 현재 테이블을 엑셀 파일로 내보내기
-    @PostMapping("/excel")
-    public boolean uploadExcel (@RequestBody MultipartFile excel){
-        return (salesService.importExcel(excel));
-    }
+
     // TODO : 연/월/일 테이블 HTML로 미리 만들고 각 레코드를 대입
 }
