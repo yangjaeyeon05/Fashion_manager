@@ -121,6 +121,13 @@ function ordcategory(){
    }) //ajax end
 } //function end
 
-function ordstatechange(){
+function ordpage(){
+    //어디에
+    let pagination = document.querySelector('pagination')
+    //무엇을
+    let pageHTML = '';
+
+    //출력
+    pagination.innerHTML = pageHTML;
 
 }
