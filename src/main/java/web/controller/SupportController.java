@@ -25,4 +25,12 @@ public class SupportController {
         return supportService.supAllread(supportSearchDto);
     }   // supportDto() end
 
+    // 2. 상담 상세 내용 출력 8/8 기능 구현
+    @GetMapping("/read")
+    public SupportDto supRead(int supcode){
+        System.out.println("SupportController.supportDto");
+        System.out.println("supcode = " + supcode);
+        return supportService.supRead(supcode);
+    }   // supRead() end
+
 }   // class end

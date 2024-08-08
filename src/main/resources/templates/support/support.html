@@ -28,11 +28,11 @@
                             <th> 문의 접수일 </th> 
                             <td colspan="5"> 
                                 <div class="dateBox">
-                                    <button type="button" class="btn btn-success btn-sm" onclick="todayBtn()"> 오늘 </button>
-                                    <button type="button" class="btn btn-success btn-sm" onclick="threeDays()"> 3일 </button>
-                                    <button type="button" class="btn btn-success btn-sm" onclick="aweek()"> 1주일 </button>
-                                    <button type="button" class="btn btn-success btn-sm" onclick="oneMonth()"> 1개월 </button>
-                                    <button type="button" class="btn btn-success btn-sm" onclick="threeMonth()"> 3개월 </button>         
+                                    <button type="button" class="btn btn-success btn-sm" onclick="changeDate(0)"> 오늘 </button>
+                                    <button type="button" class="btn btn-success btn-sm" onclick="changeDate(3)"> 3일 </button>
+                                    <button type="button" class="btn btn-success btn-sm" onclick="changeDate(7)"> 1주일 </button>
+                                    <button type="button" class="btn btn-success btn-sm" onclick="changeDate(30)"> 1개월 </button>
+                                    <button type="button" class="btn btn-success btn-sm" onclick="changeDate(90)"> 3개월 </button>         
                                     <input type="date" class="startDate"/>
                                     <input type="date" class="endDate"/>
                                 </div>
@@ -75,7 +75,7 @@
                     <button class="searchBtn btn btn-success" type="button" onclick="onSearch()"> 검색 </button>                        
                 </div>
             </div> <!-- searchBox end -->
-            <div >
+            <div > <!-- 상담목록 -->
                 <span class="ref"> * 문의제목을 클릭하시면 상세한 문의내역을 확인할 수 있습니다. </span>
                 <table class="dataBox table">
                     <thead>
@@ -93,8 +93,20 @@
                         
                     </tbody>
                 </table>
+            </div>  <!-- 상담목록 출력 end -->
+            <div class="supDtailBox">
+                <div class="supDtailContent">   <!-- 상담상세 출력 -->
+                    <span> 고객문의내용보기 </span>
+                    <table class="table">
+                        <tbody class="supDtailPrintBox">
+                            
+                        </tbody>
+                    </table>
+                </div>  <!-- 상담상세 출력 end -->
+                <div>   <!-- 답장 구역 -->
+                    
+                </div>  <!-- 답장 구역 end -->
             </div>
-
         </div> <!-- wrap end -->
     </div> <!-- main end -->
     <!-- JS -->

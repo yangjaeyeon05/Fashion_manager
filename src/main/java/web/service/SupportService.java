@@ -2,6 +2,7 @@ package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import web.model.dao.SupportDao;
 import web.model.dto.SupportDto;
 import web.model.dto.SupportSearchDto;
@@ -31,7 +32,7 @@ public class SupportService {
         return supportDto;
     }   // supportDto() end
 
-    // 2. 카테고리 이름 변환
+    // *카테고리 이름 변환
     public String convertSupCa(int supcode){
         String supcategoryname = "";
         if(supcode==1){
@@ -52,7 +53,7 @@ public class SupportService {
         return supcategoryname;
     }   // tranceSupCa() end
 
-    // 3. 처리상태 이름 변환
+    // * 처리상태 이름 변환
     public String convertSupState(int supstate){
         String supstatename = "";
         if(supstate==1){
@@ -66,5 +67,19 @@ public class SupportService {
         }
         return supstatename;
     }   // convertSupState() end
+
+    // 2. 상담 상세 내용 출력
+    public SupportDto supRead(int supcode){
+        System.out.println("SupportService.supRead");
+        System.out.println("supcode = " + supcode);
+        SupportDto supportDto = supportDao.supRead(supcode);                // dao에서 supcode에 맞는 dto 받아오기
+        String supcategoryname = convertSupCa(supportDto.getSupcode());     // 카테고리 번호가 아닌 이름으로 출력해야하기 때문에 변환
+        System.out.println(supportDto.getSupcode());
+        System.out.println("SupportService.supRead");
+        String supstatename = convertSupState(supportDto.getSupstate());    // 처리상태 번호가 아닌 이름으로 출력해야하기 때문에 변환
+        supportDto.setSupcategoryname(supcategoryname);                     // 변환 후 dto에 넣어주기
+        supportDto.setSupstatename(supstatename);
+        return supportDto;
+    }   // supRead() end
 
 }   // class end
