@@ -11,19 +11,26 @@ import java.util.Map;
 @RestController
 @RequestMapping("/sales")
 public class SalesController {
+
     @Autowired
-    SalesService salesService;
-    // 연매출 조회 (연도)
+    private SalesService salesService;
+
+    // [1] 총 매출 조회 (레코드 단위 : 연도)
+    @GetMapping("/total")
+    public ArrayList<Map<String, String>> totalSales () {
+        return salesService.totalSales();
+    }
+    // [2] 연매출 조회 (레코드 단위 : 월)
     @GetMapping("/yearly")
     public ArrayList<Map<String, String>> yearlySales (@RequestParam String year){
         return salesService.yearlySales(year);
     }
-    // 월매출 조회 (연도, 월)
+    // [3] 월간 매출 조회 (레코드 : 일 단위)
     @GetMapping("/monthly")
     public ArrayList<Map<String, String>> monthlySales (@RequestParam String year, @RequestParam String month){
         return salesService.monthlySales(year, month);
     }
-    // 엑셀파일 입력
+    // [] 현재 테이블을 엑셀 파일로 내보내기
     @PostMapping("/excel")
     public boolean uploadExcel (@RequestBody MultipartFile excel){
         return (salesService.importExcel(excel));
