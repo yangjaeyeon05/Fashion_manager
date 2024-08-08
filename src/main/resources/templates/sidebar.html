@@ -13,23 +13,23 @@
 
 <body>
     <div th:fragment="sidebar">
-       
+
         <div class="sidebar">
             <div>
-                <a href="/"><img src="/image/logo.png"/></a>
+                <a href="/"><img src="/image/logo.png" /></a>
             </div>
             <button class="dropdown-btn">상품</button>
             <div class="dropdown-container">
                 <a href="/product/add">상품등록</a>
-                <a href="#">Submenu 1-2</a>
+                <a href="/product/inventory">재고 관리</a>
                 <a href="#">Submenu 1-3</a>
             </div>
 
-        <button class="dropdown-btn">회원</button>
-        <div class="dropdown-container">
-            <a href="/member/read">회원목록</a>
-            <a href="#">Submenu 2-2</a>
-        </div>
+            <button class="dropdown-btn">회원</button>
+            <div class="dropdown-container">
+                <a href="/member/read">회원목록</a>
+                <a href="#">Submenu 2-2</a>
+            </div>
 
             <button class="dropdown-btn">주문</button>
             <div class="dropdown-container">
@@ -46,18 +46,18 @@
                 <a href="#">Submenu 3-4</a>
             </div>
 
-        <button class="dropdown-btn">상담</button>
-        <div class="dropdown-container">
-            <a href="/support">고객문의관리</a>
-            <a href="#">1:1채팅관리</a>
+            <button class="dropdown-btn">상담</button>
+            <div class="dropdown-container">
+                <a href="/support">고객문의관리</a>
+                <a href="#">1:1채팅관리</a>
+            </div>
         </div>
-    </div>
 
-    <!-- 공통 JS -->
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- JS -->
-    <script src="/js/sidebar.js"></script>
+        <!-- 공통 JS -->
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- JS -->
+        <script src="/js/sidebar.js"></script>
 </body>
 
 </html>

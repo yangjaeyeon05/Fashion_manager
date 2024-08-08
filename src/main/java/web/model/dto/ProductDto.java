@@ -22,4 +22,5 @@ public class ProductDto {
     private String colorName;
     private int prodCatecode;
     private String prodCatename;
+    private int prodAmount;
 }
