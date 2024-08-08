@@ -23,7 +23,7 @@ public class InventoryController {
 
     //  재고 현황 업데이트1
     @PostMapping("/update")
-    public boolean inventoryUpdate(InventoryDto inventoryDto){
+    public boolean inventoryUpdate(@RequestBody InventoryDto inventoryDto){
         System.out.println("inventoryDto = " + inventoryDto);
         return inventoryService.inventoryUpdate(inventoryDto);
     }
