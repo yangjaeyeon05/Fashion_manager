@@ -28,7 +28,7 @@ function getCategory(){
         url:"/product/category",
         success:result =>{
             result.forEach(r =>{
-                html+=`<option value=${r.prodCatecod}>${r.prodCatename}</option>`
+                html+=`<option value=${r.prodCatecode}>${r.prodCatename}</option>`
             })
             category.innerHTML=html;
         }
@@ -47,13 +47,27 @@ $(document).ready(function() {
     $('#summernote').summernote(option);
   });
 
-//08.07 상품등록
-function productAdd(){
+//08.08 상품등록
+function productAdd(){console.log('productAdd()');
+
     let productAddForm=document.querySelector('#productAdd');
-    console.log(productAdd);
+    console.log(productAddForm);
 
     let productAddFormData=new FormData(productAddForm);
     console.log(productAddFormData);
-    
-    
+
+    $.ajax({
+        method:'post',
+        url:"/product/add",
+        data:productAddFormData,
+        contentType:false, processData:false,
+        success: r =>{console.log(r);
+            if(r){
+                alert("상품등록 완료")
+            }else{
+                alert("상품등록 실패")
+            }
+        }, error:e=>{console.log(e);
+        }
+    })
 }

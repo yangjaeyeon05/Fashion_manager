@@ -15,8 +15,9 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
+    //08.08 상품등록
     @PostMapping("/add")
-    public boolean productAdd(@RequestBody ProductDto productDto){
+    public boolean productAdd(ProductDto productDto){
         System.out.println("ProductController.productAdd");
         System.out.println("productDto = " + productDto);
         return productService.productAdd(productDto);

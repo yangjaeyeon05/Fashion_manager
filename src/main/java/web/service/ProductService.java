@@ -11,10 +11,17 @@ import java.util.ArrayList;
 @Service
 public class ProductService {
     @Autowired ProdcutDao prodcutDao;
+    @Autowired FileService fileService;
 
+    //08.08 상품등록
     public boolean productAdd(ProductDto productDto){
         System.out.println("ProductService.productAdd");
         System.out.println("productDto = " + productDto);
+        if (!productDto.getUploadFile().isEmpty()) {
+            String uploadFileName = fileService.fileUpload(productDto.getUploadFile());
+            if (uploadFileName == null) return false;
+            productDto.setProdFilename(uploadFileName);
+        }
         return prodcutDao.productAdd(productDto);
     }
     //08.07 컬러테이블 출력

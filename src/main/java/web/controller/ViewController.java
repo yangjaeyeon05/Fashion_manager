@@ -50,6 +50,9 @@ public class ViewController {
     // 상품등록 페이지
     @GetMapping("/product/add")
     public String productAdd(){return "/product/productadd.html";}
+    //08.08 상품목록 페이지
+    @GetMapping("/product")
+    public String productGetAll(){return "/product/productgetall.html";}
     // 4-1. 매출/정
     @GetMapping("/sales")
     public String sales(){return "/sales/sales.html";}

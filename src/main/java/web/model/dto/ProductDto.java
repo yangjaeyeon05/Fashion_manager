@@ -1,6 +1,7 @@
 package web.model.dto;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Builder
 @Getter
@@ -9,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDto {
+    //08.08
     private int prodCode;
     private String prodName;
     private int prodPrice;
@@ -22,4 +24,5 @@ public class ProductDto {
     private String colorName;
     private int prodCatecode;
     private String prodCatename;
+    private MultipartFile uploadFile;
 }

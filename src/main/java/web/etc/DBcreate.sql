@@ -226,3 +226,5 @@ insert into admin(adminid, adminpw) values ('rty012', 'rty012');
 insert into admin(adminid, adminpw) values ('fgh345', 'fgh345');
 select * from product;
 select * from productdetail;
+select * from color;
+select * from productcategory;
