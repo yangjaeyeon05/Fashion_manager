@@ -2,9 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>상품 목록</title>
+    <link href="/css/product/productgetall.css" rel="stylesheet">
 </head>
 <body>
+    <div th:replace="~{/sidebar.html:: sidebar}"></div>
+    <div id="main">
+        <h1>상품 목록</h1>
+        <table class="productList table">
+            <thead>
+                <tr>
+                    <th> 상품코드 </th>
+                    <th> 상품명 </th>
+                    <th> 상품가격 </th>
+                    <th> 상품성별 </th>
+                    <th> 카테고리 </th>
+                    <th> 색상 </th>
+                    <th> 사이즈 </th>
+                    <th> 상품등록일 </th>
+                    <th> 이미지파일 </th>
+                </tr>
+            </thead>
+            <tbody class="productPrint">
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
 
 
