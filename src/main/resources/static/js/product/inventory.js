@@ -51,7 +51,7 @@ function inventoryRead() {
                                 <option value="3"> 취소 </option>
                                 <option value="4"> 환불 </option>
                             </select>
-                            <input type="text" id="inventoryChange">
+                            <input type="text" id="inventoryChange${r.prodDetailcode}">
                             <button type="button" onclick="inventoryLog(${r.prodDetailcode})"> 재고 현황 업데이트 </button>
                             </div>
                         </div>
@@ -70,8 +70,11 @@ function inventoryRead() {
 
 
 function inventoryLog(prodDetailcode){
-    let invlogchange = document.querySelector("#inventoryChange").value;
+    let invlogchange = document.querySelector(`#inventoryChange${prodDetailcode}`).value;
     let invlogdetail = document.querySelector("#inventoryLog").value;
+
+    // 수량 미 입력시
+    if( invlogchange == '' ) { alert('수량입력 해주세요'); return; }
 
     $.ajax({
         async : false,
