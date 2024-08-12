@@ -275,11 +275,12 @@ public class SalesDao extends Dao{
             ps.setInt(1, Integer.parseInt(year)); ps.setInt(2, Integer.parseInt(month));
 
             ResultSet rs = ps.executeQuery();
+            return null;
         }catch(Exception e){
             System.out.println("monthlyProduct() : " + e );
         }
         return null;
-    }
+    }}
     // [7] 쿠폰코드별
 
     // [8] 판매추이
