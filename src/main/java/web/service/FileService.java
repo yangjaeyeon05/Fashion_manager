@@ -8,20 +8,82 @@ import org.springframework.stereotype.Service;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
+import web.model.dao.FileDao;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.sql.ResultSet;
 import java.util.*;
 
 @Service
-public class FileService {
+public class FileService{
+
+    @Autowired
+    FileDao fileDao;
 
     // 08.08 이재명 pc주소
     String uploadPath = "C:\\Users\\tj-bu-703-021\\Desktop\\Fashion_manager\\build\\resources\\main\\static\\upload\\";
 
-    // [1] 파일 업로드
+
+    // [1] 현재 보이는 표 데이터를 엑셀로 내보내기
+    // HTTP 세션에 SQL조회문 임시 저장하고 (조회 화면마다 새로고침 방식) 그 조회문으로 ResultSet을 불러와 엑셀로 내보내기
+    // TODO
+    public byte[] exportToExcel(){
+        try {
+            // 엑셀 파일 인터페이스 구현
+            Workbook workbook = new XSSFWorkbook();
+            // 엑셀 페이지/시트 인터페이스 구현
+            Sheet sheet = workbook.createSheet("Data");
+
+            // 현재 세션에 저장된 최근 SQL문으로 조회된 ResultSet
+            ResultSet rs = fileDao.exportToExcel();
+
+            // 헤더 작성 (Column/열 레이블/이름들)
+                // 0번째 줄 작성 = 테이블 열 명칭들
+            Row headerRow = sheet.createRow(0);
+                // rs에 저장된 열 개수 정보 (메타데이터에서)
+            int columnCount = rs.getMetaData().getColumnCount();
+                // 각 셀/칸마다 열 이름으로 지정 (테이블 열 이름들 지정하기)
+            for (int i = 1; i <= columnCount; i++) {
+                Cell cell = headerRow.createCell(i - 1);
+                cell.setCellValue(rs.getMetaData().getColumnName(i));
+            }
+
+            // 데이터 작성
+                // 현재 작성하는 행 번호 (0번째 행은 테이블 열 이름들 줄)
+            int rowCount = 1;
+                // rs.next() 루프
+            while (rs.next()) {
+                // 행 생성 후 rowCount 1 증가
+                Row row = sheet.createRow(rowCount++);
+                for (int i = 1; i <= columnCount; i++) {
+                    // 각 데이터 저장을 위한 셀 생성
+                    Cell cell = row.createCell(i - 1);
+                    // rs.getString(숫자) : 해당 숫자 번째 열의 데이터
+                    cell.setCellValue(rs.getString(i));
+                }
+            }
+
+            // 엑셀 파일을 바이트 배열로 변환
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                // 엑셀 객체를 바이트 배열로 내보내기
+            workbook.write(outputStream);
+                // 엑셀 객체 닫기
+            workbook.close();
+                // 완성된 바이트 배열을 반환
+            return outputStream.toByteArray();
+        } catch (Exception e) {
+            System.out.println("exportToExcel() : " + e);
+        }
+        return null;
+    }
+
+    // ================================ 수업 내용 =================================== //
+
+    // 파일 업로드
     // 매개변수로 파일의 바이트가 저장된 MultipartFile 인터페이스
     // 업로드된 파일명 반환
     public String fileUpload(MultipartFile multipartFile){
@@ -56,6 +118,7 @@ public class FileService {
         }
     }
 
+    // 엑셀 파일 읽기 - 회원, 상품 정보 업로드 등
     public List<Map<String, String>> readExcelFile(String filePath) {
         List<Map<String, String>> sheetList = new ArrayList<>();
         try (FileInputStream fis = new FileInputStream(filePath); Workbook workbook = new XSSFWorkbook(fis)) {
@@ -144,6 +207,8 @@ public class FileService {
         File file = new File(uploadPath + oldFileName);
         file.delete(); //TODO
     }
+
+
 
 
 }
