@@ -156,18 +156,18 @@ insert into productcategory(prodcatename) values('양말');
 insert into productcategory(prodcatename) values('장갑');
 
 # product
-insert into product(prodname, prodprice, prodgender, proddesc) values ("반팔티1화이트", 10000, 'M', '티셔츠설명');
-insert into product(prodname, prodprice, prodgender, proddesc) values ("반팔티1블랙", 10000, 'M', '반팔설명');
+insert into product(prodname, prodprice, prodgender, proddesc) values ("반팔티1", 10000, 'M', '티셔츠설명');
+insert into product(prodname, prodprice, prodgender, proddesc) values ("반팔티2", 10000, 'M', '반팔설명');
 insert into product(prodname, prodprice, prodgender, proddesc) values ("양말3", 15000, 'U', '양말설명');
 insert into product(prodname, prodprice, prodgender, proddesc) values ("모자1", 20000, 'F', '모자설명');
 insert into product(prodname, prodprice, prodgender, proddesc) values ("청바지1", 22000, 'F', '청바지설명');
 
 # productdetail
 insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (1, 1, 1, 'S', "tshirt1white.png", "2022-08-01");
-insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (1, 1, 2, 'M', "tshirt1black.png", "2022-08-01");
-insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (1, 4, 2, 'L', "socks3.png", "2022-08-01");
-insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (2, 3, 3, 'M', "cap1.png", "2022-08-01");
-insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (2, 2, 4, 'XXL', "jeans1.png", "2022-08-01");
+insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (2, 1, 2, 'M', "tshirt1black.png", "2022-08-01");
+insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (3, 4, 2, 'L', "socks3.png", "2022-08-01");
+insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (4, 3, 3, 'M', "cap1.png", "2022-08-01");
+insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (5, 2, 4, 'XXL', "jeans1.png", "2022-08-01");
 
 # members
 insert into members(memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('유재석', '010-1111-1111', 'you@naver.com', 'M', '1', 'M', '2022-08-01');
@@ -332,6 +332,7 @@ insert into orders (memcode, orddate) values (4, '2023-11-05');
 insert into orders (memcode, orddate) values (3, '2023-05-31');
 
 # orderdetail
+insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (8, 5, 6, 3, 2, 21000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (87, 5, 6, 3, 2, 21000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (16, 4, 1, 4, 4, 15000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (78, 5, 8, 3, 1, 16000);

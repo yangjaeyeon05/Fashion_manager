@@ -11,7 +11,7 @@ public class FileDao extends Dao{
     PreparedStatement ps;
     HttpSession session;
 
-    // [3] 엑셀로 현재 테이블 내보내기
+    // [1] 엑셀로 현재 테이블 내보내기
     // 엑셀로 내보낼 ResultSet을 세션에 저장된 (가장 최근에 조회된 테이블의) SQL문을 사용해 생성하기
     public ResultSet exportToExcel(){
         try {
