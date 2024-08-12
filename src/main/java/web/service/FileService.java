@@ -8,15 +8,24 @@ import org.springframework.stereotype.Service;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.document.AbstractXlsxView;
+import web.model.dao.FileDao;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.*;
 
 @Service
-public class FileService {
+public class FileService{
+
+    @Autowired
+    FileDao fileDao;
 
     // 08.08 이재명 pc주소
     String uploadPath = "C:\\Users\\tj-bu-703-021\\Desktop\\Fashion_manager\\build\\resources\\main\\static\\upload\\";
@@ -56,6 +65,7 @@ public class FileService {
         }
     }
 
+    // 엑셀 파일 읽기 - 회원, 상품 정보 업로드 등
     public List<Map<String, String>> readExcelFile(String filePath) {
         List<Map<String, String>> sheetList = new ArrayList<>();
         try (FileInputStream fis = new FileInputStream(filePath); Workbook workbook = new XSSFWorkbook(fis)) {
@@ -145,5 +155,42 @@ public class FileService {
         file.delete(); //TODO
     }
 
+
+    // 현재 보이는 표 데이터를 엑셀로 내보내기
+    // HTTP 세션에 SQL조회문 임시 저장하고 (조회 화면마다 새로고침 방식) 그 조회문으로 ResultSet을 불러와 엑셀로 내보내기
+    // TODO
+    public byte[] exportToExcel(){
+        try {
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("Data");
+
+            ResultSet resultSet = fileDao.exportToExcel();
+            // 헤더 작성
+            Row headerRow = sheet.createRow(0);
+            int columnCount = resultSet.getMetaData().getColumnCount();
+            for (int i = 1; i <= columnCount; i++) {
+                Cell cell = headerRow.createCell(i - 1);
+                cell.setCellValue(resultSet.getMetaData().getColumnName(i));
+            }
+
+            // 데이터 작성
+            int rowCount = 1;
+            while (resultSet.next()) {
+                Row row = sheet.createRow(rowCount++);
+                for (int i = 1; i <= columnCount; i++) {
+                    Cell cell = row.createCell(i - 1);
+                    cell.setCellValue(resultSet.getString(i));
+                }
+            }
+
+            // 엑셀 파일을 바이트 배열로 변환
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            workbook.write(outputStream);
+            workbook.close();
+            return outputStream.toByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
