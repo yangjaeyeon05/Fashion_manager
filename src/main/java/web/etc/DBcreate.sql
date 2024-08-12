@@ -210,6 +210,16 @@ insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddet
 insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(3, 2, '상담3', '반품문의',	'2024-07-31', 2, 3, null);
 insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(4, 3, '상담4', '교환문의',	'2024-07-31', null, 1, 3);
 insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(5, 4, '상담5', '나문희',	'2024-07-31', null, 1, 5);
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(1, 1, '상담1', '반품문의',	'2024-07-31', null, 1, 1);
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(3, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
+
+select * from support;
+select * from support order by supcode desc;
 
 # reply
 insert into reply(supcode, replycontent, replydate) values(1, '답글1', '2024-07-31');
@@ -217,6 +227,7 @@ insert into reply(supcode, replycontent, replydate) values(2, '답글2', '2024-0
 insert into reply(supcode, replycontent, replydate) values(3, '답글3', '2024-07-31');
 insert into reply(supcode, replycontent, replydate) values(4, '답글4', '2024-07-31');
 insert into reply(supcode, replycontent, replydate) values(5, '답글5', '2024-07-31');
+select * from reply;
 
 # admin
 insert into admin(adminid, adminpw) values ('qwe123', 'qwe123');
@@ -532,3 +543,7 @@ insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode,
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (86, 1, 3, 5, 5, 20000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (77, 2, 10, 5, 5, 17000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (44, 4, 1, 2, 2, 10000);
+
+
+
+select * from support inner join members on support.memcode = members.memcode inner join reply on support.supcode = reply.supcode; 
