@@ -23,7 +23,10 @@ public class InventoryDao extends Dao{
     public List<ProductDto> inventoryRead(){
         List<ProductDto> list = new ArrayList<>();  // list 반환하기 위해 새로 선언
         try{
-            String sql = "select * from product p inner join productdetail pd on p.prodcode = pd.prodcode";     // 제품 테이블과 제품 디테일 테이블 조인 후 출력
+            String sql = "select p.prodname , prodgender , pd.prodsize , pd.proddetailcode ,  sum( pi.invlogchange) inv \n" +
+                    "   from productdetail pd inner join product p  inner join invlog pi \n" +
+                    "    on pd.prodcode = p.prodcode and pd.proddetailcode = pi.proddetailcode\n" +
+                    "    group by pd.proddetailcode;";     // 제품 테이블과 제품 디테일 테이블 조인 후 출력
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next()){
@@ -32,6 +35,7 @@ public class InventoryDao extends Dao{
                         .prodDetailcode(rs.getInt("proddetailcode"))
                         .prodGender(rs.getString("prodgender"))
                         .prodSize(rs.getString("prodsize"))
+                        .prodAmount(rs.getInt("inv"))
                         .build());
             }
             System.out.println(list);
@@ -64,28 +68,6 @@ public class InventoryDao extends Dao{
     // ===================================  2024-08-08 김민석 ========================================= //
 
 
-    public InventoryDto inventoryUpdate2(InventoryDto inventoryDto){
-        try{
-            String sql = "select * from invlog where proddetailcode = ? and invlogchange = ? and invlogdetail = ?";
-            ps = conn.prepareStatement(sql);
-            ps.setInt(1,inventoryDto.getProddetailcode());
-            ps.setInt(2,inventoryDto.getInvlogchange());
-            ps.setInt(3,inventoryDto.getInvlogdetail());
-
-            rs = ps.executeQuery();
-
-            if(rs.next()){
-                return InventoryDto.builder()
-                        .proddetailcode(rs.getInt("proddetailcode"))
-                        .invlogchange(rs.getInt("invlogchange"))
-                        .invlogdetail(rs.getInt("invlogdetail"))
-                        .build();
-            }
-        }catch (Exception e){
-            System.out.println("에러 정보는 " + e);
-        }
-        return null;
-    }
     //
     // ===================================  2024-08-12 김민석 ========================================= //
 }

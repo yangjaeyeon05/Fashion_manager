@@ -74,7 +74,10 @@ function inventoryLog(prodDetailcode){
     let invlogdetail = document.querySelector("#inventoryLog").value;
 
     // 수량 미 입력시
-    if( invlogchange == '' ) { alert('수량입력 해주세요'); return; }
+    if( invlogchange == '' ) {
+        alert('수량입력 해주세요'); 
+        return; 
+    }
 
     $.ajax({
         async : false,
@@ -86,25 +89,6 @@ function inventoryLog(prodDetailcode){
             console.log(result);
             if(result){
                 console.log("재고 업데이트 성공");
-                inventoryLog2(prodDetailcode, invlogchange, invlogdetail);
-            }else{
-                console.log("재고 업데이트 실패");
-            }
-        }
-    });
-}
-
-function inventoryLog2(prodDetailcode, invlogchange, invlogdetail){
-    
-    $.ajax({
-        async : false,
-        method : "get",
-        url : "/inventory/update2",
-        data : {proddetailcode : prodDetailcode, invlogchange : invlogchange, invlogdetail : invlogdetail},
-        success : function response(result){
-            console.log(result);
-            if(result){
-                console.log("재고 업데이트 성공");
                 inventoryRead();
             }else{
                 console.log("재고 업데이트 실패");
@@ -112,5 +96,7 @@ function inventoryLog2(prodDetailcode, invlogchange, invlogdetail){
         }
     });
 }
+
+
 
 // ===================================  2024-08-12 김민석 ========================================= //

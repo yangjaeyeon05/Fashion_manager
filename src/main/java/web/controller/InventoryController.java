@@ -32,11 +32,7 @@ public class InventoryController {
 
     // ===================================  2024-08-08 김민석 ========================================= //
 
-    @GetMapping("/update2")
-    public boolean inventoryUpdate2(InventoryDto inventoryDto){
-        System.out.println("inventoryDto = " + inventoryDto);
-        return inventoryService.inventoryUpdate2(inventoryDto);
-    }
+
     //
     // ===================================  2024-08-12 김민석 ========================================= //
 }
