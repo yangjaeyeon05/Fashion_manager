@@ -3,6 +3,7 @@ package web.model.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import web.model.dto.ProductDto;
+import web.model.dto.ProductSearchDto;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -90,6 +91,34 @@ public class ProdcutDao extends  Dao {
             System.out.println("productdao" + e);
         }
         return category;
+    }
+
+    //08.12 상품 전체출력
+    public ArrayList<ProductDto> productGetAll(ProductSearchDto productSearchDto){
+        System.out.println("ProdcutDao.productGetAll");
+        ArrayList<ProductDto> list=new ArrayList<>(); // productDto 타입 어레이 리스트 생성
+        try{
+            // 4개 테이블 조인
+            String sql="select * from productdetail a inner join product b on a.prodcode=b.prodcode inner join productcategory c on a.prodcatecode=c.prodcatecode inner join color d on a.colorcode=d.colorcode";
+            // 상품 등록일 조건
+            if (productSearchDto.getStartDate().isEmpty()){ // 시작하는 날짜 없으면 검색X
+            }else{
+                sql+=" where proddate between "+"'"+productSearchDto.getStartDate()+"'"+" and "+"'"+productSearchDto.getEndDate()+"'";
+            }
+            PreparedStatement ps=conn.prepareStatement(sql);
+            ResultSet rs=ps.executeQuery();
+            while (rs.next()){
+                ProductDto productDto=ProductDto.builder()
+                        .prodDetailcode(rs.getInt("proddetailcode"))
+                        .colorName(rs.getString("colorname"))
+                        .prodDate(rs.getString("proddate"))
+                        .prodGender(rs.getString("prodgender"))
+                        .prodFilename(rs.getString("prodfilename"))
+                        .build();
+            }
+
+        }catch (Exception e){System.out.println("e = " + e);}
+        return list;
     }
 
 }

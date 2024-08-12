@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import web.model.dao.ProdcutDao;
 import web.model.dto.ProductDto;
+import web.model.dto.ProductSearchDto;
 
 import java.util.ArrayList;
 
@@ -33,5 +34,10 @@ public class ProductService {
     public ArrayList<ProductDto> productCategory(){
         System.out.println("ProductController.productCategory");
         return prodcutDao.productCategory();
+    }
+    //08.12 상품 전체출력
+    public ArrayList<ProductDto> productGetAll(ProductSearchDto productSearchDto){
+        System.out.println("ProductService.productGetAll");
+        return prodcutDao.productGetAll(productSearchDto);
     }
 }

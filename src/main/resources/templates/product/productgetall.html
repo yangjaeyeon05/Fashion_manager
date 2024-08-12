@@ -3,12 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <title>상품 목록</title>
+    <link href="/css/main.css" rel="stylesheet">
     <link href="/css/product/productgetall.css" rel="stylesheet">
 </head>
 <body>
     <div th:replace="~{/sidebar.html:: sidebar}"></div>
     <div id="main">
         <h1>상품 목록</h1>
+        <div class="searchBox">
+            <table class="searchTable table">
+                <colgroup>
+                    <col width="13%">
+                    <col width="13%">
+                    <col width="13%">
+                    <col width="13%">
+                    <col width="13%">
+                    <col width="35%">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th> 상품 등록일 </th>
+                    <td colspan="5">
+                        <div class="dateBox">
+                            <button type="button" class="btn btn-success btn-sm" onclick="changeDate(0)"> 오늘 </button>
+                            <button type="button" class="btn btn-success btn-sm" onclick="changeDate(3)"> 3일 </button>
+                            <button type="button" class="btn btn-success btn-sm" onclick="changeDate(7)"> 1주일 </button>
+                            <button type="button" class="btn btn-success btn-sm" onclick="changeDate(30)"> 1개월 </button>
+                            <button type="button" class="btn btn-success btn-sm" onclick="changeDate(90)"> 3개월 </button>
+                            <input type="date" class="startDate"/>
+                            <input type="date" class="endDate"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th> 상품 가격 </th>
+                    <td colspan="5">
+                        <div class="dateBox">
+                            <input type="number" placeholder="0" class="startDate"/>
+                            <span>~</span>
+                            <input type="number" placeholder="999999999" class="endDate"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th> 카테고리 </th>
+                    <td>
+                        <select class="supstateBox">
+                            <option value="0"> 전체 </option>
+                            <option value="1"> 상담전 </option>
+                            <option value="2"> 진행중 </option>
+                            <option value="3"> 상담완료 </option>
+                        </select>
+                    </td>
+                    <th> 색상 </th>
+                    <td>
+                        <select class="supcodeBox">
+                            <option value="0"> 전체 </option>
+                            <option value="1"> 반품문의 </option>
+                            <option value="2"> 상품문의 </option>
+                            <option value="3"> 배송문의 </option>
+                            <option value="4"> 회원문의 </option>
+                            <option value="5"> 기타 </option>
+                        </select>
+                    </td>
+                    <th> 사이즈 </th>
+                    <td>
+                        <select class="supcodeBox">
+                            <option value="0"> 전체 </option>
+                            <option value="1"> 반품문의 </option>
+                            <option value="2"> 상품문의 </option>
+                            <option value="3"> 배송문의 </option>
+                            <option value="4"> 회원문의 </option>
+                            <option value="5"> 기타 </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th> 성별 </th>
+                    <td>
+                        <select class="supcodeBox">
+                            <option value="0"> 전체 </option>
+                            <option value="1"> 반품문의 </option>
+                            <option value="2"> 상품문의 </option>
+                            <option value="3"> 배송문의 </option>
+                            <option value="4"> 회원문의 </option>
+                            <option value="5"> 기타 </option>
+                        </select>
+                    </td>
+                    <th> 상품명 </th>
+                    <td>
+                        <input type="text" class="form-text searchKeyword"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="btnBox">
+                <button class="searchBtn btn btn-success" type="button" onclick="onSearch()"> 검색 </button>
+            </div>
+        </div> <!-- searchBox end -->
         <table class="productList table">
             <thead>
                 <tr>
