@@ -109,3 +109,5 @@ function inventoryLog2(prodDetailcode, invlogchange, invlogdetail){
         }
     });
 }
+
+// ===================================  2024-08-12 김민석 ========================================= //
