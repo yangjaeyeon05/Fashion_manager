@@ -37,6 +37,6 @@ public class InventoryController {
         System.out.println("inventoryDto = " + inventoryDto);
         return inventoryService.inventoryUpdate2(inventoryDto);
     }
-
+    //
     // ===================================  2024-08-12 김민석 ========================================= //
 }
