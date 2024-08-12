@@ -1,7 +1,10 @@
 package web.model.dao;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import web.model.dto.ReplyDto;
 import web.model.dto.SupportDto;
 import web.model.dto.SupportSearchDto;
 
@@ -55,7 +58,7 @@ public class SupportDao extends Dao{
                 }else {
                     sql += " and ";
                 }
-                sql += " supdate between " + "'"+supportSearchDto.getStartDate()+"'" + " and " + "'"+supportSearchDto.getEndDate()+"'";
+                sql += " supdate between " + "'"+supportSearchDto.getStartDate()+"'" + " and " + "'"+supportSearchDto.getEndDate()+"' order by supcode desc";
             }
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -83,11 +86,12 @@ public class SupportDao extends Dao{
         System.out.println("SupportDao.supRead");
         System.out.println("supcode = " + supcode);
         try{
-            String sql = "select * from support inner join members on support.memcode = members.memcode where supcode = ?";
+            String sql = "select * from support inner join members on support.memcode = members.memcode where supcode = ?";   // support 테이블과 reply 테이블 모두에 supcode가 있어서 오류 어느 테이블의 supcode인지 명시해줘야함
             PreparedStatement ps = conn.prepareStatement(sql);
+            System.out.println("sql = " + sql);
             ps.setInt(1 , supcode);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){      // 상담코드 , 문의유형 , 처리상태 , 작성자명 , 작성자이메일 , 작성자 연락처 , 주문번호 , 상품코드 , 문의내용 , 접수일 출력
+            if(rs.next()){      // 상담코드 , 문의유형 , 처리상태 , 작성자명 , 작성자이메일 , 작성자 연락처 , 주문번호 , 상품코드 , 문의내용 , 접수일 , 답변내용 출력
                 // 상담 상세 내용 객체 생성
                 SupportDto supportDto = SupportDto.builder()
                         .supcode(rs.getInt("supcode"))
@@ -101,6 +105,7 @@ public class SupportDao extends Dao{
                         .supcontent(rs.getString("supcontent"))
                         .supdate(rs.getString("supdate"))
                         .build();
+                System.out.println("supportDto = " + supportDto);;
                 // 상품코드에 따른 상품이름 출력하기
                 String sql2 = "select * from product inner join productdetail on product.prodcode = productdetail.prodcode where proddetailcode = ?;";
                 PreparedStatement ps2 = conn.prepareStatement(sql2);
@@ -117,5 +122,92 @@ public class SupportDao extends Dao{
         return null;
     }   // supRead() end
 
+    // 3. 상담내용 상세 출력 내 답글 출력하기
+    public String replyRead(int supcode){
+        System.out.println("SupportDao.replyRead");
+        System.out.println("supcode = " + supcode);
+        String replycontent = "";
+        try{
+            String sql = "select * from reply where supcode = '"+supcode+"'";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                replycontent = rs.getString("replycontent");
+                return replycontent;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return replycontent;
+    }   // replyRead() end
+
+    // 4. 답글달기
+    public boolean respadd(ReplyDto replyDto){
+        System.out.println("SupportDao.respadd");
+        System.out.println("replyDto = " + replyDto);
+        try{
+            String sql = "insert into reply(supcode , replycontent) values( ? , ? )";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1 , replyDto.getSupcode());
+            ps.setString(2 , replyDto.getReplycontent());
+            int count = ps.executeUpdate();
+            if(count==1){
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }   // respadd() end
+
+    // 5. 답변 등록 했을 때 처리상태 변경 상담 전 -> 진행 중
+    public boolean replyUpdateToing(int supcode){
+        try{
+            String sql = "update support set supstate = 2 where supcode = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1 , supcode);
+            int count = ps.executeUpdate();
+            if(count==1){
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }   // replyUpdateToing() end
+
+    // 6. 답변완료 했을 때 처리 상태 변경 진행중 -> 상담완료
+    public boolean replyUpdateTocom(int supcode){
+        System.out.println("SupportDao.replyUpdateTocom");
+        System.out.println("supcode = " + supcode);
+        try{
+            String sql = "update support set supstate = 3 where supcode = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1 , supcode);
+            int count = ps.executeUpdate();
+            if(count==1){
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }   // replyUpdateTocom() end
+
+    // 7. 답변삭제
+    public boolean replyDelete(int supcode){
+        try{
+            String sql = "delete from reply where supcode = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1 , supcode);
+            int count = ps.executeUpdate();
+            if(count==1){
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }   // replyDelete() end
 
 }   // class end

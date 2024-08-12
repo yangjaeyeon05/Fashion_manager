@@ -72,11 +72,13 @@
                     </tbody>
                 </table>
                 <div class="btnBox">
-                    <button class="searchBtn btn btn-success" type="button" onclick="onSearch()"> 검색 </button>                        
+                    <button class="btn btn-success" type="button" onclick="onSearch()"> 검색 </button>                        
                 </div>
             </div> <!-- searchBox end -->
             <div > <!-- 상담목록 -->
-                <span class="ref"> * 문의제목을 클릭하시면 상세한 문의내역을 확인할 수 있습니다. </span>
+                <div class="ref">
+                    <span> * 문의제목을 클릭하시면 상세한 문의내역을 확인할 수 있습니다. </span>
+                </div>
                 <table class="dataBox table">
                     <thead>
                         <tr>
@@ -94,19 +96,27 @@
                     </tbody>
                 </table>
             </div>  <!-- 상담목록 출력 end -->
-            <div class="supDtailBox">
-                <div class="supDtailContent">   <!-- 상담상세 출력 -->
-                    <span> 고객문의내용보기 </span>
-                    <table class="table">
-                        <tbody class="supDtailPrintBox">
-                            
-                        </tbody>
-                    </table>
-                </div>  <!-- 상담상세 출력 end -->
-                <div>   <!-- 답장 구역 -->
-                    
-                </div>  <!-- 답장 구역 end -->
-            </div>
+            
+            <!-- 상담 상세 출력 Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">|고객문의내용보기</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="supDtailPrintBox"> 
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- Modal end -->
+
         </div> <!-- wrap end -->
     </div> <!-- main end -->
     <!-- JS -->

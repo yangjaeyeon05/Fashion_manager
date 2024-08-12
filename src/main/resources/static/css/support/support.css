@@ -1,3 +1,7 @@
+.dataBox a{
+    color: black;
+    text-decoration: none;
+}
 .wrap{
     margin: 30px;
 }
@@ -32,12 +36,10 @@
 }
 .btnBox{
     text-align: center;
-}
-.searchBtn{
     margin-top: 20px;
 }
 .ref{
-    margin-top: 30px;
+    margin-top: 20px;
 }
 .dataBox{
     margin-top: 10px;
@@ -63,4 +65,24 @@
 }
 .supDtailBox{
     width: 100%;
+}
+.supDtailContent span{
+    font-size: 15px;
+    font-weight: bold;
+}
+.supDtailContent > div{
+    border-bottom: 1px solid #eeeeee;
+}
+.replyBtn {
+    text-align: center; /* 가운데 정렬 */
+    margin-top: 10px; /* 버튼 상단 여백 */
+}
+.replyBtn .btn {
+    margin: 5px; /* 버튼 사이에 여백 */
+}
+.replycontentBox{
+    width: 100%;
+}
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5); /* 기본 회색 배경 */
 }

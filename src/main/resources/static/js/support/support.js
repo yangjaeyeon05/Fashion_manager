@@ -92,13 +92,23 @@ function supAllread(){
                 html += `<td> </td>`;
             }                    
             html += `<td> ${s.supcategoryname} </td>
-                        <td onclick="supDetailRead(${s.supcode})"> ${s.suptitle} </td>
+                        <td>
+                            <a href="#" class="supDetailLink" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-id="${s.supcode}"> ${s.suptitle} </a> 
+                        </td>
                         <td> ${s.memname} </td>
                     </tr> `;
         }
     )   // forEach end
-    supportPrintBox.innerHTML = html;
     // 출력
+    supportPrintBox.innerHTML = html;
+    // 제목 클릭 시 모달 열기
+    document.querySelectorAll('.supDetailLink').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            let supcode = this.getAttribute('data-id');
+            supDetailRead(supcode);  // 모달에 상세 정보 로드
+        });
+    });
 }   // supAllread() end
 
 function supDetailRead(supcode){
@@ -115,6 +125,8 @@ function supDetailRead(supcode){
         success : (r) => {
             console.log(r);
             html += `
+            <table class="table">
+                <tbody>
                     <tr>
                         <th> 접수일 </th>
                         <td> ${r.supdate} </td>
@@ -156,18 +168,148 @@ function supDetailRead(supcode){
                         <th> 문의내용 </th>
                         <td colspan="5"> ${r.supcontent} </td>
                     </tr>
-                    <tr>
+                    <tr class="replyPrintBox">
                         <th> 답변내용  </th>
-                        <td colspan="5"> 배송언제쯤 되나요? </td>
+                        <td colspan="5" class="replyPrint"> </td>
                     </tr>
-            `;
+                    </tbody>
+                    </table>
+                    <div class="replyBtn">
+                        <button type="button" class="btn btn-success btn-sm" onclick="replyAdd(${supcode})"> 답변등록 </button>
+                        <button type="button" class="btn btn-success btn-sm" > 답변수정 </button>
+                        <button type="button" class="btn btn-success btn-sm" onclick="replyDelete(${supcode})"> 답변삭제 </button>
+                        <button type="button" class="btn btn-success btn-sm" onclick="replyUpdateTocom(${supcode})" > 상담완료 </button>
+                    </div>    
+                        `;
+            if (supDtailPrintBox) {
+                supDtailPrintBox.innerHTML = html;
+            }
+            replyRead(supcode);
+            // 모달을 열기
+            // let modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+            // modal.show();
+            // 부트스트랩 자체에서 실행되는데 한번 더 코드를 넣으니까 두개가 실행되서 하나 끄게 되면 하나 남아서 오류가 뜸
         } , 
         error : (e) => {
             console.log(e);
         }
     })  // ajax end
-    // 출력
-    supDtailPrintBox.innerHTML = html;
 }
 
+// 답글 출력
+function replyRead(supcode){
+    // 어디에
+    let replyPrint = document.querySelector('.replyPrint');
+    let html = ``;
+    $.ajax({
+        async : false , 
+        method : 'get' , 
+        url : "/support/respread" , 
+        data : {"supcode" : supcode } , 
+        success : (r) => {
+            console.log(r);
+            if (replyPrint) {               // document.querySelector로 요소 가져올 경우 선택한 요소가 
+                if(r!=""){
+                    html += `${r}`;
+                }else{
+                    html += `<input style="width:100%;" type="text" class="replyContent" />`;
+                }
+                replyPrint.innerHTML = html;   // null 일 수 있으므로 if 문으로 확인 출력 안그럼 오류가 뜸???
+            }        
+        } , 
+        error : (e) => {
+            console.log(e);
+        }
+    })  // ajax end
+}   // replyRead() end
 
+// 딥변 등록
+function replyAdd(supcode){
+    console.log('replyAdd()');
+    console.log(supcode);
+    let replycontent = document.querySelector(".replyContent").value;
+    let info = {
+        "replycontent" : replycontent , "supcode" : supcode
+    }
+    $.ajax({
+        async : false , 
+        method : 'post' , 
+        url : "/support/respadd" , 
+        data : JSON.stringify(info) , // 객체를 JSON 문자열로 변환
+        contentType : "application/json" , 
+        success : (r) => {
+            console.log(r);
+            if(r){
+                alert('답변등록성공');
+                replyUpdateToing(supcode);  // 처리상태 변경
+                replyRead(supcode);     // 새로고침
+
+            }else{
+                alert('답변등록실패')
+            }
+        } , 
+        error : (e) => {
+            console.log(e);
+        }
+    })  // ajax end
+}   // replyAdd() end
+
+// 답변 등록 했을 때 처리상태 변경 상담 전 -> 진행 중
+function replyUpdateToing(supcode){
+    console.log('replyUpdateToing()');
+    $.ajax({
+        async : false , 
+        method : 'put' , 
+        url : "/support/edittoing" , 
+        data : {supcode : supcode} , 
+        success : (r) =>{
+            console.log(r)
+            replyRead(supcode);     // 답변 처리하면 답변 등록된 게 새로고침 되어야하고 전체출력이랑 상세 출력도 새로고침 되어야 한다.
+            supDetailRead(supcode);
+            supAllread();
+        } , 
+        error : (e) => {
+            console.log(e)
+        }
+    })  // ajax end
+}   // replyUpdateToing() end
+
+// 처리 완료 눌렀을 때 처리상태 변경 진행 중 -> 처리 완료
+function replyUpdateTocom(supcode){
+    console.log('replyUpdateTocom()');
+    $.ajax({
+        async : false , 
+        method : 'put' , 
+        url : "/support/edittocom" , 
+        data : {supcode : supcode} , 
+        success : (r) =>{
+            console.log(r)
+            replyRead(supcode);     // 답변 처리하면 답변 등록된 게 새로고침 되어야하고 전체출력이랑 상세 출력도 새로고침 되어야 한다.
+            supDetailRead(supcode);
+            supAllread();
+        } , 
+        error : (e) => {
+            console.log(e)
+        }
+    })  // ajax end
+}   // replyUpdateTocom() end
+
+// 답변삭제
+function replyDelete(supcode){
+    console.log('replyDelete()')
+    $.ajax({
+        async : false , 
+        method : 'delete' , 
+        url : "/support/respedelete" , 
+        data : {supcode : supcode} , 
+        success : (r) =>{
+            console.log(r)
+            replyRead(supcode);     // 답변 처리하면 답변 등록된 게 새로고침 되어야하고 전체출력이랑 상세 출력도 새로고침 되어야 한다.
+            supDetailRead(supcode);
+            supAllread();
+        } , 
+        error : (e) => {
+            console.log(e)
+        }
+    })  // ajax end
+}   // replyDelete() end
