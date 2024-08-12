@@ -3,6 +3,7 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.ProductDto;
+import web.model.dto.ProductSearchDto;
 import web.service.ProductService;
 //08.07
 
@@ -34,7 +35,11 @@ public class ProductController {
         System.out.println("ProductController.productCategory");
         return productService.productCategory();
     }
-    //08.11 상품목록 출력
-//    @GetMapping("/getall")
-//    public
+    //08.12 상품목록 출력
+    @GetMapping("/getall")
+    public ArrayList<ProductDto> productGetAll(ProductSearchDto productSearchDto){
+        System.out.println("ProductController.productGetAll");
+        System.out.println("productSearchDto = " + productSearchDto);
+        return productService.productGetAll(productSearchDto);
+    }
 }
