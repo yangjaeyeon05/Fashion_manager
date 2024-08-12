@@ -34,4 +34,7 @@ public class ProductController {
         System.out.println("ProductController.productCategory");
         return productService.productCategory();
     }
+    //08.11 상품목록 출력
+//    @GetMapping("/getall")
+//    public
 }
