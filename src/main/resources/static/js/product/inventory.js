@@ -67,3 +67,45 @@ function inventoryRead() {
 
 
 // ===================================  2024-08-08 김민석 ========================================= //
+
+
+function inventoryLog(prodDetailcode){
+    let invlogchange = document.querySelector("#inventoryChange").value;
+    let invlogdetail = document.querySelector("#inventoryLog").value;
+
+    $.ajax({
+        async : false,
+        method : "post",
+        url : "/inventory/update",
+        contentType : "application/json",
+        data : JSON.stringify({proddetailcode : prodDetailcode, invlogchange : invlogchange, invlogdetail : invlogdetail}),
+        success : function response(result){
+            console.log(result);
+            if(result){
+                console.log("재고 업데이트 성공");
+                inventoryLog2(prodDetailcode, invlogchange, invlogdetail);
+            }else{
+                console.log("재고 업데이트 실패");
+            }
+        }
+    });
+}
+
+function inventoryLog2(prodDetailcode, invlogchange, invlogdetail){
+    
+    $.ajax({
+        async : false,
+        method : "get",
+        url : "/inventory/update2",
+        data : {proddetailcode : prodDetailcode, invlogchange : invlogchange, invlogdetail : invlogdetail},
+        success : function response(result){
+            console.log(result);
+            if(result){
+                console.log("재고 업데이트 성공");
+                inventoryRead();
+            }else{
+                console.log("재고 업데이트 실패");
+            }
+        }
+    });
+}
