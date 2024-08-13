@@ -23,9 +23,9 @@ public class InventoryController {
 
     //  재고 현황 업데이트1
     @PostMapping("/update")
-    public boolean inventoryUpdate(@RequestBody InventoryDto inventoryDto){
+    public boolean inventoryUpdate(@RequestBody InventoryDto inventoryDto){     // @RequestBody 로 js 에서 JSON 타입의 요청값을 받아서 inventoryDto 타입으로 받음
         System.out.println("1번째 inventoryDto = " + inventoryDto);
-        return inventoryService.inventoryUpdate(inventoryDto);
+        return inventoryService.inventoryUpdate(inventoryDto);                  // inventoryService 에서 inventoryUpdate 에 inventoryDto 를 매개변수로 보내고 받은 반환값을 그대로 반환함.
     }
 
 
@@ -35,4 +35,11 @@ public class InventoryController {
 
     ////
     // ===================================  2024-08-12 김민석 ========================================= //
+    // 재고 알림 메소드
+    @GetMapping("/alarm")
+    public String inventoryAlarm(InventoryDto inventoryDto){            // html, js 에서 inventoryDto 요청값을 받음
+        System.out.println("inventoryDto = " + inventoryDto);
+        return inventoryService.inventoryAlarm(inventoryDto);           // inventoryService 에서 inventoryAlarm 에 inventoryDto 를 매개변수로 보내고 받은 String 값을 그대로 반환함.
+    }
+
 }
