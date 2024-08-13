@@ -64,6 +64,7 @@ function productAdd(){console.log('productAdd()');
         success: r =>{console.log(r);
             if(r){
                 alert("상품등록 완료")
+                location.href="/product/add"
             }else{
                 alert("상품등록 실패")
             }

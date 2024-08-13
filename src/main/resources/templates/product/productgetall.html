@@ -24,7 +24,7 @@
                 <tr>
                     <th> 상품 등록일 </th>
                     <td colspan="5">
-                        <div class="dateBox">
+                        <div class="dateBox" id="prodDate">
                             <button type="button" class="btn btn-success btn-sm" onclick="changeDate(0)"> 오늘 </button>
                             <button type="button" class="btn btn-success btn-sm" onclick="changeDate(3)"> 3일 </button>
                             <button type="button" class="btn btn-success btn-sm" onclick="changeDate(7)"> 1주일 </button>
@@ -38,61 +38,50 @@
                 <tr>
                     <th> 상품 가격 </th>
                     <td colspan="5">
-                        <div class="dateBox">
-                            <input type="number" placeholder="0" class="startDate"/>
+                        <div class="dateBox" id="prodPrice">  <!--08.13-->
+                            <input type="number" placeholder="0" class="minPrice"/>
                             <span>~</span>
-                            <input type="number" placeholder="999999999" class="endDate"/>
+                            <input type="number" placeholder="999999999" class="maxPrice"/>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <th> 카테고리 </th>
                     <td>
-                        <select class="supstateBox">
-                            <option value="0"> 전체 </option>
-                            <option value="1"> 상담전 </option>
-                            <option value="2"> 진행중 </option>
-                            <option value="3"> 상담완료 </option>
+                        <select class="supstateBox" id="prodCatecode">  <!--08.13-->
                         </select>
                     </td>
                     <th> 색상 </th>
                     <td>
-                        <select class="supcodeBox">
-                            <option value="0"> 전체 </option>
-                            <option value="1"> 반품문의 </option>
-                            <option value="2"> 상품문의 </option>
-                            <option value="3"> 배송문의 </option>
-                            <option value="4"> 회원문의 </option>
-                            <option value="5"> 기타 </option>
+                        <select class="supcodeBox" id="colorCode">  <!--08.13-->
                         </select>
                     </td>
                     <th> 사이즈 </th>
                     <td>
-                        <select class="supcodeBox">
-                            <option value="0"> 전체 </option>
-                            <option value="1"> 반품문의 </option>
-                            <option value="2"> 상품문의 </option>
-                            <option value="3"> 배송문의 </option>
-                            <option value="4"> 회원문의 </option>
-                            <option value="5"> 기타 </option>
+                        <select class="supcodeBox" id="prodSize">   <!--08.13-->
+                            <option value=""> 전체 </option>
+                            <option value="S"> S </option>
+                            <option value="M"> M </option>
+                            <option value="L"> L </option>
+                            <option value="XL"> XL </option>
+                            <option value="2XL"> 2XL </option>
+                            <option value="3XL"> 3XL </option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <th> 성별 </th>
                     <td>
-                        <select class="supcodeBox">
-                            <option value="0"> 전체 </option>
-                            <option value="1"> 반품문의 </option>
-                            <option value="2"> 상품문의 </option>
-                            <option value="3"> 배송문의 </option>
-                            <option value="4"> 회원문의 </option>
-                            <option value="5"> 기타 </option>
+                        <select class="supcodeBox" id="prodGender"> <!--08.13-->
+                            <option value=""> 전체 </option>
+                            <option value="M"> 남성 </option>
+                            <option value="F"> 여성 </option>
+                            <option value="U"> 유니섹스 </option>
                         </select>
                     </td>
                     <th> 상품명 </th>
                     <td>
-                        <input type="text" class="form-text searchKeyword"/>
+                        <input type="text" class="form-text searchKeyword" id="searchKeyword"/> <!--08.13-->
                     </td>
                 </tr>
                 </tbody>
