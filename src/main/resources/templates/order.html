@@ -9,79 +9,69 @@
     <link href="/css/order/order.css" rel="stylesheet" >
 </head>
 <body>
-    <div th:replace="~{/sidebar.html:: sidebar}"></div>
+<div th:replace="~{/sidebar.html:: sidebar}"></div>
 
-    <div style="margin : 0px 0px 0px 250px"> <!--메인페이지 -->
+<div style="margin : 0px 0px 0px 250px"> <!--메인페이지 -->
     <h3> 주문 목록페이지 </h3>
 
     <div>
-        조회기간 : <input type="date" class="firstdate" value="2024-08-01" style="width : 250px"/> ~ <input type='date' id="todayDate" style="width : 250px"/> <button type="button" style="width : 100px" ONCLICK="orddatesearch()"> 검색 </button>
+        조회기간 : <input type="date" class="firstdate" value="2024-08-01" style="width : 250px"/> ~ <input type='date' id="todayDate" style="width : 250px"/> <button type="button" style="width : 100px" ONCLICK="orderall()"> 검색 </button>
         <!--개수별 조회 삭제-->
-        상세조건 : <select onclick="ordcategory()" class="ordcatagory">
-                    <option value="0">전체</option>
-                    <option value="1">주문완료</option>
-                    <option value="2">배송시작</option>
-                    <option value="3">반품</option>
-                    <option value="4">주문취소</option>
-                    <option value="5">정산완료</option>
-                  </select>
+        상세조건 : <select onclick="orderall()" class="ordcatagory">
+        <option value="0">전체</option>
+        <option value="1">주문완료</option>
+        <option value="2">배송시작</option>
+        <option value="3">반품</option>
+        <option value="4">주문취소</option>
+        <option value="5">정산완료</option>
+    </select>
     </div>
 
     <div>
 
         <table class="table table-hover" style="width : 1000px">
             <thead>
-                <tr>
-                    <th> 선택 </th>
-                    <th> 주문상세코드 </th>
-                    <th> 주문한 회원 </th>
-                    <th> 주문 날짜 </th>
-                    <th> 주문 사이즈 </th>
-                    <th> 상품명 </th>
-                    <th> 주문상품수량 </th>
-                    <th> 주문상태 </th>
-                    <th> 쿠폰이름 </th>
-                </tr>
+            <tr>
+                <th> 선택 </th>
+                <th> 주문상세코드 </th>
+                <th> 주문한 회원 </th>
+                <th> 주문 날짜 </th>
+                <th> 주문 사이즈 </th>
+                <th> 상품명 </th>
+                <th> 주문상품수량 </th>
+                <th> 주문상태 </th>
+                <th> 쿠폰이름 </th>
+            </tr>
             </thead>
 
 
 
             <tbody class="orderBox">
-<!--                <th> <input type="checkbox"> </th>-->
-<!--                <th> 1 </th>-->
-<!--                <th> 유재석 </th>-->
-<!--                <th> 2024-08-03 </th>-->
-<!--                <th> M </th>-->
-<!--                <th> 반팔티1화이트 </th>-->
-<!--                <th> 1 </th>-->
-<!--                <th> 1 </th>-->
-<!--                <th> VIP100 </th>-->
+            <!--                <th> <input type="checkbox"> </th>-->
+            <!--                <th> 1 </th>-->
+            <!--                <th> 유재석 </th>-->
+            <!--                <th> 2024-08-03 </th>-->
+            <!--                <th> M </th>-->
+            <!--                <th> 반팔티1화이트 </th>-->
+            <!--                <th> 1 </th>-->
+            <!--                <th> 1 </th>-->
+            <!--                <th> VIP100 </th>-->
             </tbody>
         </table>
 
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span> <!--맨앞으로-->
-                    </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span> <!--맨뒤로-->
-                    </a>
-                </li>
+
             </ul>
         </nav>
 
     </div>
-    </div>
-    <!--공통 JS-->
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!--JS-->
-    <script src="/js/order/order.js"></script>
-    <script>document.getElementById('todayDate').value = new Date().toISOString().substring(0, 10);;</script> <!--오늘 날짜 받아오는 함수-->
+</div>
+<!--공통 JS-->
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!--JS-->
+<script src="/js/order/order.js"></script>
+<script>document.getElementById('todayDate').value = new Date().toISOString().substring(0, 10);;</script> <!--오늘 날짜 받아오는 함수-->
 </body>
 </html>

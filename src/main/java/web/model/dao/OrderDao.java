@@ -14,38 +14,64 @@ import java.util.ArrayList;
 public class OrderDao extends Dao{
 
     //주문목록 출력 함수
-    public ArrayList<OrderdetailDto> getorder(){
-        ArrayList<OrderdetailDto> list = new ArrayList<>();
+//    public ArrayList<OrderdetailDto> getorder(int offset, int limit){
+//        ArrayList<OrderdetailDto> list = new ArrayList<>();
+//        try{
+//            String sql = "SELECT od.orddetailcode AS orddetailcode, m.memname AS memname,  o.orddate AS orddate, pd.prodsize AS prodsize, p.prodname AS prodname, od.ordamount AS ordamount, od.ordstate AS ordstate, c.coupname AS coupname FROM orders o JOIN orderdetail od ON o.ordcode = od.ordcode JOIN  productdetail pd ON od.proddetailcode = pd.proddetailcode JOIN product p ON pd.prodcode = p.prodcode LEFT JOIN  coupon c ON od.coupcode = c.coupcode JOIN members m ON o.memcode = m.memcode limit ? OFFSET ?";
+//            PreparedStatement ps = conn.prepareStatement(sql);
+//            ps.setInt(1,limit);
+//            ps.setInt(2,offset);
+//            ResultSet rs = ps.executeQuery();
+//            while(rs.next()){
+//                list.add(OrderdetailDto.builder()
+//                        .orddetailcode(rs.getInt("orddetailcode"))
+//                        .memname(rs.getString("memname"))
+//                        .orddate(rs.getString("orddate"))
+//                        .prodsize(rs.getString("prodsize"))
+//                        .prodname(rs.getString("prodname"))
+//                        .ordamount(rs.getInt("ordamount"))
+//                        .ordstate(rs.getInt("ordstate"))
+//                        .coupname(rs.getString("coupname"))
+//                        .build());
+//            }
+//        } catch (Exception e ) {System.out.println(e);} return list;
+//    } //함수 end
+
+    //전체 주문 수를 반환하는 함수
+    public int getTotalOrdersCount(){
+        int count = 0;
         try{
-            String sql = "SELECT od.orddetailcode AS orddetailcode, m.memname AS memname,  o.orddate AS orddate, pd.prodsize AS prodsize, p.prodname AS prodname, od.ordamount AS ordamount, od.ordstate AS ordstate, c.coupname AS coupname FROM orders o JOIN orderdetail od ON o.ordcode = od.ordcode JOIN  productdetail pd ON od.proddetailcode = pd.proddetailcode JOIN product p ON pd.prodcode = p.prodcode LEFT JOIN  coupon c ON od.coupcode = c.coupcode JOIN members m ON o.memcode = m.memcode limit ?,10";
+            String sql = "Select COUNT(*) AS count From orderdetail"; //orderdetail의 레코드수 조회
             PreparedStatement ps = conn.prepareStatement(sql);
-//            ps.setInt(1,); //페이징 처리중
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                list.add(OrderdetailDto.builder()
-                                .orddetailcode(rs.getInt("orddetailcode"))
-                                .memname(rs.getString("memname"))
-                                .orddate(rs.getString("orddate"))
-                                .prodsize(rs.getString("prodsize"))
-                                .prodname(rs.getString("prodname"))
-                                .ordamount(rs.getInt("ordamount"))
-                                .ordstate(rs.getInt("ordstate"))
-                                .coupname(rs.getString("coupname"))
-                        .build());
+            if (rs.next()){
+                count = rs.getInt("count");
             }
-        } catch (Exception e ) {System.out.println(e);} return list;
-    } //함수 end
+        } catch (Exception e){System.out.println(e);} return count;
+    }
 
     //주문목록 날짜 출력함수
-    public ArrayList<OrderdetailDto> getorderdate(String firstdate,String todayDate){
+    public ArrayList<OrderdetailDto> getorder(int category,int offset, int limit, String firstdate,String todayDate){
+        System.out.println("offset = " + offset);
+        System.out.println("limit = " + limit);
         ArrayList<OrderdetailDto> list = new ArrayList<>();
         try{
-            String sql = "SELECT od.orddetailcode AS orddetailcode, m.memname AS memname,  o.orddate AS orddate, pd.prodsize AS prodsize, p.prodname AS prodname, od.ordamount AS ordamount, od.ordstate AS ordstate, c.coupname AS coupname FROM orders o JOIN orderdetail od ON o.ordcode = od.ordcode JOIN  productdetail pd ON od.proddetailcode = pd.proddetailcode JOIN product p ON pd.prodcode = p.prodcode LEFT JOIN  coupon c ON od.coupcode = c.coupcode JOIN members m ON o.memcode = m.memcode WHERE orddate between ? and ?";
+            String sql = "SELECT od.orddetailcode AS orddetailcode, m.memname AS memname,  o.orddate AS orddate, pd.prodsize AS prodsize, p.prodname AS prodname, od.ordamount AS ordamount, od.ordstate AS ordstate, c.coupname AS coupname FROM orders o JOIN orderdetail od ON o.ordcode = od.ordcode JOIN  productdetail pd ON od.proddetailcode = pd.proddetailcode JOIN product p ON pd.prodcode = p.prodcode LEFT JOIN  coupon c ON od.coupcode = c.coupcode JOIN members m ON o.memcode = m.memcode ";
+            //조건 1 날짜가 존재하면
+            if(!firstdate.isEmpty() && !todayDate.isEmpty()){sql += " WHERE orddate between '" + firstdate +"' and '"+ todayDate+"'";}
+            //조건 1-1 날짜가 없는 기본이면
+            //조건 2 카테고리가 존재하면
+            if(category >= 1){sql += " where ordstate = " + category;} //내일 수정해야함
+            System.out.println("category = " + category);
+            sql += " limit ? , ?";
+
+            System.out.println("sql = " + sql);
+
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, firstdate);
-            ps.setString(2, todayDate);
+            ps.setInt(2,limit);
+            ps.setInt(1,offset);
             ResultSet rs = ps.executeQuery();
-//            System.out.println(sql);
+            System.out.println(sql);
             while(rs.next()){
                 list.add(OrderdetailDto.builder()
                         .orddetailcode(rs.getInt("orddetailcode"))
@@ -62,27 +88,27 @@ public class OrderDao extends Dao{
         } catch (Exception e) {System.out.println(e);} return list;
     }
 
-    //카테고리 목록 출력함수 0807 생성
-    public ArrayList<OrderdetailDto> manage2 (int ordcatagory){
-        ArrayList<OrderdetailDto> list = new ArrayList<>();
-        try{
-            String sql = "SELECT od.orddetailcode AS orddetailcode, m.memname AS memname,  o.orddate AS orddate, pd.prodsize AS prodsize, p.prodname AS prodname, od.ordamount AS ordamount, od.ordstate AS ordstate, c.coupname AS coupname FROM orders o JOIN orderdetail od ON o.ordcode = od.ordcode JOIN  productdetail pd ON od.proddetailcode = pd.proddetailcode JOIN product p ON pd.prodcode = p.prodcode LEFT JOIN  coupon c ON od.coupcode = c.coupcode JOIN members m ON o.memcode = m.memcode where ordstate = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1,ordcatagory);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                list.add(OrderdetailDto.builder()
-                        .orddetailcode(rs.getInt("orddetailcode"))
-                        .memname(rs.getString("memname"))
-                        .orddate(rs.getString("orddate"))
-                        .prodsize(rs.getString("prodsize"))
-                        .prodname(rs.getString("prodname"))
-                        .ordamount(rs.getInt("ordamount"))
-                        .ordstate(rs.getInt("ordstate"))
-                        .coupname(rs.getString("coupname"))
-                        .build());
-            }
-        } catch (Exception e) {System.out.println(e);} return list;
-    }
+//    //카테고리 목록 출력함수 0807 생성
+//    public ArrayList<OrderdetailDto> manage2 (int ordcatagory){
+//        ArrayList<OrderdetailDto> list = new ArrayList<>();
+//        try{
+//            String sql = "SELECT od.orddetailcode AS orddetailcode, m.memname AS memname,  o.orddate AS orddate, pd.prodsize AS prodsize, p.prodname AS prodname, od.ordamount AS ordamount, od.ordstate AS ordstate, c.coupname AS coupname FROM orders o JOIN orderdetail od ON o.ordcode = od.ordcode JOIN  productdetail pd ON od.proddetailcode = pd.proddetailcode JOIN product p ON pd.prodcode = p.prodcode LEFT JOIN  coupon c ON od.coupcode = c.coupcode JOIN members m ON o.memcode = m.memcode where ordstate = ?";
+//            PreparedStatement ps = conn.prepareStatement(sql);
+//            ps.setInt(1,ordcatagory);
+//            ResultSet rs = ps.executeQuery();
+//            while(rs.next()){
+//                list.add(OrderdetailDto.builder()
+//                        .orddetailcode(rs.getInt("orddetailcode"))
+//                        .memname(rs.getString("memname"))
+//                        .orddate(rs.getString("orddate"))
+//                        .prodsize(rs.getString("prodsize"))
+//                        .prodname(rs.getString("prodname"))
+//                        .ordamount(rs.getInt("ordamount"))
+//                        .ordstate(rs.getInt("ordstate"))
+//                        .coupname(rs.getString("coupname"))
+//                        .build());
+//            }
+//        } catch (Exception e) {System.out.println(e);} return list;
+//    }
 
 } //class end
