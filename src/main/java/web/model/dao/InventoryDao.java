@@ -23,10 +23,12 @@ public class InventoryDao extends Dao{
     public List<ProductDto> inventoryRead(){
         List<ProductDto> list = new ArrayList<>();  // list 반환하기 위해 새로 선언
         try{
+            // 제품 테이블과 제품 디테일 테이블, 재고 테이블 조인 후 sum(pi.invlogchange)를 통해 재고 수량 계산한 레코드도 함께 출력
             String sql = "select p.prodname , prodgender , pd.prodsize , pd.proddetailcode ,  sum( pi.invlogchange) inv \n" +
                     "   from productdetail pd inner join product p  inner join invlog pi \n" +
                     "    on pd.prodcode = p.prodcode and pd.proddetailcode = pi.proddetailcode\n" +
-                    "    group by pd.proddetailcode;";     // 제품 테이블과 제품 디테일 테이블 조인 후 출력
+                    "    group by pd.proddetailcode;";
+
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next()){
@@ -35,7 +37,7 @@ public class InventoryDao extends Dao{
                         .prodDetailcode(rs.getInt("proddetailcode"))
                         .prodGender(rs.getString("prodgender"))
                         .prodSize(rs.getString("prodsize"))
-                        .prodAmount(rs.getInt("inv"))
+                        .prodAmount(rs.getInt("inv"))       // 재고 수량 계산 값을 prodAmount 에 set 함
                         .build());
             }
             System.out.println(list);
@@ -49,7 +51,7 @@ public class InventoryDao extends Dao{
     public boolean inventoryUpdate(InventoryDto inventoryDto){
         System.out.println("3번째 inventoryDto = " + inventoryDto);
         try{
-            String sql = "insert into invlog(proddetailcode, invlogchange, invlogdetail) values (?, ?, ?)";
+            String sql = "insert into invlog(proddetailcode, invlogchange, invlogdetail) values (?, ?, ?)";     // 재고 테이블에 재고 기록 추가
             ps = conn.prepareStatement(sql);
             ps.setInt(1,inventoryDto.getProddetailcode());
             ps.setInt(2,inventoryDto.getInvlogchange());
@@ -70,4 +72,28 @@ public class InventoryDao extends Dao{
 
     ////
     // ===================================  2024-08-12 김민석 ========================================= //
+
+    public ProductDto inventoryAlarm(InventoryDto inventoryDto){
+        System.out.println("inventoryDto = " + inventoryDto);
+        try{
+            //  특정한 레코드의 재고 수량만 출력하기 위해서 where 절 where pd.proddetailcode = ? 추가
+            String sql = "select p.prodname , prodgender , pd.prodsize , pd.proddetailcode ,  sum( pi.invlogchange) inv \n" +
+                    "   from productdetail pd inner join product p  inner join invlog pi \n" +
+                    "    on pd.prodcode = p.prodcode and pd.proddetailcode = pi.proddetailcode \n" +
+                    "    where pd.proddetailcode = ? \n" +
+                    "    group by pd.proddetailcode";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1,inventoryDto.getProddetailcode());
+
+            rs = ps.executeQuery();
+
+            if(rs.next()){
+                // 레코드는 1줄만 출력될 것이기 때문에 if(rs.next()) 사용하고 빌더를 사용해서 ProductDto 생성하고 prodAmount 에 inv 레코드 값 저장하고 반환
+                return ProductDto.builder().prodAmount(rs.getInt("inv")).build();
+            }
+        }catch (Exception e){
+            System.out.println("에러 정보는 " + e);
+        }
+        return null;
+    }
 }

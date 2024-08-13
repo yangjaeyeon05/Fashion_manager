@@ -12,19 +12,37 @@
 
 <body>
     <div th:replace="~{/sidebar.html:: sidebar}"></div>
+
     <div class="inventoryArea">
-        <div>
-            <h3> 재고 관리 페이지 </h3>
-        </div>
-        <div>
-            제품명
-        </div>
-        <div>
-            성별
-        </div>
-        <div>
-            사이즈
-        </div>
+        <h3> 재고 관리 페이지 </h3>
+        <table class="table">
+            <thead class="inventoryRead">
+                <tr>
+                    <th>
+                        제품명
+                    </th>
+                    <th>
+                        성별
+                    </th>
+                    <th>
+                        사이즈
+                    </th>
+                    <th>
+                        재고 현황
+                    </th>
+                    <th>
+                        비고
+                    </th>
+                    <th>
+                        재고 알림
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="inventoryRead" id="inventoryArea">
+
+            </tbody>
+        </table>
+
     </div>
 
 
