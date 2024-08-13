@@ -172,11 +172,14 @@ function supDetailRead(supcode){
                         <th> 답변내용  </th>
                         <td colspan="5" class="replyPrint"> </td>
                     </tr>
+                    <tr class="replyUpdatebox">
+                        
+                    </tr>
                     </tbody>
                     </table>
                     <div class="replyBtn">
                         <button type="button" class="btn btn-success btn-sm" onclick="replyAdd(${supcode})"> 답변등록 </button>
-                        <button type="button" class="btn btn-success btn-sm" > 답변수정 </button>
+                        <button type="button" class="btn btn-success btn-sm" onclick="createBox(${r.replycode} , ${supcode})"> 답변수정 </button>
                         <button type="button" class="btn btn-success btn-sm" onclick="replyDelete(${supcode})"> 답변삭제 </button>
                         <button type="button" class="btn btn-success btn-sm" onclick="replyUpdateTocom(${supcode})" > 상담완료 </button>
                     </div>    
@@ -313,3 +316,64 @@ function replyDelete(supcode){
         }
     })  // ajax end
 }   // replyDelete() end
+
+// 답변 내용 수정
+function createBox(replycode , supcode){
+    console.log('replyUpdate()');
+    // 수정을 위한 텍스트 입력 창 먼저 출력
+    // 어디에 
+    let replyUpdatebox = document.querySelector(".replyUpdatebox");
+    // 무엇을
+    let html = `<th> 답변수정내용  </th>
+                <td colspan="5"> <input type="text" class="replycontent" placeholder="수정할 내용을 입력하세요" onkeypress="handleKeyPress(event, '${replycode}' , '${supcode}')"/> </td>`;
+    // 출력
+    replyUpdatebox.innerHTML = html;
+    replyUpdate(replycode , supcode);
+}   // createBox() end
+
+// 키보드 입력을 처리하는 함수
+function handleKeyPress(event, replycode , supcode) {
+    // Enter 키가 눌렸는지 확인 (키코드 13은 Enter 키)
+    if (event.keyCode === 13) {
+        event.preventDefault(); // 폼 제출 방지 (필요한 경우)
+        submitUpdate(replycode , supcode); // 서버 요청 함수 호출
+    }
+}   // handleKeyPress() end
+
+// 답변 수정 요청을 서버로 보내는 함수
+function submitUpdate(replycode , supcode){
+    // 출력 후 입력된 값 가져오기
+    let replycontent = document.querySelector(".replycontent").value;
+    console.log(replycontent);
+    // 입력 내용이 비어 있는 경우 경고 메시지
+    if (!replycontent) {
+        alert('답변 내용을 입력해 주세요.');
+        return;
+    }
+    // 객체 만들어서 전달
+    let info = {
+        replycontent : replycontent , replycode : replycode
+    }
+    console.log(info);
+    // ajax 통신
+    $.ajax({
+        async : false , 
+        method : "put" , 
+        url : "/support/respedit" , 
+        data : JSON.stringify(info) , // 객체를 JSON 문자열로 변환
+        contentType : "application/json" , 
+        success : (r) => {
+            console.log(r);
+            if(r){
+                alert('답변수정성공');
+                replyRead(supcode);     // 새로고침
+                supDetailRead(supcode);
+            }else{
+                alert('답변수정실패')
+            }
+        } , 
+        error : (e) => {
+            console.log(e);
+        }
+    })  // ajax end
+}   // submitUpdate() end

@@ -27,4 +27,6 @@ public class SupportDto {
     private String memcontact;
     // 상품코드에 따른 상품 이름
     private String prodname;
+    // 답변코드
+    private int replycode;
 }   // class end

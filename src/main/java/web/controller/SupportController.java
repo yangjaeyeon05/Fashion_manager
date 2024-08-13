@@ -68,4 +68,12 @@ public class SupportController {
         return supportService.replyDelete(supcode);
     }   // replyDelete() end
 
+    // 8. 답변수정
+    @PutMapping("/respedit")
+    public boolean replyUpdate(@RequestBody ReplyDto replyDto){
+        System.out.println("SupportController.replyUpdate");
+        System.out.println("replyDto = " + replyDto);
+        return supportService.replyUpdate(replyDto);
+    }   // replyUpdate() end
+
 }   // class end

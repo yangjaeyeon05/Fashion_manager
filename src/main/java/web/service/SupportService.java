@@ -115,4 +115,11 @@ public class SupportService {
         return supportDao.replyDelete(supcode);
     }   // replyDelete() end
 
+    // 8. 답변수정
+    public boolean replyUpdate(ReplyDto replyDto){
+        System.out.println("SupportService.replyUpdate");
+        System.out.println("replyDto = " + replyDto);
+        return supportDao.replyUpdate(replyDto);
+    }   // replyUpdate() end
+
 }   // class end

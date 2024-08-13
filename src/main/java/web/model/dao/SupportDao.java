@@ -58,8 +58,10 @@ public class SupportDao extends Dao{
                 }else {
                     sql += " and ";
                 }
-                sql += " supdate between " + "'"+supportSearchDto.getStartDate()+"'" + " and " + "'"+supportSearchDto.getEndDate()+"' order by supcode desc";
+                sql += " supdate between " + "'"+supportSearchDto.getStartDate()+"'" + " and " + "'"+supportSearchDto.getEndDate();
             }
+            sql += " order by support.supcode desc";
+
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
@@ -86,7 +88,7 @@ public class SupportDao extends Dao{
         System.out.println("SupportDao.supRead");
         System.out.println("supcode = " + supcode);
         try{
-            String sql = "select * from support inner join members on support.memcode = members.memcode where supcode = ?";   // support 테이블과 reply 테이블 모두에 supcode가 있어서 오류 어느 테이블의 supcode인지 명시해줘야함
+            String sql = "select * from support inner join members on support.memcode = members.memcode inner join reply on support.supcode = reply.supcode where support.supcode = ?";   // support 테이블과 reply 테이블 모두에 supcode가 있어서 오류 어느 테이블의 supcode인지 명시해줘야함
             PreparedStatement ps = conn.prepareStatement(sql);
             System.out.println("sql = " + sql);
             ps.setInt(1 , supcode);
@@ -104,6 +106,7 @@ public class SupportDao extends Dao{
                         .proddetailcode(rs.getInt("proddetailcode"))
                         .supcontent(rs.getString("supcontent"))
                         .supdate(rs.getString("supdate"))
+                        .replycode(rs.getInt("replycode"))
                         .build();
                 System.out.println("supportDto = " + supportDto);;
                 // 상품코드에 따른 상품이름 출력하기
@@ -209,5 +212,24 @@ public class SupportDao extends Dao{
         }
         return false;
     }   // replyDelete() end
+
+    // 8. 답변수정
+    public boolean replyUpdate(ReplyDto replyDto){
+        System.out.println("SupportDao.replyUpdate");
+        System.out.println("replyDto = " + replyDto);
+        try{
+            String sql = "update reply set replycontent = ? where replycode = ?"; // supcode를 받아서 그 조건으로 답변내용 수정하기
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1 , replyDto.getReplycontent());
+            ps.setInt(2 , replyDto.getReplycode());
+            int count = ps.executeUpdate();
+            if(count==1){
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }   // replyUpdate() end
 
 }   // class end

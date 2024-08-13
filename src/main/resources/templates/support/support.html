@@ -75,26 +75,28 @@
                     <button class="btn btn-success" type="button" onclick="onSearch()"> 검색 </button>                        
                 </div>
             </div> <!-- searchBox end -->
-            <div > <!-- 상담목록 -->
+            <div> <!-- 상담목록 -->
                 <div class="ref">
                     <span> * 문의제목을 클릭하시면 상세한 문의내역을 확인할 수 있습니다. </span>
                 </div>
-                <table class="dataBox table">
-                    <thead>
-                        <tr>
-                            <th> 상담코드 </th>
-                            <th> 접수일 </th>
-                            <th> 처리상태 </th>
-                            <th> 주문번호 </th>
-                            <th> 문의유형 </th>
-                            <th> 문의제목 </th>
-                            <th> 작성자명 </th>
-                        </tr>
-                    </thead>
-                    <tbody class="supportPrintBox">
-                        
-                    </tbody>
-                </table>
+                <div class="table-wrapper">
+                    <table class="dataBox table">
+                        <thead class="dataBoxHead">
+                            <tr>
+                                <th> 상담코드 </th>
+                                <th> 접수일 </th>
+                                <th> 처리상태 </th>
+                                <th> 주문번호 </th>
+                                <th> 문의유형 </th>
+                                <th> 문의제목 </th>
+                                <th> 작성자명 </th>
+                            </tr>
+                        </thead>
+                        <tbody class="supportPrintBox">
+                            
+                        </tbody>
+                    </table>
+                </div>
             </div>  <!-- 상담목록 출력 end -->
             
             <!-- 상담 상세 출력 Modal -->
