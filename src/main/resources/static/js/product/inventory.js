@@ -36,6 +36,7 @@ function inventoryRead() {
                                 <button type="button" onclick="inventoryLog(${r.prodDetailcode})"> 재고 현황 업데이트 </button>
                             </td>
                             `
+                            // ===================================  2024-08-13 김민석 ========================================= //
                 $.ajax({
                     async: false,
                     method: 'get',
@@ -49,7 +50,8 @@ function inventoryRead() {
                             </tr>
                             `;
                     }
-                }) // ajax2 end 
+                }) // ajax2 end
+                // ===================================  2024-08-13 김민석 ========================================= //
             }); // forEach end 
             inventoryArea.innerHTML = html;
         } // ajax1 success end 

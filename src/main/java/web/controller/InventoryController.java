@@ -41,5 +41,5 @@ public class InventoryController {
         System.out.println("inventoryDto = " + inventoryDto);
         return inventoryService.inventoryAlarm(inventoryDto);           // inventoryService 에서 inventoryAlarm 에 inventoryDto 를 매개변수로 보내고 받은 String 값을 그대로 반환함.
     }
-
+    // ===================================  2024-08-13 김민석 ========================================= //
 }
