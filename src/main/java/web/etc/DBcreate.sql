@@ -101,10 +101,10 @@ create table invlog(					# 재고현황
     proddetailcode int not null,			# 상품상세코드FK
     invlogchange smallint not null,			# 재고변경 (-2, 10 등)
     invlogdetail tinyint not null, 		# 재고변경내역 1. 재고입고 2. 판매 3. 취소 4. 환불
+    invdate date not null default (current_date), # 재고 들어온 시간
     primary key (invlogcode),
     foreign key (proddetailcode) references productdetail(proddetailcode)
 	);
-
 drop table if exists support;
 create table support(					# 상담
 	supcode int auto_increment,				# 상담코드PK
