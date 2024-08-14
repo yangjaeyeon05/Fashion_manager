@@ -48,5 +48,12 @@ public class InventoryService {
         return "";                                                              // 만약 productDto 에 저장되어 있는 prodAmount 값이 10 이하가 아니라면 String ""를 반환
     }
 
+    // ===================================  2024-08-13 김민석 ========================================= //
 
+    public List<InventoryDto> inventoryChart(InventoryDto inventoryDto){
+        System.out.println("inventoryDto = " + inventoryDto);
+        return inventoryDao.inventoryChart(inventoryDto);
+    }
+
+    // ===================================  2024-08-14 김민석 ========================================= //
 }

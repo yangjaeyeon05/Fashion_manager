@@ -15,4 +15,6 @@ public class InventoryDto {
     private int proddetailcode;
     private int invlogchange;
     private int invlogdetail;
+    private String invdate;
+    private int prodAmount;
 }

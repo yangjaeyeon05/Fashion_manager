@@ -1,5 +1,6 @@
 console.log("inventory.js");
 
+
 inventoryRead();
 function inventoryRead() {
     let inventoryArea = document.querySelector("#inventoryArea");
@@ -35,7 +36,12 @@ function inventoryRead() {
                                 <input type="text" id="inventoryChange${r.prodDetailcode}">
                                 <button type="button" onclick="inventoryLog(${r.prodDetailcode})"> 재고 현황 업데이트 </button>
                             </td>
+                            <td>
+                                <button type="button" onclick="inventoryChart(${r.prodDetailcode})"> 재고 업데이트 그래프 </button>
+                                <canvas id="myChart${r.prodDetailcode}" width="300" height="100"></canvas>
+                            </td>
                             `
+                // ===================================  2024-08-13 김민석 ========================================= //
                 $.ajax({
                     async: false,
                     method: 'get',
@@ -49,7 +55,8 @@ function inventoryRead() {
                             </tr>
                             `;
                     }
-                }) // ajax2 end 
+                }) // ajax2 end
+                // ===================================  2024-08-13 김민석 ========================================= //
             }); // forEach end 
             inventoryArea.innerHTML = html;
         } // ajax1 success end 
@@ -91,3 +98,38 @@ function inventoryLog(prodDetailcode) {
 
 //
 // ===================================  2024-08-12 김민석 ========================================= //
+
+function inventoryChart(prodDetailcode) {
+    let myCt = document.getElementById(`myChart${prodDetailcode}`);
+    $.ajax({
+        async: false,
+        method: "get",
+        url: "/inventory/chart",
+        data: { proddetailcode: prodDetailcode },
+        success: function response(result) {
+            chartXlabel = [];
+            chartYlabel = [];
+            console.log(result);
+            result.forEach(r => {
+                chartXlabel.push(r.invdate);
+                chartYlabel.push(r.prodAmount);
+            })
+            console.log(chartXlabel);
+            console.log(chartYlabel);
+            let myChart = new Chart(myCt, {
+                type: 'bar',
+                data: {
+                    labels: chartXlabel,
+                    datasets: [
+                        {
+                            label: '일별 재고 현황',
+                            data: chartYlabel,
+                        }
+                    ]
+                },
+            });
+        }
+    })
+}
+
+// ===================================  2024-08-14 김민석 ========================================= //
