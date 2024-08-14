@@ -1,3 +1,21 @@
+body{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.main{
+    width: 30%;
+    display: block;
+    justify-content: center;
+}
 .loginArea {
-    margin-left: 250px;
+    width: 100%;
+    max-width: 400px; /* 폼 최대 너비 */
+    margin: 0 auto;
+}
+.adminLogin{
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
 }

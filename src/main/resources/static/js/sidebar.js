@@ -30,3 +30,27 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// 로그인정보출력
+doLoginCheck();
+function doLoginCheck(){
+    console.log('doLoginCheck()')
+    // 어디에
+    let myinfo = document.querySelector(".myinfo")
+    //무엇을
+    let html = ``;
+    $.ajax({
+        async: false,
+        method: "get",
+        url: "/admin/login/check",
+        success: function response(result) {
+            if (result == '') {
+                console.log("비 로그인 상태");
+            } else {
+                console.log("로그인 상태");
+                html += `${result.adminid}님 환영합니다.`;
+            }
+        }
+    })
+    // 출력
+    myinfo.innerHTML = html;
+}

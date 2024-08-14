@@ -34,7 +34,7 @@ public class SupportController {
 
     // 3. 상담내용 상세 출력 내 답글 출력하기
     @GetMapping("/respread")
-    public String replyRead(int supcode){
+    public ReplyDto replyRead(int supcode){
         System.out.println("SupportController.replyRead");
         System.out.println("supcode = " + supcode);
         return supportService.replyRead(supcode);

@@ -75,8 +75,11 @@ public class SupportService {
         System.out.println("SupportService.supRead");
         System.out.println("supcode = " + supcode);
         SupportDto supportDto = supportDao.supRead(supcode);                // dao에서 supcode에 맞는 dto 받아오기
-        String supcategoryname = convertSupCa(supportDto.getSupcode());     // 카테고리 번호가 아닌 이름으로 출력해야하기 때문에 변환
-        System.out.println(supportDto.getSupcode());
+        if(supportDto == null){
+            return null;
+        }
+        System.out.println("supportDto = " + supportDto);
+        String supcategoryname = convertSupCa(supcode);     // 카테고리 번호가 아닌 이름으로 출력해야하기 때문에 변환
         System.out.println("SupportService.supRead");
         String supstatename = convertSupState(supportDto.getSupstate());    // 처리상태 번호가 아닌 이름으로 출력해야하기 때문에 변환
         supportDto.setSupcategoryname(supcategoryname);                     // 변환 후 dto에 넣어주기
@@ -85,7 +88,7 @@ public class SupportService {
     }   // supRead() end
 
     // 3. 상담내용 상세 출력 내 답글 출력하기
-    public String replyRead(int supcode){
+    public ReplyDto replyRead(int supcode){
         System.out.println("SupportService.replyRead");
         System.out.println("supcode = " + supcode);
         return supportDao.replyRead(supcode);

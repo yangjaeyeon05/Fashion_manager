@@ -23,16 +23,16 @@ public class SupportDao extends Dao{
         try{
             String sql = "select * from support inner join members on members.memcode = support.memcode ";
             // 문의 유형 조건
-            if(supportSearchDto.getSupcode() >=1){  // supcode가 존재하면
-                sql += " where supcode = " + supportSearchDto.getSupcode();
+            if(supportSearchDto.getSupcategory() >=1){  // supcategory 존재하면
+                sql += " where supcategory = " + supportSearchDto.getSupcategory();
             }
             // 처리상태 조건
             if(supportSearchDto.getSupstate() == 0){    // supstate가 존재하지 않으면 그냥 넘어가기
 
-            }else {                                     // supstate가 존재해서
-                if(supportSearchDto.getSupcode() >=1){  // supcode가 있으면
+            }else {                                     // supcategory 존재해서
+                if(supportSearchDto.getSupcategory() >=1){  // supcategory 있으면
                     sql += " and ";
-                }else {                                 // supcode가 없으면
+                }else {                                 // supcategory 없으면
                     sql += " where ";
                 }
                 sql += " supstate = " + supportSearchDto.getSupstate();
@@ -41,7 +41,7 @@ public class SupportDao extends Dao{
             if(supportSearchDto.getSearchKeyword().isEmpty()){  // 검색 조건이 없으면
 
             }else{                                              // 검색 조건이 있으면
-                if(supportSearchDto.getSupcode() == 0 && supportSearchDto.getSupstate() == 0){  // 검색 조건이 있는데 supcode , supstate가 없으면
+                if(supportSearchDto.getSupcategory() == 0 && supportSearchDto.getSupstate() == 0){  // 검색 조건이 있는데 supcode , supstate가 없으면
                     sql += " where ";
                 }else{
                     sql += " and ";
@@ -52,16 +52,16 @@ public class SupportDao extends Dao{
             if(supportSearchDto.getStartDate().isEmpty()) {  // 만약 시작하는 날짜가 없으면 -> 기간 설정 검색을 하지 않는다.
 
             }else {
-                if(supportSearchDto.getSupcode() == 0 && supportSearchDto.getSupstate() == 0 && supportSearchDto.getSearchKeyword().isEmpty()){
+                if(supportSearchDto.getSupcategory() == 0 && supportSearchDto.getSupstate() == 0 && supportSearchDto.getSearchKeyword().isEmpty()){
                     // 기간 검색을 할건데 supcode , supstate , searchKeyword가 없으면
                     sql += " where ";
                 }else {
                     sql += " and ";
                 }
-                sql += " supdate between " + "'"+supportSearchDto.getStartDate()+"'" + " and " + "'"+supportSearchDto.getEndDate();
+                sql += " supdate between " + "'"+supportSearchDto.getStartDate()+"'" + " and " + "'"+supportSearchDto.getEndDate()+"'";
             }
             sql += " order by support.supcode desc";
-
+            System.out.println(sql);
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
@@ -87,16 +87,22 @@ public class SupportDao extends Dao{
     public SupportDto supRead(int supcode){
         System.out.println("SupportDao.supRead");
         System.out.println("supcode = " + supcode);
+        SupportDto supportDto = null;
+
         try{
-            String sql = "select * from support inner join members on support.memcode = members.memcode inner join reply on support.supcode = reply.supcode where support.supcode = ?";   // support 테이블과 reply 테이블 모두에 supcode가 있어서 오류 어느 테이블의 supcode인지 명시해줘야함
+            String sql = "select * from support inner join members on support.memcode = members.memcode where supcode = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             System.out.println("sql = " + sql);
             ps.setInt(1 , supcode);
+            System.out.println(supcode);
+            System.out.println(ps);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){      // 상담코드 , 문의유형 , 처리상태 , 작성자명 , 작성자이메일 , 작성자 연락처 , 주문번호 , 상품코드 , 문의내용 , 접수일 , 답변내용 출력
+            System.out.println(rs);
+            if(rs.next()){      // 상담코드 , 문의유형 , 처리상태 , 작성자명 , 작성자이메일 , 작성자 연락처 , 주문번호 , 상품코드 , 문의내용 , 접수일 , 답변코드출력
+                // System.out.println(rs.next()); 프린트로 next를 찍으면 다음행으로 한번 더 넘어가기 때문에 안됨..
                 // 상담 상세 내용 객체 생성
-                SupportDto supportDto = SupportDto.builder()
-                        .supcode(rs.getInt("supcode"))
+                supportDto = SupportDto.builder()
+                        .supcode(supcode)
                         .supcategory(rs.getInt("supcategory"))
                         .supstate(rs.getInt("supstate"))
                         .memname(rs.getString("memname"))
@@ -106,42 +112,42 @@ public class SupportDao extends Dao{
                         .proddetailcode(rs.getInt("proddetailcode"))
                         .supcontent(rs.getString("supcontent"))
                         .supdate(rs.getString("supdate"))
-                        .replycode(rs.getInt("replycode"))
                         .build();
-                System.out.println("supportDto = " + supportDto);;
+                System.out.println("supportDto = " + supportDto);
                 // 상품코드에 따른 상품이름 출력하기
                 String sql2 = "select * from product inner join productdetail on product.prodcode = productdetail.prodcode where proddetailcode = ?;";
                 PreparedStatement ps2 = conn.prepareStatement(sql2);
                 ps2.setInt(1 , rs.getInt("proddetailcode"));
                 ResultSet rs2 = ps2.executeQuery();
+
                 if(rs2.next()){
                     supportDto.setProdname(rs2.getString("prodname"));
                 }
-                return supportDto;
             }
         }catch (Exception e){
             System.out.println(e);
         }
-        return null;
+        return supportDto;
     }   // supRead() end
 
     // 3. 상담내용 상세 출력 내 답글 출력하기
-    public String replyRead(int supcode){
+    public ReplyDto replyRead(int supcode){
         System.out.println("SupportDao.replyRead");
         System.out.println("supcode = " + supcode);
-        String replycontent = "";
+        ReplyDto replyDto = new ReplyDto();
         try{
             String sql = "select * from reply where supcode = '"+supcode+"'";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                replycontent = rs.getString("replycontent");
-                return replycontent;
+                replyDto.setReplycode(rs.getInt("replycode"));
+                replyDto.setReplycontent(rs.getString("replycontent"));
+                System.out.println(replyDto);
             }
         }catch (Exception e){
             System.out.println(e);
         }
-        return replycontent;
+        return replyDto;
     }   // replyRead() end
 
     // 4. 답글달기

@@ -545,6 +545,5 @@ insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode,
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (77, 2, 10, 5, 5, 17000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (44, 4, 1, 2, 2, 10000);
 
-
-
-select * from support inner join members on support.memcode = members.memcode inner join reply on support.supcode = reply.supcode; 
+select * from support;
+select * from support inner join members on support.memcode = members.memcode where supcode = 9;
