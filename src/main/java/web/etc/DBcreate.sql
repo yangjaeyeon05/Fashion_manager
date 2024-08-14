@@ -42,7 +42,7 @@ create table productdetail(				# 상품상세정보
     foreign key (prodcatecode) references productcategory(prodcatecode),
     foreign key (colorcode) references color(colorcode)
     );
-
+select * from productdetail a inner join product b on a.prodcode=b.prodcode inner join productcategory c on a.prodcatecode=c.prodcatecode inner join color d on a.colorcode=d.colorcode;
     
 drop table if exists members;
 create table members(					# 회원
@@ -547,3 +547,14 @@ insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode,
 
 select * from support;
 select * from support inner join members on support.memcode = members.memcode where supcode = 9;
+
+use fashionmanager;
+select * from product;
+select * from productdetail;
+select * from productdetail where proddate between '2022-01-01' and '2022-01-03';
+select *
+from productdetail a inner join product b on a.prodcode=b.prodcode inner join productcategory c on a.prodcatecode=c.prodcatecode inner join color d
+on a.colorcode=d.colorcode where a.proddate between '"2022-01-01"' and '"2022-01-03"'
+
+
+
