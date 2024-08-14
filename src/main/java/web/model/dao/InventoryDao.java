@@ -98,4 +98,28 @@ public class InventoryDao extends Dao{
     }
 
     // ===================================  2024-08-13 김민석 ========================================= //
+
+    public List<InventoryDto> inventoryChart(InventoryDto inventoryDto){
+        List<InventoryDto> list = new ArrayList<>();
+        try{
+            String sql = "select sum(i.invlogchange) sum, pd.proddetailcode, invdate from invlog i inner join productdetail pd on i.proddetailcode = pd.proddetailcode where pd.proddetailcode = ? group by i.invdate";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1,inventoryDto.getProddetailcode());
+
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                list.add(InventoryDto
+                        .builder()
+                        .prodAmount(rs.getInt("sum"))
+                        .invdate(rs.getString("invdate"))
+                        .build());
+            }
+        }catch (Exception e){
+            System.out.println("에러 정보는 " + e);
+        }
+        return list;
+    }
+
+    // ===================================  2024-08-14 김민석 ========================================= //
 }
