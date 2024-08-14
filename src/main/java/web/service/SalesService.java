@@ -16,29 +16,61 @@ public class SalesService {
     private FileService fileService;
 
     // [0] 최근 일주일 매출 조회 (레코드 : 일 단위)
-    public ArrayList<SalesDto> weeklySales() {
+    public ArrayList<SalesDto> weeklySales(){
         return salesDao.weeklySales();
     }
 
     // [1] 총 매출 조회 (레코드 단위 : 연도)
-    public ArrayList<SalesDto> totalSales() {
+    public ArrayList<SalesDto> totalSales(){
         return salesDao.totalSales();
     }
 
-    // [2] 연매출 조회 (레코드 : 월 단위)
-    public ArrayList<SalesDto> yearlySales(int year) {
+    // [1-1] 연매출 조회 (레코드 단위 : 월)
+    public ArrayList<SalesDto> yearlySales(int year){
         return salesDao.yearlySales(year);
     }
 
-    // [3] 월간 매출 조회 (레코드 : 일 단위)
-    public ArrayList<SalesDto> monthlySales(int year, int month) {
-
+    // [1-2] 월간 매출 조회 (레코드 : 일 단위)
+    public ArrayList<SalesDto> monthlySales(int year, int month){
         return salesDao.monthlySales(year, month);
     }
+    // [2] 총 판매된 제품 순위
+    public ArrayList<SalesDto> totalProducts(){
+        return salesDao.totalProducts();
+    }
 
-    // [] 현재 테이블을 엑셀 파일로 내보내기
+    // [2-1] 연간 판매된 제품 순위
+    public ArrayList<SalesDto> yearlyProducts(int year){
+        return salesDao.yearlyProducts(year);
+    }
 
-    // 연 판매 상품 목록
+    // [2-2] 월간 판매된 제품 순위
+    public ArrayList<SalesDto> monthlyProducts(int year, int month){
+        return salesDao.monthlyProducts(year, month);
+    }
 
-    // 2주간 판매 추이
+    // [3] 쿠폰코드별
+    public ArrayList<SalesDto> coupons(){
+        return salesDao.coupons();
+    }
+
+    // [4] 판매추이 (최근 2주간)
+    public ArrayList<SalesDto> biweeklySales(){
+        return salesDao.biweeklySales();
+    }
+
+    // [5] 회원성향분석
+    public ArrayList<SalesDto> memberPreferences(){
+        return salesDao.memberPreferences();
+    }
+
+    // [6] 대비기간매출, 날짜구간1 2000-00-00 ~ 2000-00-00 vs 날짜구간2 2000-00-00 ~ 2000-00-00
+    public ArrayList<ArrayList<SalesDto>> compareDates(String firstDate, String secondDate){
+        return salesDao.compareDates(firstDate, secondDate);
+    }
+
+    // [7] 색상 및 크기별 매출 현황, 날짜구간 2000-00-00 ~ 2000-00-00
+    public ArrayList<SalesDto> colorSize (String startDate, String endDate){
+        return salesDao.colorSize(startDate, endDate);
+    }
 }

@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>매출분석</title>
-
     <style>
+        * {
+            padding: 0; margin-left: 0px; box-sizing: border-box;
+            border: 1px solid blue;
+        }
         #wrap {
-            margin-left: 250px;
+            width: 100%; margin-left: 250px;
         }
     </style>
     <!-- TODO -->
@@ -26,17 +29,19 @@
 
         <div class="row" id="main">
             <h3>최근 일주일 매출 현황</h3>
+            <select class="form-select">
+                <option selected value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+            </select>
+            <table class="table">
+                <thead>
+                    
+                </thead>
+            </table>
             <!-- 차트 -->
             <div style="width: 800px;"><canvas id="salesChart"></canvas></div>
-            <table class="table">
-                <div>테스트중 : 1년 목록</div>
-                <thead>
-                    <tr><th>날짜</th><th>주문건수</th><th>주문상품수</th><th>반품건수</th><th>취소건수</th><th>실주문상품수</th><th>총매출금액</th><th>할인금액</th><th>실매출금액</th></tr>
-                </thead>
-                <tbody id="tableBox">
-                </tbody>
-            </table>
-
         </div>
     </div>
     <!--TODO-->
