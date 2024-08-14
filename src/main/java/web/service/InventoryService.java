@@ -49,4 +49,11 @@ public class InventoryService {
     }
 
     // ===================================  2024-08-13 김민석 ========================================= //
+
+    public List<InventoryDto> inventoryChart(InventoryDto inventoryDto){
+        System.out.println("inventoryDto = " + inventoryDto);
+        return inventoryDao.inventoryChart(inventoryDto);
+    }
+
+    // ===================================  2024-08-14 김민석 ========================================= //
 }
