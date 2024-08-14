@@ -14,6 +14,18 @@ let dataList = []
 drawChart(data1)
 getSalesData()
 
+// 엑셀로 테이블 데이터 다운받기
+function excelExport(){
+    $.ajax({
+        method : "GET",
+        url : "/file/export/excel",
+        success : r => {
+            console.log(r);
+            
+        }
+    })
+}
+
 // 테이블에 오늘부터 일주일 전까지 날짜 및 데이터 가져오는 함수
 function getSalesData(){
     let today = new Date();  // 오늘 날짜
