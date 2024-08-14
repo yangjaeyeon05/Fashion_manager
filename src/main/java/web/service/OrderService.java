@@ -42,14 +42,14 @@ public class OrderService {
 
     //주문목록 날짜 출력함수
     public PagenationDto<OrderdetailDto> getorder(int category ,int page , int size, String firstdate,String todayDate){
-        System.out.println("page = " + page);
-        System.out.println("size = " + size);
+//        System.out.println("page = " + page);
+//        System.out.println("size = " + size);
         int offset = (page - 1) * size; //현재 페이지(1) - 1 * 표시될 데이터수(10)
-        System.out.println("offset = " + offset);
+//        System.out.println("offset = " + offset);
 
         ArrayList<OrderdetailDto> ordstat = orderDao.getorder(category,offset,size,firstdate,todayDate);
 
-        int totalOrders = orderDao.getTotalOrdersCount();
+        int totalOrders = orderDao.getTotalOrdersCount(category,firstdate,todayDate);
         int totalPages = totalOrders / size;
 
         ordstat.forEach( dto -> {

@@ -147,7 +147,7 @@ orderall();
 //   }) //ajax end
 //} //function end
 
-//날짜 검색 함수
+//페이지 전체 검색 종합
 function orderall(page = 1, size = 10){
 
  let firstdate = document.querySelector('.firstdate').value;
@@ -157,6 +157,7 @@ function orderall(page = 1, size = 10){
     console.log(firstdate);
     console.log(todayDate);
     console.log(ordcatagory);
+
 
     $.ajax({
         async : false,
