@@ -12,7 +12,7 @@
 
 <body>
     <div th:replace="~{/sidebar.html:: sidebar}"></div>
-
+    <!-- // ===================================  2024-08-13 김민석 html 수정(테이블) ========================================= //-->
     <div class="inventoryArea">
         <h3> 재고 관리 페이지 </h3>
         <table class="table">
@@ -34,6 +34,9 @@
                         비고
                     </th>
                     <th>
+                        그래프 출력
+                    </th>
+                    <th>
                         재고 알림
                     </th>
                 </tr>
@@ -44,8 +47,8 @@
         </table>
 
     </div>
-
-
+    <!-- // ===================================  2024-08-13 김민석 html 수정(테이블) ========================================= // -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
     <script src='/js/product/inventory.js'></script>
 </body>
 

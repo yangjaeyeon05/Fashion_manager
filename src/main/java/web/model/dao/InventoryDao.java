@@ -96,4 +96,32 @@ public class InventoryDao extends Dao{
         }
         return null;
     }
+
+    // ===================================  2024-08-13 김민석 ========================================= //
+
+    public List<InventoryDto> inventoryChart(InventoryDto inventoryDto){
+        List<InventoryDto> list = new ArrayList<>();
+        try{
+            // 재고 수량 합계와 재고 입고 날짜를 group by i.invdate 를 통해서 날짜별로 묶어서 가져옴
+            String sql = "select sum(i.invlogchange) sum, pd.proddetailcode, invdate from invlog i inner join productdetail pd on i.proddetailcode = pd.proddetailcode where pd.proddetailcode = ? group by i.invdate";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1,inventoryDto.getProddetailcode());
+
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                // 리스트에 InventoryDto 타입으로 재고 수량, 재고 입고 날짜 Set 함
+                list.add(InventoryDto
+                        .builder()
+                        .prodAmount(rs.getInt("sum"))
+                        .invdate(rs.getString("invdate"))
+                        .build());
+            }
+        }catch (Exception e){
+            System.out.println("에러 정보는 " + e);
+        }
+        return list;
+    }
+
+    // ===================================  2024-08-14 김민석 ========================================= //
 }

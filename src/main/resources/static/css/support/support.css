@@ -75,10 +75,6 @@
 .replycontentBox{
     width: 100%;
 }
-.replycontent{
-    width: 100%;
-}
-
 
 /* 테이블을 감싸는 div */
 .table-wrapper {
@@ -116,4 +112,14 @@
 /* tr 레이아웃 조정 */
 .table-wrapper tr {
     display: flex; /* flexbox 사용 */
+}
+
+.replyBox{
+    display: flex;
+    justify-content: space-between;
+}
+
+.updateBox{
+    display: flex;
+    justify-content: space-between;
 }

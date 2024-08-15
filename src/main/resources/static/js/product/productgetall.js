@@ -44,71 +44,77 @@ let searchInfo = {
 }
 
 productAllread();
-// 검색버튼 눌렀을 때
+// 검색버튼 눌렀을 때 08.14
 function onSearch(){
     console.log('onSearch()');
-    let supcode = document.querySelector('.supcodeBox').value;
-    let supstate = document.querySelector('.supstateBox').value;
-    let searchKey = document.querySelector('.searchKey').value;
-    let searchKeyword = document.querySelector('.searchKeyword').value;
+    let prodCatecode = document.querySelector('#prodCatecode').value;
+    let colorCode = document.querySelector('#colorCode').value;
+    let prodSize = document.querySelector('#prodSize').value;
+    let searchKeyword = document.querySelector('#searchKeyword').value;
     let startDate = document.querySelector('.startDate').value;
     let endDate = document.querySelector('.endDate').value;
-    searchInfo.supcode = supcode;
-    searchInfo.supstate = supstate;
-    searchInfo.searchKey = searchKey;
+    let minPrice=document.querySelector('.minPrice').value;
+    let maxPrice=document.querySelector('.maxPrice').value;
+    let prodGender=document.querySelector('#prodGender').value;
+    if(minPrice==""){minPrice=0}
+    if(maxPrice==""){maxPrice=0}
+    searchInfo.prodCatecode = prodCatecode;
+    searchInfo.colorCode = colorCode;
+    searchInfo.prodSize = prodSize
     searchInfo.searchKeyword = searchKeyword;
     searchInfo.startDate = startDate;
     searchInfo.endDate = endDate;
+    searchInfo.minPrice=minPrice;
+    searchInfo.maxPrice=maxPrice;
+    searchInfo.prodGender=prodGender;
     console.log(searchInfo);
+    
     // 새로고침
     productAllread();
 }
-// 상품목록 전체 출력
+// 상품목록 전체 출력 08.14
 function productAllread(){
-    console.log('supAllread()');
-    let supportList = [];
+    console.log('productAllread()');
+    let productList = [];
     $.ajax({
         async : false , 
         method : 'get' , 
-        url : "/support/allread" ,
+        url : "/product/getall" ,
         data : searchInfo , // 전역변수 보내기
         success : (r) => {
             console.log(r);
-            supportList = r;
+            productList = r;
         } , 
         error : (e) =>{
             console.log(e); 
         }
     })  // ajax end
     // 어디에
-    let supportPrintBox = document.querySelector(".supportPrintBox");
+    let productPrint = document.querySelector(".productPrint");
     // 무엇을
     let html = ``;
-    supportList.forEach( s => {
+    productList.forEach( p => {
             html += `<tr>
-                        <td> ${s.supcode} </td>
-                        <td> ${s.supdate} </td>
-                        <td> ${s.supstatename} </td>`;
-            if(s.ordcode != 0){
-                html += `<td> ${s.ordcode} </td>`;
-            }else{
-                html += `<td> </td>`;
-            }                    
-            html += `<td> ${s.supcategoryname} </td>
-                        <td>
-                            <a href="#" class="supDetailLink" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-id="${s.supcode}"> ${s.suptitle} </a> 
-                        </td>
-                        <td> ${s.memname} </td>
-                    </tr> `;
+                        <th scope="row">${p.prodDetailcode}</th>
+                        <td>${p.prodName}</td>
+                        <td>${p.prodPrice}</td>
+                        <td>${p.prodGender}</td>
+                        <td>${p.prodCatename}</td>
+                        <td>${p.colorName}</td>
+                        <td>${p.prodSize}</td>
+                        <td>${p.prodDate}</td>
+                        <td><a href="/file/download?filename=${p.prodFilename}">${p.prodFilename==null?"":p.prodFilename.split('_')[1]}</a></td>
+                    </tr>`;
+            
         }
     )   // forEach end
     // 출력
-    supportPrintBox.innerHTML = html;
+    productPrint.innerHTML = html;
 }
 getColor();
-function getColor(){
-    let color=document.querySelector('#productColor');
-    let html='';
+function getColor(){//08.14
+    let color=document.querySelector('#colorCode');
+    let html='<option value=0>전체</option>';
     $.ajax({
         async:false, method:'get',
         url:"/product/color",
@@ -122,9 +128,9 @@ function getColor(){
     })
 };
 getCategory();
-function getCategory(){
-    let category=document.querySelector('#productCategory');
-    let html='';
+function getCategory(){//08.14
+    let category=document.querySelector('#prodCatecode');
+    let html='<option value=0>전체</option>';
     $.ajax({
         async:false, method:'get',
         url:"/product/category",

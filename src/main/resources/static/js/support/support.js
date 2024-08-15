@@ -32,7 +32,7 @@ function changeDate(day){
 
 // 검색 기능 객체 컨셉 상 검색 조건이 문의 유형별 , 처리상태별 , 검색별 , 기간별 이므로 해당하는 객체 만들어주기
 let searchInfo = {
-    supcode : 0 , 
+    supcategory : 0 , 
     supstate : 0 , 
     searchKey : '' , 
     searchKeyword : '' , 
@@ -44,13 +44,13 @@ supAllread();
 // 검색버튼 눌렀을 때
 function onSearch(){
     console.log('onSearch()');
-    let supcode = document.querySelector('.supcodeBox').value;
+    let supcategory = document.querySelector('.supcodeBox').value;
     let supstate = document.querySelector('.supstateBox').value;
     let searchKey = document.querySelector('.searchKey').value;
     let searchKeyword = document.querySelector('.searchKeyword').value;
     let startDate = document.querySelector('.startDate').value;
     let endDate = document.querySelector('.endDate').value;
-    searchInfo.supcode = supcode;
+    searchInfo.supcategory = supcategory;
     searchInfo.supstate = supstate;
     searchInfo.searchKey = searchKey;
     searchInfo.searchKeyword = searchKeyword;
@@ -179,7 +179,6 @@ function supDetailRead(supcode){
                     </table>
                     <div class="replyBtn">
                         <button type="button" class="btn btn-success btn-sm" onclick="replyAdd(${supcode})"> 답변등록 </button>
-                        <button type="button" class="btn btn-success btn-sm" onclick="createBox(${r.replycode} , ${supcode})"> 답변수정 </button>
                         <button type="button" class="btn btn-success btn-sm" onclick="replyDelete(${supcode})"> 답변삭제 </button>
                         <button type="button" class="btn btn-success btn-sm" onclick="replyUpdateTocom(${supcode})" > 상담완료 </button>
                     </div>    
@@ -201,6 +200,7 @@ function supDetailRead(supcode){
 
 // 답글 출력
 function replyRead(supcode){
+    console.log('replyRead()')
     // 어디에
     let replyPrint = document.querySelector('.replyPrint');
     let html = ``;
@@ -212,8 +212,12 @@ function replyRead(supcode){
         success : (r) => {
             console.log(r);
             if (replyPrint) {               // document.querySelector로 요소 가져올 경우 선택한 요소가 
-                if(r!=""){
-                    html += `${r}`;
+                if(r.replycontent!=null){
+                    html += `<div class="replyBox">
+                            ${r.replycontent}
+                            <button type="button" class="btn btn-success btn-sm" onclick="createBox(${r.replycode} , ${supcode})">답변수정</button>
+                            </div>
+                            `;
                 }else{
                     html += `<input style="width:100%;" type="text" class="replyContent" />`;
                 }
@@ -324,21 +328,19 @@ function createBox(replycode , supcode){
     // 어디에 
     let replyUpdatebox = document.querySelector(".replyUpdatebox");
     // 무엇을
-    let html = `<th> 답변수정내용  </th>
-                <td colspan="5"> <input type="text" class="replycontent" placeholder="수정할 내용을 입력하세요" onkeypress="handleKeyPress(event, '${replycode}' , '${supcode}')"/> </td>`;
+    let html = `
+                <th> 답변수정내용  </th>
+                <td colspan="5"> 
+                <div class="updateBox">
+                <input type="text" style="width:80%;"class="replycontent" placeholder="수정할 내용을 입력하세요" /> 
+                <button type="button" class="btn btn-success btn-sm" onclick="submitUpdate(${replycode} , ${supcode})">수정등록</button>
+                </div>
+                </td>
+                `;
     // 출력
     replyUpdatebox.innerHTML = html;
     replyUpdate(replycode , supcode);
 }   // createBox() end
-
-// 키보드 입력을 처리하는 함수
-function handleKeyPress(event, replycode , supcode) {
-    // Enter 키가 눌렸는지 확인 (키코드 13은 Enter 키)
-    if (event.keyCode === 13) {
-        event.preventDefault(); // 폼 제출 방지 (필요한 경우)
-        submitUpdate(replycode , supcode); // 서버 요청 함수 호출
-    }
-}   // handleKeyPress() end
 
 // 답변 수정 요청을 서버로 보내는 함수
 function submitUpdate(replycode , supcode){

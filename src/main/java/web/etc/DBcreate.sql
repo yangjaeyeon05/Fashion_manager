@@ -42,7 +42,7 @@ create table productdetail(				# 상품상세정보
     foreign key (prodcatecode) references productcategory(prodcatecode),
     foreign key (colorcode) references color(colorcode)
     );
-
+select * from productdetail a inner join product b on a.prodcode=b.prodcode inner join productcategory c on a.prodcatecode=c.prodcatecode inner join color d on a.colorcode=d.colorcode;
     
 drop table if exists members;
 create table members(					# 회원
@@ -101,10 +101,10 @@ create table invlog(					# 재고현황
     proddetailcode int not null,			# 상품상세코드FK
     invlogchange smallint not null,			# 재고변경 (-2, 10 등)
     invlogdetail tinyint not null, 		# 재고변경내역 1. 재고입고 2. 판매 3. 취소 4. 환불
+    invdate date not null default (current_date), # 재고 들어온 시간
     primary key (invlogcode),
     foreign key (proddetailcode) references productdetail(proddetailcode)
 	);
-
 drop table if exists support;
 create table support(					# 상담
 	supcode int auto_increment,				# 상담코드PK
@@ -545,6 +545,16 @@ insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode,
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (77, 2, 10, 5, 5, 17000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (44, 4, 1, 2, 2, 10000);
 
+select * from support;
+select * from support inner join members on support.memcode = members.memcode where supcode = 9;
+
+use fashionmanager;
+select * from product;
+select * from productdetail;
+select * from productdetail where proddate between '2022-01-01' and '2022-01-03';
+select *
+from productdetail a inner join product b on a.prodcode=b.prodcode inner join productcategory c on a.prodcatecode=c.prodcatecode inner join color d
+on a.colorcode=d.colorcode where a.proddate between '"2022-01-01"' and '"2022-01-03"'
 
 
-select * from support inner join members on support.memcode = members.memcode inner join reply on support.supcode = reply.supcode; 
+

@@ -1,7 +1,7 @@
 console.log("member.js");
 
 memberList();
-
+// ===================================  2024-08-13 김민석 html 수정(테이블) ========================================= //
 function memberList() {
     let memberArea = document.querySelector(".memberArea");
     let html = `
@@ -99,7 +99,7 @@ function memberList() {
     })
 
 }
-
+// ===================================  2024-08-13 김민석 html 수정(테이블) ========================================= //
 function memberEdit(memcode, blacklist) {
 
     console.log(memcode);

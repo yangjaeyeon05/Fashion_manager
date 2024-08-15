@@ -15,7 +15,6 @@
     <h3> 주문 목록페이지 </h3>
 
     <div>
-        조회기간 : <input type="date" class="firstdate" value="2024-08-01" style="width : 250px"/> ~ <input type='date' id="todayDate" style="width : 250px"/> <button type="button" style="width : 100px" ONCLICK="orderall()"> 검색 </button>
         <!--개수별 조회 삭제-->
         상세조건 : <select onclick="orderall()" class="ordcatagory">
         <option value="0">전체</option>
@@ -25,6 +24,7 @@
         <option value="4">주문취소</option>
         <option value="5">정산완료</option>
     </select>
+        조회기간 : <input type="date" class="firstdate" style="width : 250px"/> ~ <input type='date' id="todayDate" style="width : 250px"/> <button type="button" style="width : 100px" ONCLICK="orderall()"> 검색 </button>
     </div>
 
     <div>
