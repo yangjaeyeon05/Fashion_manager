@@ -1,5 +1,6 @@
 package web.model.dao;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,8 +15,10 @@ import java.util.ArrayList;
 public class SalesDao extends Dao{
 
     // 엑셀로 내보낼 ResultSet 생성 SQL문 세션 등록
+    // TODO : 회원 로그인 시 세션 생성해서 SQL 등록가능하게 하기?
     @Autowired
-    HttpSession session;
+    HttpServletRequest request;
+
 
     // [0] 최근 일주일 매출 조회 (레코드 : 일 단위)
     public ArrayList<SalesDto> weeklySales() {
@@ -37,7 +40,10 @@ public class SalesDao extends Dao{
             PreparedStatement ps = conn.prepareStatement(sql);
 
             // PreparedStatement 세션에 등록/교체
+            HttpSession session = request.getSession();
             session.setAttribute("currentSql", ps);
+            System.out.println(session.getAttribute("currentSql"));
+
 
             ResultSet rs = ps.executeQuery();
             while(rs.next()){ // ResultSet 추출하기
@@ -78,8 +84,6 @@ public class SalesDao extends Dao{
                     "group by year(orddate);";
             PreparedStatement ps = conn.prepareStatement(sql);
 
-            // PreparedStatement 세션에 등록/교체
-            session.setAttribute("currentSql", ps);
 
             ResultSet rs = ps.executeQuery();
             while(rs.next()){ // ResultSet 추출하기
@@ -122,8 +126,6 @@ public class SalesDao extends Dao{
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, year);
 
-            // PreparedStatement 세션에 등록/교체
-            session.setAttribute("currentSql", ps);
 
             ResultSet rs = ps.executeQuery();
             while(rs.next()){ // ResultSet 추출하기
@@ -166,8 +168,6 @@ public class SalesDao extends Dao{
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, year); ps.setInt(2, month);
 
-            // PreparedStatement 세션에 등록/교체
-            session.setAttribute("currentSql", ps);
 
             ResultSet rs = ps.executeQuery();
             while(rs.next()){ // ResultSet 추출하기
@@ -208,8 +208,6 @@ public class SalesDao extends Dao{
                         "group by prodcode order by income desc;";
             PreparedStatement ps = conn.prepareStatement(sql);
 
-            // PreparedStatement 세션에 등록/교체
-            session.setAttribute("currentSql", ps);
 
             ResultSet rs = ps.executeQuery();
             while(rs.next()){ // ResultSet 추출하기
@@ -252,8 +250,6 @@ public class SalesDao extends Dao{
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, year);
 
-            // PreparedStatement 세션에 등록/교체
-            session.setAttribute("currentSql", ps);
 
             ResultSet rs = ps.executeQuery();
             while(rs.next()){ // ResultSet 추출하기
@@ -296,8 +292,6 @@ public class SalesDao extends Dao{
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, year); ps.setInt(2, month);
 
-            // PreparedStatement 세션에 등록/교체
-            session.setAttribute("currentSql", ps);
 
             ResultSet rs = ps.executeQuery();
             return null;

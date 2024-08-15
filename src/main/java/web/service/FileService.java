@@ -32,6 +32,7 @@ public class FileService{
     // HTTP 세션에 SQL조회문 임시 저장하고 (조회 화면마다 새로고침 방식) 그 조회문으로 ResultSet을 불러와 엑셀로 내보내기
     // TODO
     public byte[] exportToExcel(){
+        System.out.println("ExcelService");
         try {
             // 엑셀 파일 인터페이스 구현
             Workbook workbook = new XSSFWorkbook();
@@ -40,7 +41,7 @@ public class FileService{
 
             // 현재 세션에 저장된 최근 SQL문으로 조회된 ResultSet
             ResultSet rs = fileDao.exportToExcel();
-
+            System.out.println("rs in service : "+rs );
             // 헤더 작성 (Column/열 레이블/이름들)
                 // 0번째 줄 작성 = 테이블 열 명칭들
             Row headerRow = sheet.createRow(0);
@@ -63,7 +64,11 @@ public class FileService{
                     // 각 데이터 저장을 위한 셀 생성
                     Cell cell = row.createCell(i - 1);
                     // rs.getString(숫자) : 해당 숫자 번째 열의 데이터
-                    cell.setCellValue(rs.getString(i));
+                    try {
+                        cell.setCellValue(rs.getInt(i));
+                    } catch (NumberFormatException e) {
+                        cell.setCellValue(rs.getString(i));
+                    }
                 }
             }
 
