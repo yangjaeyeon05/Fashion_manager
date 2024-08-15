@@ -545,6 +545,60 @@ insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode,
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (77, 2, 10, 5, 5, 17000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (44, 4, 1, 2, 2, 10000);
 
+# product
+insert into product (prodname, prodprice, prodgender, proddesc) values ('티셔츠1', 38000, 'M', '티셔츠1설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('바지2', 72000, 'F', '바지2설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('원피스3', 58000, 'M', '원피스3설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('셔츠4', 85000, 'F', '셔츠4설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('스커트5', 70000, 'U', '스커트5설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('자켓6', 75000, 'U', '자켓6설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('청바지7', 86000, 'F', '청바지7설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('후드티8', 88000, 'M', '후드티8설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('점퍼9', 62000, 'U', '점퍼9설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('조끼10', 82000, 'F', '조끼10설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('스웨터1', 78000, 'F', '스웨터1설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('치마2', 15000, 'U', '치마2설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('팬츠3', 54000, 'M', '팬츠3설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('블라우스4', 94000, 'M', '블라우스4설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('재킷5', 60000, 'M', '재킷5설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('점프수트6', 20000, 'F', '점프수트6설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('코트7', 69000, 'U', '코트7설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('레깅스8', 84000, 'U', '레깅스8설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('가디건9', 55000, 'M', '가디건9설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('반바지10', 11000, 'U', '반바지10설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('후리스1', 84000, 'M', '후리스1설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('슬랙스2', 36000, 'U', '슬랙스2설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('블라우스3', 34000, 'F', '블라우스3설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('트렌치코트4', 44000, 'U', '트렌치코트4설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('점퍼5', 38000, 'M', '점퍼5설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('풀오버6', 67000, 'U', '풀오버6설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('패딩7', 35000, 'M', '패딩7설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('치마8', 20000, 'M', '치마8설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('점프수트9', 60000, 'F', '점프수트9설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('가디건10', 20000, 'M', '가디건10설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('티셔츠1', 74000, 'F', '티셔츠1설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('바지2', 99000, 'U', '바지2설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('원피스3', 36000, 'F', '원피스3설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('셔츠4', 91000, 'M', '셔츠4설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('스커트5', 47000, 'U', '스커트5설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('자켓6', 73000, 'U', '자켓6설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('청바지7', 19000, 'F', '청바지7설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('후드티8', 91000, 'U', '후드티8설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('점퍼9', 66000, 'F', '점퍼9설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('조끼10', 16000, 'F', '조끼10설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('스웨터1', 75000, 'U', '스웨터1설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('치마2', 68000, 'U', '치마2설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('팬츠3', 63000, 'M', '팬츠3설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('블라우스4', 16000, 'M', '블라우스4설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('재킷5', 45000, 'F', '재킷5설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('점프수트6', 11000, 'F', '점프수트6설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('코트7', 88000, 'M', '코트7설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('레깅스8', 92000, 'U', '레깅스8설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('가디건9', 19000, 'F', '가디건9설명');
+insert into product (prodname, prodprice, prodgender, proddesc) values ('반바지10', 35000, 'U', '반바지10설명');
+
+# /Mockaroo 샘플
+
 select * from support;
 select * from support inner join members on support.memcode = members.memcode where supcode = 9;
 
@@ -554,7 +608,17 @@ select * from productdetail;
 select * from productdetail where proddate between '2022-01-01' and '2022-01-03';
 select *
 from productdetail a inner join product b on a.prodcode=b.prodcode inner join productcategory c on a.prodcatecode=c.prodcatecode inner join color d
-on a.colorcode=d.colorcode where a.proddate between '"2022-01-01"' and '"2022-01-03"'
+on a.colorcode=d.colorcode where a.proddate between '"2022-01-01"' and '"2022-01-03"';
 
 
 
+select prodcode, prodname, prodprice,  
+                    count(ordstate) ordered,  
+                    sum(case when ordstate = 3 then 1 else 0 end) returned,  
+                    sum(case when ordstate = 4 then 1 else 0 end) canceled,  
+                    sum(case when ordstate !=3 and ordstate !=4 then 1 else 0 end) completed,  
+                    sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount, 0) else 0 end) revenue,  
+                    sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(coupsalerate/100), 0) else 0 end) saleAmount,  
+                    sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(1-(coupsalerate/100)), 0) else 0 end) income  
+                    from orderdetail left outer join orders using(ordcode) inner join productdetail using(proddetailcode) inner join product using(prodcode) inner join coupon using(coupcode)  
+                    group by prodcode order by income desc;
