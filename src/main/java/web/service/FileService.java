@@ -30,7 +30,38 @@ public class FileService{
 
     // [1] 현재 보이는 표 데이터를 엑셀로 내보내기
     // HTTP 세션에 SQL조회문 임시 저장하고 (조회 화면마다 새로고침 방식) 그 조회문으로 ResultSet을 불러와 엑셀로 내보내기
-    // TODO
+    // JS 코드:
+//    function excelExport(){
+//        console.log('excelExport');
+//        let xhr = new XMLHttpRequest();
+//                xhr.open('GET', '/file/export/excel', true);
+//                xhr.responseType = 'blob'; // 서버에서 반환된 데이터를 Blob으로 처리
+//                xhr.onload = function() {
+//                    if (xhr.status === 200) {
+//                        var disposition = xhr.getResponseHeader('Content-Disposition');
+//                        var filename = 'downloaded-file';
+//                        if (disposition && disposition.indexOf('filename=') !== -1) {
+//                            filename = disposition.split('filename=')[1].replace(/"/g, '');
+//                        }
+//
+//                        var link = document.createElement('a');
+//                        link.href = window.URL.createObjectURL(xhr.response);
+//                        link.download = filename;
+//                        document.body.appendChild(link); // 링크를 문서에 추가
+//                        link.click(); // 링크 클릭하여 다운로드
+//                        document.body.removeChild(link); // 다운로드 후 링크 제거
+//
+//                        // 메모리 정리를 위한 객체 URL 해제
+//                        window.URL.revokeObjectURL(link.href);
+//                    } else {
+//                        console.error('Download failed: ' + xhr.statusText);
+//                    }
+//                };
+//                xhr.onerror = function() {
+//                    console.error('Download failed');
+//                };
+//                xhr.send();
+//    }
     public byte[] exportToExcel(){
         System.out.println("ExcelService");
         try {
@@ -105,7 +136,7 @@ public class FileService{
                     
                     try {
                         cell.setCellValue(rs.getInt(i));
-                    } catch (NumberFormatException e) {
+                    } catch (Exception e) {
                         cell.setCellValue(rs.getString(i));
                     }
                 }
