@@ -20,4 +20,6 @@ public class MemberDto {
     private String memlastdate;
     private int blacklist;
     private String colorname;
+
+
 }

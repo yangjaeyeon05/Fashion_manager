@@ -42,4 +42,12 @@ public class MemberController {
 
     // -------------------------- 2024-08-07 ---------------------------------------- //
 
+    // 그 날 많이 팔린 물품 + 나의 성별 + 선호 사이즈에 따른 제품 추천
+
+    public List<Map<String, String>> memberRecommend2(MemberDto memberDto){
+        System.out.println("memberDto = " + memberDto);
+        return memberService.memberRecommend2(memberDto);
+    }
+
+
 }
