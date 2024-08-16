@@ -12,21 +12,12 @@ import web.model.dto.PagenationDto;
 import web.service.OrderService;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 @RestController
 @RequestMapping("/order")
 public class OrderController { //class start
 
     @Autowired OrderService orderService;
-
-    //주문목록 출력 함수
-//    @GetMapping("/getorder")
-//    //@RequestParam 을 사용하여 page 의 기본값 1 페이지 출력수는 10으로 지정
-//    public PagenationDto<OrderdetailDto> getorder(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size){
-////        System.out.println("OrderController.getorder");
-//        return orderService.getorder(page, size);
-//    }
 
     //주문목록 날짜 출력함수
     @GetMapping("/manage")
@@ -35,13 +26,49 @@ public class OrderController { //class start
 //        System.out.println("page = " + page);
         return orderService.getorder(ordcatagory,page,size,firstdate,todayDate);
     }
-
-//    //카테고리 목록 출력함수 0807 생성
-//    @GetMapping("/manage2")
-//    public ArrayList<OrderdetailDto> manage2 (int ordcatagory){
-////        System.out.println("OrderController.manage2");
-//        return orderService.manage2(ordcatagory);
-//    }
+    ///////////////////////////////////////////////////////////////////////////////
+    @GetMapping("/ordCancel")
+    public PagenationDto<OrderdetailDto> ordCancel (@RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "10") int size ,@RequestParam("firstdate") String firstdate,@RequestParam("todayDate") String todayDate){
+//        System.out.println("size = " + size);
+//        System.out.println("page = " + page);
+        return orderService.ordCancel(page,size,firstdate,todayDate);
+    }
+    ///////////////////////////////////////////////////////////////////////////////
+    // 주문 취소 확정
+    @PutMapping("/ordcheck")
+    public boolean ordcheck (int orddetailcode){
+        return orderService.ordcheck(orddetailcode);
+    }
+    ///////////////////////////////////////////////////////////////////////////////
+    //취소확정 목록 호출 함수
+    @GetMapping("/cancelord")
+    public PagenationDto<OrderdetailDto> cancelOrder (@RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "10") int size ){
+//        System.out.println("size = " + size);
+//        System.out.println("page = " + page);
+        return orderService.cancelOrder(page,size);
+    }
+///////////////////////////////////////////////////////////////////////////////
+    //반품목록 출력
+@GetMapping("/ordReturn")
+public PagenationDto<OrderdetailDto> ordReturn (@RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "10") int size ,@RequestParam("firstdate") String firstdate,@RequestParam("todayDate") String todayDate){
+//        System.out.println("size = " + size);
+//        System.out.println("page = " + page);
+    return orderService.ordReturn(page,size,firstdate,todayDate);
+}
+    ///////////////////////////////////////////////////////////////////////////////
+    // 반품 확정
+    @PutMapping("/returnCheck")
+    public boolean returnCheck (int orddetailcode){
+        return orderService.returnCheck(orddetailcode);
+    }
+    ///////////////////////////////////////////////////////////////////////////////
+    //반품완료 목록 호출 함수
+    @GetMapping("/returnOrd")
+    public PagenationDto<OrderdetailDto> returnOrd (@RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "10") int size ){
+//        System.out.println("size = " + size);
+//        System.out.println("page = " + page);
+        return orderService.returnOrd(page,size);
+    }
+///////////////////////////////////////////////////////////////////////////////
 
 }//class end
-//
