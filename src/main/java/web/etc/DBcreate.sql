@@ -139,7 +139,73 @@ create table admin(						# 관리자계정
     adminpw varchar(30),							# 관리자비밀번호
     primary key (admincode)
 	);
-# 샘플
+# 거래처테이블
+drop table if exists vendor;
+create table vendor(
+	vendorcode int auto_increment , 				# 거래처코드PK
+    vname varchar(30) not null, 					# 거래처이름
+    vcontact varchar(13) not null unique , 			# 거래처연락처
+    vaddress text , 								# 거래처주소
+    vdate date default (current_date) , 			# 거래처등록일
+    primary key(vendorcode)
+    );
+
+drop table if exists wholesaleproduct;
+create table wholesaleproduct(
+	wpcode int auto_increment , 					# 도매상품코드PK
+	wpname varchar(30) not null , 					# 도매상품이름
+    wpcost int not null , 							# 상품원가
+    proddetailcode int , 
+    vendorcode int , 
+    primary key(wpcode) , 
+    foreign key(proddetailcode) references productdetail(proddetailcode)
+    on delete cascade on update cascade , 
+    foreign key(vendorcode) references vendor(vendorcode)
+    on delete cascade on update cascade
+   );
+
+drop table if exists polog;
+create table polog(
+	pocode int auto_increment , 					# 발주코드PK
+	wpcode int ,  					
+	quantity int not null , 						# 주문수량
+	totalamount int , 								# 주문금액 주문수량 * 도매가
+	quantitydate date default (current_date) , 		# 주문 날짜
+	arrivaldate date , 								# 도착날짜
+    quantitystate int , 							# 처리상태
+    primary key(pocode) , 
+    foreign key(wpcode) references wholesaleproduct(wpcode)
+	on delete cascade on update cascade 
+   );
+
+
+#샘플
+# 거래처
+insert into vendor(vname , vcontact , vaddress) values('시크보그무역' , '02-1111-1111' , '서울시 종로구 청계천로 500, 3층');
+insert into vendor(vname , vcontact , vaddress) values('스타일스피어' , '02-2222-2222' , '경기도 고양시 일산동구 중앙로 321, 2층');
+insert into vendor(vname , vcontact , vaddress) values('엘레강스엠포리엄' , '02-3333-3333' , '부산시 부산진구 부전로 654, 5층');
+insert into vendor(vname , vcontact , vaddress) values('트렌드아우라' , '02-4444-4444' , '광주시 서구 상무대로 789, 4층');
+insert into vendor(vname , vcontact , vaddress) values('럭소라' , '02-5555-5555' , '대구시 중구 동성로 987, 6층');
+
+select * from vendor;
+
+# 도매상품
+insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('반팔-WH-S' , 7000 , 1, 1);
+insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('반팔-WH-M' , 7000 , 2, 1);
+insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('양말-BL' , 5000 , 3, 2);
+insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('모자-WH' , 10000 , 4, 4);
+insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('청바지-BLUE' , 18000 , 5, 5);
+
+select * from wholesaleproduct;
+
+# 발주로그
+insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(1 , 3 , 21000 , '2024-08-16' , 1);
+insert into polog(wpcode , quantity , totalamount , quantitystate) values(2 , 5 , 35000 , 1);
+insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(3 , 2 , 10000 , '2024-08-14' , 2);
+insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(4 , 3 , 30000 , '2024-08-14' , 2);
+insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(5 , 3 , 54000 , '2024-08-14' , 2);
+
+select * from polog;
 
 # color
 insert into color(colorname) values('하얀색');
