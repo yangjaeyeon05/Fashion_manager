@@ -14,6 +14,68 @@ let dataList = []
 drawChart(data1)
 getSalesData()
 
+// 엑셀로 테이블 데이터 다운받기
+function excelExport(){
+    console.log('excelExport');
+    var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/file/export/excel', true);
+            xhr.responseType = 'blob'; // 서버에서 반환된 데이터를 Blob으로 처리
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var disposition = xhr.getResponseHeader('Content-Disposition');
+                    var filename = 'downloaded-file';
+                    if (disposition && disposition.indexOf('filename=') !== -1) {
+                        filename = disposition.split('filename=')[1].replace(/"/g, '');
+                    }
+
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(xhr.response);
+                    link.download = filename;
+                    document.body.appendChild(link); // 링크를 문서에 추가
+                    link.click(); // 링크 클릭하여 다운로드
+                    document.body.removeChild(link); // 다운로드 후 링크 제거
+
+                    // 메모리 정리를 위한 객체 URL 해제
+                    window.URL.revokeObjectURL(link.href);
+                } else {
+                    console.error('Download failed: ' + xhr.statusText);
+                }
+            };
+
+            xhr.onerror = function() {
+                console.error('Download failed');
+            };
+
+            xhr.send();
+    // $.ajax({
+    //     method : "GET",
+    //     url : "/file/export/excel",
+    //     xhrFields: {
+    //         responseType: 'blob' // 서버에서 반환된 데이터를 Blob으로 처리
+    //     },
+    //     success: function(data, status, xhr) {
+    //         // 파일 이름을 Content-Disposition 헤더에서 가져옵니다
+    //         var disposition = xhr.getResponseHeader('Content-Disposition');
+    //         var filename = disposition ? disposition.split('filename=')[1] : 'downloaded-file';
+    //         filename = filename.replace(/"/g, ''); // 헤더에서 따옴표 제거
+
+    //         // Blob 객체를 URL로 변환하여 링크를 생성합니다
+    //         var link = document.createElement('a');
+    //         link.href = window.URL.createObjectURL(data);
+    //         link.download = filename;
+    //         document.body.appendChild(link); // 링크를 문서에 추가 (웹 브라우저에서 작동하기 위해 필요)
+    //         link.click(); // 링크 클릭하여 다운로드
+    //         document.body.removeChild(link); // 다운로드 후 링크 제거
+
+    //         // 메모리 정리를 위한 객체 URL 해제
+    //         window.URL.revokeObjectURL(link.href);
+    //     },
+    //     error: function(xhr, status, error) {
+    //         console.error('Download failed: ' + error);
+    //     }
+    // })
+}
+
 // 테이블에 오늘부터 일주일 전까지 날짜 및 데이터 가져오는 함수
 function getSalesData(){
     let today = new Date();  // 오늘 날짜
