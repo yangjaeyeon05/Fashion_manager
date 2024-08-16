@@ -77,4 +77,8 @@ public class ViewController {
     public String inventory(){
         return "/product/inventory.html";
     }
+
+    // 거래처관리페이지
+    @GetMapping("/vendor")
+    public String vendor(){return "/vendor/vendor.html";}
 }   // class end
