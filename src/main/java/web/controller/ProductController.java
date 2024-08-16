@@ -42,4 +42,25 @@ public class ProductController {
         System.out.println("productSearchDto = " + productSearchDto);
         return productService.productGetAll(productSearchDto);
     }
+    //08.16 상품수정
+    @PutMapping("/edit")
+    public boolean productEdit(ProductDto productDto){
+        System.out.println("ProductController.productEdit");
+        System.out.println("productDto = " + productDto);
+        return productService.productEdit(productDto);
+    }
+    //08.16 상품 개별출력
+    @GetMapping("/getone")
+    public ProductDto productGetOne(int prodDetailcode){
+        System.out.println("ProductController.productDto");
+        System.out.println("prodDetailcode = " + prodDetailcode);
+        return productService.productGetOne(prodDetailcode);
+    }
+    //08.16 상품 삭제
+    @DeleteMapping("/delete")
+    public boolean productDelete(int prodDetailcode){
+        System.out.println("ProductController.productDelete");
+        System.out.println("prodDetailcode = " + prodDetailcode);
+        return productService.productDelete(prodDetailcode);
+    }
 }

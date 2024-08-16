@@ -104,6 +104,7 @@ function productAllread(){
                         <td>${p.prodSize}</td>
                         <td>${p.prodDate}</td>
                         <td><a href="/file/download?filename=${p.prodFilename}">${p.prodFilename==null?"":p.prodFilename.split('_')[1]}</a></td>
+                        <td class="update"><button type="button" class="btn btn-success" onclick="location.href='/product/edit?proddetailcode=${p.prodDetailcode}'">수정</button><button type="button" onclick="_delete(${p.prodDetailcode})" class="btn btn-success">삭제</button></td>
                     </tr>`;
             
         }
@@ -142,3 +143,26 @@ function getCategory(){//08.14
         }
     })
 };
+//08.16 상품 삭제
+function _delete(prodDetailcode){
+    let check=confirm("정말 삭제하시겠습니까?");
+    if(check){
+    $.ajax({
+        async:false,method:'delete',
+        data:{prodDetailcode:prodDetailcode},
+        url:"/product/delete",
+        success: result =>{
+            console.log(result);
+            if(result){alert('상품삭제 성공')}
+            else{alert('상품삭제 실패')}
+        },error: e =>{console.log(e);
+        }
+    })
+    productAllread();
+}
+}
+//08.16상품 목록 엑셀파일 다운로드
+function excelDown(){
+    console.log('excelDown()');
+    
+}

@@ -62,3 +62,9 @@
 .supDtailBox{
     width: 100%;
 }
+.update button{
+    margin: 0px 2px;
+}
+#excel{
+    text-align: right;
+}

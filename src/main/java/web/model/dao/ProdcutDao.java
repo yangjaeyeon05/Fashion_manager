@@ -2,6 +2,7 @@ package web.model.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import web.model.dto.ProductDto;
 import web.model.dto.ProductSearchDto;
 
@@ -175,7 +176,7 @@ public class ProdcutDao extends  Dao {
             System.out.println(" sql  = " +  sql );
             ResultSet rs=ps.executeQuery();
             while (rs.next()){
-                ProductDto productDto=ProductDto.builder()
+                ProductDto productDto=ProductDto.builder() //productDto에 빌더패턴 이용하여 데이터 삽입
                         .prodDetailcode(rs.getInt("proddetailcode"))
                         .colorName(rs.getString("colorname"))
                         .prodDate(rs.getString("proddate"))
@@ -186,12 +187,88 @@ public class ProdcutDao extends  Dao {
                         .prodSize(rs.getString("prodsize"))
                         .prodPrice(rs.getInt("prodprice"))
                         .build();
-                list.add(productDto);
+                list.add(productDto);   //미리 만들어둔 리스트에 반복문 한번 돌때마다 productDto 추가
             }
 
         }catch (Exception e){System.out.println("e = " + e);}
         System.out.println("list = " + list);
         return list;
+    }
+
+    //08.16 상품 수정
+    public boolean productEdit(ProductDto productDto){
+        System.out.println("ProdcutDao.productEdit");
+        System.out.println("productDto = " + productDto);
+        try {
+            String sql="update productdetail set prodcatecode=?, colorcode=?, prodsize=?, prodfilename=?, proddate=? where proddetailcode=?";//detail 테이블 수정
+            PreparedStatement ps=conn.prepareStatement(sql);
+            ps.setInt(1,productDto.getProdCatecode());
+            ps.setInt(2,productDto.getColorCode());
+            ps.setString(3,productDto.getProdSize());
+            ps.setString(4,productDto.getProdFilename());
+            ps.setString(5,productDto.getProdDate());
+            ps.setInt(6,productDto.getProdDetailcode());
+            int count=ps.executeUpdate();
+            if (count==1){
+                String sql2="update product set prodname=?, prodprice=?, prodgender=?, proddesc=? where prodcode=?"; //product 테이블 수정
+                PreparedStatement ps2=conn.prepareStatement(sql2);
+                ps2.setString(1,productDto.getProdName());
+                ps2.setInt(2,productDto.getProdPrice());
+                ps2.setString(3,productDto.getProdGender());
+                ps2.setString(4,productDto.getProdDesc());
+                ps2.setInt(5,productDto.getProdDetailcode());
+                int count2=ps2.executeUpdate();
+                if (count2==1){
+                    return true; // 2개 sql문 정상 실행시 true값 리턴
+                }
+            }
+        }catch (Exception e){System.out.println("productEdit = " + e);}
+        return false; // sql문 실행되지 않았을 때 false값 리턴
+    }
+
+    //08.16 상품 개별출력
+    public ProductDto productGetOne(int prodDetailcode){
+        System.out.println("ProdcutDao.productGetOne");
+        System.out.println("prodDetailcode = " + prodDetailcode);
+        try {
+            String sql="select * from productdetail a inner join product b on a.prodcode=b.prodcode inner join productcategory c on a.prodcatecode=c.prodcatecode inner join color d on a.colorcode=d.colorcode where proddetailcode=? ";
+            PreparedStatement ps=conn.prepareStatement(sql);
+            ps.setInt(1,prodDetailcode);
+            ResultSet rs=ps.executeQuery();
+            if (rs.next()){
+                ProductDto productDto=ProductDto.builder() //productDto에 빌더패턴 이용하여 데이터 삽입
+                        .prodDetailcode(rs.getInt("proddetailcode"))
+                        .colorCode(rs.getInt("colorcode"))
+                        .prodDate(rs.getString("proddate"))
+                        .prodGender(rs.getString("prodgender"))
+                        .prodFilename(rs.getString("prodfilename"))
+                        .prodName(rs.getString("prodname"))
+                        .prodCatecode(rs.getInt("prodcatecode"))
+                        .prodSize(rs.getString("prodsize"))
+                        .prodPrice(rs.getInt("prodprice"))
+                        .prodDesc(rs.getString("proddesc"))
+                        .build();
+                System.out.println("productDto = " + productDto);
+                return productDto;
+            }
+        }catch (Exception e){System.out.println("productGetOne" + e);}
+        return null;
+    }
+
+    //08.16 상품 삭제
+    public boolean productDelete(int prodDetailcode){
+        System.out.println("ProdcutDao.productDelete");
+        System.out.println("prodDetailcode = " + prodDetailcode);
+        try {
+            String sql="delete from product where prodcode=?";
+            PreparedStatement ps=conn.prepareStatement(sql);
+            ps.setInt(1,prodDetailcode);
+            int count=ps.executeUpdate();
+            if (count==1){
+                return true;
+            }
+        }catch (Exception e){System.out.println("productDelete" + e);}
+        return false;
     }
 
 }

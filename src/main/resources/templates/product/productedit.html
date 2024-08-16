@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상품 등록</title>
-    <link href="/css/product/productadd.css" rel="stylesheet">
+    <title>상품 수정</title>
+    <link href="/css/product/productedit.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" />
 </head>
 <body>
 <div th:replace="~{/sidebar.html:: sidebar}"></div>
 <div id="main">
-    <h1>상품 등록</h1>
-    <form id="productAdd">
+    <h1>상품 수정</h1>
+    <form id="productEdit">
         <div class="form-container">
             <div class="form-group">
                 <label for="productName">상품명</label>
@@ -66,12 +66,12 @@
             </div>
         </div>
         <div class="form-group submit-button">
-            <button type="button" onclick="productAdd()">등록하기</button>
+            <button type="button" onclick="productEdit()" required>수정하기</button>
         </div>
     </form>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/lang/summernote-ko-KR.min.js"></script>
-    <script src="/js/product/productadd.js"></script>
+    <script src="/js/product/productedit.js"></script>
 </div>
 </body>
 </html>
