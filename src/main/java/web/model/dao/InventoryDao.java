@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PutMapping;
 import web.model.dto.InventoryDto;
+import web.model.dto.OrderdetailDto;
 import web.model.dto.ProductDto;
 
 import java.sql.PreparedStatement;
@@ -67,6 +68,7 @@ public class InventoryDao extends Dao{
         return false;
     }
 
+
     // ===================================  2024-08-08 김민석 ========================================= //
 
 
@@ -124,4 +126,126 @@ public class InventoryDao extends Dao{
     }
 
     // ===================================  2024-08-14 김민석 ========================================= //
+
+//    // 주문 완료 시 주문 수량을 가져오는 메소드
+//    public int invAutoUpdateOrder(InventoryDto inventoryDto){
+//        System.out.println("inventoryDto = " + inventoryDto);
+//        try{
+//            String sql = "Select sum(ordamount) as sum From orderdetail where ordstate = 5 and proddetailcode = ?";
+//
+//            ps = conn.prepareStatement(sql);
+//            ps.setInt(1,inventoryDto.getProddetailcode());
+//
+//            rs = ps.executeQuery();
+//            if(rs.next()){
+//                return rs.getInt("sum");
+//            }
+//
+//        }catch (Exception e){
+//            System.out.println("에러 정보는 " + e);
+//        }
+//        return 0;
+//    }
+//
+//    // 주문 완료 시 자동 업데이트
+//    public boolean invAutoUpdateOrder2(InventoryDto inventoryDto){
+//        System.out.println("inventoryDto = " + inventoryDto);
+//        try{
+//            String sql = "insert into invlog(proddetailcode, invlogchange, invlogdetail) values (?, ?, 2)";     // 재고 테이블에 재고 기록 추가
+//            ps = conn.prepareStatement(sql);
+//            ps.setInt(1,inventoryDto.getProddetailcode());
+//            ps.setInt(2,inventoryDto.getProdAmount());
+//            int count = ps.executeUpdate();
+//            if(count == 1){
+//                return true;
+//            }
+//        }catch (Exception e){
+//            System.out.println("에러는 " + e);
+//        }
+//        return false;
+//    }
+
+    // 주문 취소 시 취소 수량을 가져오는 메소드
+    public InventoryDto invAutoUpdateCancel(OrderdetailDto orderdetailDto){
+        System.out.println("orderdetailDto = " + orderdetailDto);
+        try{
+            String sql = "Select ordamount, proddetailcode From orderdetail where ordstate = -4 and orddetailcode = ?";
+            
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1,orderdetailDto.getOrddetailcode());
+
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return InventoryDto
+                        .builder()
+                        .invlogchange(rs.getInt("ordamount"))
+                        .proddetailcode(rs.getInt("proddetailcode"))
+                        .build();
+            }
+        }catch (Exception e){
+            System.out.println("에러 정보는 " + e);
+        }
+        return null;
+    }
+
+    // 주문 취소 시 자동 업데이트
+    public boolean invAutoUpdateCancel2(InventoryDto inventoryDto){
+        System.out.println("inventoryDto = " + inventoryDto);
+        try{
+            String sql = "insert into invlog(proddetailcode, invlogchange, invlogdetail) values (?, ?, 3)";     // 재고 테이블에 재고 기록 추가
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1,inventoryDto.getProddetailcode());
+            ps.setInt(2,inventoryDto.getInvlogchange());
+            int count = ps.executeUpdate();
+            if(count == 1){
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println("에러는 " + e);
+        }
+        return false;
+    }
+
+    // 주문 반품 시 반품 수량을 가져오는 메소드
+    public InventoryDto invAutoUpdateReturn(OrderdetailDto orderdetailDto){
+        System.out.println("orderdetailDto = " + orderdetailDto);
+        try{
+            String sql = "Select ordamount, proddetailcode From orderdetail where ordstate = -3 and orddetailcode = ?";
+            
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1,orderdetailDto.getOrddetailcode());
+
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return InventoryDto
+                        .builder()
+                        .invlogchange(rs.getInt("ordamount"))
+                        .proddetailcode(rs.getInt("proddetailcode"))
+                        .build();
+            }
+        }catch (Exception e){
+            System.out.println("에러 정보는 " + e);
+        }
+        return null;
+    }
+
+    // 주문 반품 시 자동 업데이트
+    public boolean invAutoUpdateReturn2(InventoryDto inventoryDto){
+        System.out.println("inventoryDto = " + inventoryDto);
+        try{
+            String sql = "insert into invlog(proddetailcode, invlogchange, invlogdetail) values (?, ?, 4)";     // 재고 테이블에 재고 기록 추가
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1,inventoryDto.getProddetailcode());
+            ps.setInt(2,inventoryDto.getInvlogchange());
+            int count = ps.executeUpdate();
+            if(count == 1){
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println("에러는 " + e);
+        }
+        return false;
+    }
+
+    // ===================================  2024-08-16 김민석 ========================================= //
 }

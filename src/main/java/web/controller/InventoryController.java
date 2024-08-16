@@ -4,6 +4,7 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.InventoryDto;
+import web.model.dto.OrderdetailDto;
 import web.model.dto.ProductDto;
 import web.service.InventoryService;
 
@@ -50,4 +51,27 @@ public class InventoryController {
     }
 
     // ===================================  2024-08-14 김민석 ========================================= //
+
+//    // 주문 완료 시 자동 업데이트
+//    @GetMapping("/autoorder")
+//    public boolean invAutoUpdateOrder(InventoryDto inventoryDto){
+//        System.out.println("inventoryDto = " + inventoryDto);
+//        return inventoryService.invAutoUpdateOrder(inventoryDto);
+//    }
+
+    // 주문 취소 시 자동 업데이트
+    @GetMapping("/autocancel")
+    public boolean invAutoUpdateCancel(OrderdetailDto orderdetailDto){
+        System.out.println("orderdetailDto = " + orderdetailDto);
+        return inventoryService.invAutoUpdateReturn(orderdetailDto);
+    }
+
+    // 반품 완료 시 자동 업데이트
+    @GetMapping("/autoreturn")
+    public boolean invAutoUpdateReturn(OrderdetailDto orderdetailDto){
+        System.out.println("orderdetailDto = " + orderdetailDto);
+        return inventoryService.invAutoUpdateCancel(orderdetailDto);
+    }
+
+    // ===================================  2024-08-16 김민석 ========================================= //
 }
