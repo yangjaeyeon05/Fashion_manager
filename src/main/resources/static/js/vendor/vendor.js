@@ -29,7 +29,7 @@ function vendorallread(){
                         <td> <input type="checkbox" value="${v.vendorcode}" id="vendorcodeCheck"/> </td>
                         <td> ${v.vendorcode} </td>
                         <td>
-                            <a href="#" class="supDetailLink" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-id="${v.vendorcode}"> ${v.vname} </a> 
+                            <a href="#" class="wpDetailLink" data-bs-toggle="modal" data-bs-target="#wpModal" data-id="${v.vendorcode}" onclick="wpRead(${v.vendorcode})"> ${v.vname} </a> 
                         </td>
                         <td> ${v.vcontact} </td>
                         <td> ${v.vaddress} </td>
@@ -41,6 +41,14 @@ function vendorallread(){
     // 출력
     // console.log(html);
     vendorPrinbox.innerHTML = html;
+    // 이름클릭 시 모달열기
+    // document.querySelector(".wpDetailLink").forEach(link=>{
+    //     link.addEvnetListener('click' , function(e){
+    //         e.preventDefault();
+    //         let vendorcode = this.getAttribute('data-id');
+    //         wpRead(vendorcode);
+    //     });
+    // });
 }   // vendorallread() end
 
 // 거래처등록
@@ -184,3 +192,186 @@ function vendorUpdate(){
         }
     })  // ajax end
 }   // vendorUpdate() end
+
+// 거래처별 도매상품출력
+function wpRead(vendorcode){
+    console.log('wpRead()');
+    console.log(vendorcode);
+    let wpList = [];
+    $.ajax({
+        async : false , 
+        method : 'get' , 
+        url : "/wholesaleproduct/read" ,
+        data : {vendorcode : vendorcode} , 
+        success : (r) => {
+            console.log(r);
+            wpList = r;
+        } , 
+        error : (e) =>{
+            console.log(e); 
+        }
+    })  // ajax end
+    // 어디에
+    let wpPrintbox = document.querySelector(".wpPrintbox");
+    // 무엇을
+    let html = ``;
+    wpList.forEach( wp => {
+            html += `<tr>
+                        <td> ${wp.wpcode} </td>
+                        <td> ${wp.wpname} </td>
+                        <td> ${wp.wpcost} </td>
+                        <td> ${wp.prodname} </td>
+                        <td> ${wp.prodsize} </td>
+                        <td> ${wp.colorname} </td>
+                        <td> ${wp.vname} </td>
+                        <td> 
+                        ${wp.inv} 
+                        </td>
+                        <td>
+                            <input type="number" class="quantity" onKeyPress="if( event.keyCode==13 ){addFunc(${wp.wpcost});}"/>
+                            <button type="button" class="btn btn-success" onclick="doPo(${wp.wpcode} , ${wp.wpcost} )" > + </button>
+                            <span class="totalamount"> </span>
+                        </td>
+                        </tr>`
+                        ; 
+        }
+    )   // forEach end
+    // 출력
+    // console.log(html);
+    wpPrintbox.innerHTML = html;
+}   // wpRead() end
+
+// 주문총금액 출력
+function addFunc(wpcost){
+    console.log('addFunc()');
+    console.log(wpcost);
+    let quantity = document.querySelector(".quantity").value;
+    console.log(quantity);
+    // 어디에
+    let totalamount = document.querySelector(".totalamount");
+    console.log(totalamount);
+    // 무엇을
+    let mul = quantity * wpcost;
+    console.log(mul);
+    // 출력
+    totalamount.innerHTML= mul + `원`;
+}
+
+// 발주
+function doPo(wpcode , wpcost){
+    console.log('wpcode()');
+    console.log(wpcode);
+    console.log(wpcost);
+    // 주문 수량
+    let quantity = document.querySelector(".quantity").value;
+    // 주문 총금액
+    let totalamount = quantity * wpcost;
+    let info = {
+        wpcode  : wpcode , quantity : quantity , totalamount : totalamount
+    }
+    $.ajax({
+        async : false , 
+        method : 'post' , 
+        url : "/wholesaleproduct/dopo" , 
+        data : JSON.stringify(info) , 
+        contentType : "application/json" , 
+        success : (r) =>{
+            if(r){
+                alert('발주성공');
+                // 모달안 입력창 값 초기화
+                $('#wpModal').on('hidden.bs.modal', function (e) {
+                    $(this).find('form')[0].reset();
+                });
+                // 모달 닫기
+                $('#wpModal').modal('hide');
+
+            }else{
+                alert('발주실패');
+            }
+        }
+    })  // ajax end
+}   // doPo() end
+
+// 발주현황 출력
+function pologRead(){
+    console.log('pologRead()');
+    let poList = [];
+    $.ajax({
+        async : false , 
+        method : 'get' , 
+        url : "/wholesaleproduct/poread" ,
+        success : (r) => {
+            console.log(r);
+            poList = r;
+        } , 
+        error : (e) =>{
+            console.log(e); 
+        }
+    })  // ajax end
+    // 어디에
+    let poPrintbox = document.querySelector(".poPrintbox");
+    // 무엇을
+    let html = ``;
+    poList.forEach( po => {
+            html += `<tr>
+                        <td> ${po.pocode} </td>
+                        <td> ${po.wpname} </td>
+                        <td> ${po.quantity} </td>
+                        <td> ${po.prodsize} </td>
+                        <td> ${po.colorname} </td>
+                        <td> ${po.totalamount} </td>
+                        <td> ${po.vname} </td>
+                        <td> ${po.quantitydate} </td>`;
+            if(po.arrivaldate == null){
+                html += `<td> </td>`;
+            }else{
+                html += `<td> ${po.arrivaldate} </td>`;
+            }        
+            html += `<td> 
+                        ${po.quantitystatename} 
+                        <button type="button" class="btn btn-success" onclick="addinvlog(${po.pocode} , ${po.proddetailcode} , ${po.quantity})" > 완료 </button>
+                    </td>
+                    </tr>`; 
+        }
+    )   // forEach end
+    // 출력
+    // console.log(html);
+    poPrintbox.innerHTML = html;
+}
+
+// 완료버튼 누르면 처리상태 도착완료 , 재고로그 +
+function addinvlog(pocode , proddetailcode , quantity){
+    console.log('addinvlog()');
+    console.log(pocode);
+    console.log(proddetailcode);
+    console.log(quantity);
+    $.ajax({
+        async : false ,
+        method : 'put' , 
+        url : "/wholesaleproduct/update" , 
+        data : {pocode : pocode} , 
+        success : (r)=>{
+            console.log(r);
+            if(r){
+                alert("재고입고완료");
+                pologRead();
+            }
+        } , 
+        error : (e)=>{
+            console.log(e);
+        }
+    })  // ajax
+    // 재고로그 추가 ajax
+    $.ajax({
+        async : false ,
+        method : 'post' , 
+        url : "/wholesaleproduct/invlogadd" , 
+        data : {proddetailcode : proddetailcode , quantity : quantity} , 
+        success : (r)=>{
+            console.log(r);
+        } , 
+        error : (e)=>{
+            console.log(e);
+        }
+    })  // ajax end
+}

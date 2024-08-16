@@ -126,3 +126,62 @@ th:nth-child(6), td:nth-child(6) {
 .vendorAddTable input{
     width: 100%;
 }
+/* 거래터별 상품 테이블*/
+#wpTable th:nth-child(1), #wpTable td:nth-child(1) {
+    width: 5% ;
+}
+#wpTable th:nth-child(2), #wpTable td:nth-child(2) {
+    width: 20% ;
+}
+#wpTable th:nth-child(3), #wpTable td:nth-child(3) {
+    width: 5% ;
+}
+#wpTable th:nth-child(4), #wpTable td:nth-child(4) {
+    width: 10% ;
+}
+#wpTable th:nth-child(5), #wpTable td:nth-child(5) {
+    width: 5% ;
+}
+#wpTable th:nth-child(6), #wpTable td:nth-child(6) {
+    width: 5% ;
+}
+#wpTable th:nth-child(7), #wpTable td:nth-child(7) {
+    width: 20% ;
+}
+#wpTable th:nth-child(8), #wpTable td:nth-child(8) {
+    width: 10% ;
+}
+#wpTable th:nth-child(9), #wpTable td:nth-child(9) {
+    width: 20% ;
+}
+/* 발주현황 테이블 */
+#poTable th:nth-child(1), #poTable td:nth-child(1) {
+    width: 10% ;
+}
+#poTable th:nth-child(2), #poTable td:nth-child(2) {
+    width: 10% ;
+}
+#poTable th:nth-child(3), #poTable td:nth-child(3) {
+    width: 5% ;
+}
+#poTable th:nth-child(4), #poTable td:nth-child(4) {
+    width: 5% ;
+}
+#poTable th:nth-child(5), #poTable td:nth-child(5) {
+    width: 5% ;
+}
+#poTable th:nth-child(6), #poTable td:nth-child(6) {
+    width: 15% ;
+}
+#poTable th:nth-child(7), #poTable td:nth-child(7) {
+    width: 10% ;
+}
+#poTable th:nth-child(8), #poTable td:nth-child(8) {
+    width: 10% ;
+}
+#poTable th:nth-child(9), #poTable td:nth-child(9) {
+    width: 10% ;
+}
+#poTable th:nth-child(10), #poTable td:nth-child(10) {
+    width: 25% ;
+}
