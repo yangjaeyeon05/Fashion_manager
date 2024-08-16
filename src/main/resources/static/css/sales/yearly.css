@@ -1,0 +1,125 @@
+.dataBox a{
+    color: black;
+    text-decoration: none;
+}
+.wrap{
+    margin: 30px;
+}
+#title{
+    border-bottom: 3px solid black;
+    margin-top: 20px;
+}
+#title > span{
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: 700;
+}
+.wrap .searchTable th{
+    padding: 11px 16px 9px;
+}
+.wrap .searchTable td{
+    padding: 11px 16px 9px;
+}
+.wrap > table select{
+    width: 86px;
+    height: 16px;
+}
+.searchTable{
+    width: 100%;
+    height: 100px;
+    border: 1px solid #eeeeee;
+    text-align: center;
+}
+.searchTable input{
+    width: 174px;
+    height: 20px;
+}
+.btnBox{
+    text-align: center;
+    margin-top: 20px;
+}
+.ref{
+    margin-top: 20px;
+}
+.dataBox{
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+}
+.dateBox{
+    display: flex;
+}
+.dateBox button{
+    margin: 0px 2px;
+}
+.dateBox input{
+    margin: 0px 2px;
+}
+.supDtailBox{
+    width: 100%;
+}
+.supDtailContent span{
+    font-size: 15px;
+    font-weight: bold;
+}
+.supDtailContent > div{
+    border-bottom: 1px solid #eeeeee;
+}
+.replyBtn {
+    text-align: center; /* 가운데 정렬 */
+    margin-top: 10px; /* 버튼 상단 여백 */
+}
+.replyBtn .btn {
+    margin: 5px; /* 버튼 사이에 여백 */
+}
+.replycontentBox{
+    width: 100%;
+}
+
+/* 테이블을 감싸는 div */
+.table-wrapper {
+    max-height: 400px; /* 최대 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤 활성화 */
+    display: block; /* block으로 설정 */
+    width: 100%; /* 테이블의 부모 요소 너비를 100%로 설정 */
+}
+
+/* thead 고정 */
+.table-wrapper thead {
+    display: block; /* block으로 설정하여 스크롤과 고정 효과 적용 */
+    position: sticky; /* 스크롤 시 고정 */
+    top: 0; /* 상단에 고정 */
+    z-index: 1; /* 스크롤된 내용 위로 표시 */
+}
+
+/* tbody 스크롤 */
+.supportPrintBox{
+    display: block; /* block으로 설정하여 스크롤 적용 */
+    height: 300px; /* 본문 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤 활성화 */
+    width: 100%; /* tbody의 너비를 100%로 설정 */
+}
+
+/* 각 셀 스타일 */
+.table-wrapper th, .table-wrapper td {
+    padding: 8px; /* 셀 패딩 */
+    text-align: left; /* 텍스트 정렬 */
+    box-sizing: border-box; /* 박스 모델 설정 */
+    flex: 1; /* 셀 너비를 균등하게 설정 */
+    text-align: center;
+}
+
+/* tr 레이아웃 조정 */
+.table-wrapper tr {
+    display: flex; /* flexbox 사용 */
+}
+
+.replyBox{
+    display: flex;
+    justify-content: space-between;
+}
+
+.updateBox{
+    display: flex;
+    justify-content: space-between;
+}

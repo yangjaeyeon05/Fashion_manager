@@ -64,6 +64,7 @@ public class FileService{
                     // 각 데이터 저장을 위한 셀 생성
                     Cell cell = row.createCell(i - 1);
                     // rs.getString(숫자) : 해당 숫자 번째 열의 데이터
+                    // 먼저 getInt()를 써보고 숫자가 아닌 데이터면 getString()으로 가져오기
                     try {
                         cell.setCellValue(rs.getInt(i));
                     } catch (NumberFormatException e) {
@@ -74,11 +75,11 @@ public class FileService{
 
             // 엑셀 파일을 바이트 배열로 변환
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                // 엑셀 객체를 바이트 배열로 내보내기
+            // 엑셀 객체를 바이트 배열로 내보내기
             workbook.write(outputStream);
-                // 엑셀 객체 닫기
+            // 엑셀 객체 닫기
             workbook.close();
-                // 완성된 바이트 배열을 반환
+            // 완성된 바이트 배열을 반환
             return outputStream.toByteArray();
         } catch (Exception e) {
             System.out.println("exportToExcel() : " + e);
