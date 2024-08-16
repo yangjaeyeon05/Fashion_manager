@@ -27,20 +27,18 @@ public class FileController {
             System.out.println("excelController");
             // @Service에서 ResultSet을 바이트배열로 변환해서 받아온 바이트배열
             byte[] excelBytes = fileService.exportToExcel();
-            System.out.println("bytearray : " + excelBytes.length);
-//            // HTTP 응답으로 엑셀 파일 반환
-//                // 파일 타입 : .xlsx 파일
-//            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-//                // 파일 이름 : TableExport.xlsx
-//            response.setHeader("Content-Disposition", "attachment; filename=TableExport.xlsx");
-//                // 엑셀 파일 전송
-//            response.getOutputStream().write(excelBytes);
+
+            // 헤더 생성
             HttpHeaders headers = new HttpHeaders();
+            // 파일 이름 정하기
             headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=TableExport.xlsx");
+            // 파일 타입 (전송타입)
             headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream");
 
+            // byte 배열 resource 객체
             ByteArrayResource resource = new ByteArrayResource(excelBytes);
 
+            // HTTP 응답 객체 생성 및 반환
             return ResponseEntity
                     .ok()
                     .headers(headers)
