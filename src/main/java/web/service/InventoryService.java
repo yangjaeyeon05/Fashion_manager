@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PutMapping;
 import web.model.dao.InventoryDao;
 import web.model.dto.InventoryDto;
+import web.model.dto.OrderdetailDto;
 import web.model.dto.ProductDto;
 
 import java.util.List;
@@ -56,4 +57,30 @@ public class InventoryService {
     }
 
     // ===================================  2024-08-14 김민석 ========================================= //
+//    // 주문 완료 시 자동 업데이트
+//    public boolean invAutoUpdateOrder(InventoryDto inventoryDto){
+//        System.out.println("inventoryDto = " + inventoryDto);
+//        int amount = inventoryDao.invAutoUpdateOrder(inventoryDto);
+//        inventoryDto.setProdAmount(amount);
+//        System.out.println("amount = " + amount);
+//        return inventoryDao.invAutoUpdateOrder2(inventoryDto);
+//    }
+
+    // 주문 취소 시 자동 업데이트
+    public boolean invAutoUpdateCancel(OrderdetailDto orderdetailDto){
+        System.out.println("orderdetailDto = " + orderdetailDto);
+        InventoryDto inventoryDto = inventoryDao.invAutoUpdateReturn(orderdetailDto);
+        System.out.println("inventoryDto = " + inventoryDto);
+        return inventoryDao.invAutoUpdateReturn2(inventoryDto);
+    }
+
+    // 반품 완료 시 자동 업데이트
+    public boolean invAutoUpdateReturn(OrderdetailDto orderdetailDto){
+        System.out.println("orderdetailDto = " + orderdetailDto);
+        InventoryDto inventoryDto = inventoryDao.invAutoUpdateCancel(orderdetailDto);
+        System.out.println("inventoryDto = " + inventoryDto);
+        return inventoryDao.invAutoUpdateCancel2(inventoryDto);
+    }
+
+    // ===================================  2024-08-16 김민석 ========================================= //
 }

@@ -112,7 +112,7 @@ public class OrderService {
                 .build();
     } //함수종료
     ///////////////////////////////////////////////////////////////////////////////////////////
-    // 주문 반품 확정 출력
+    // 주문 반품 확정 처리
     public boolean returnCheck(int orddetailcode) {
         return orderDao.returnCheck(orddetailcode);
     }

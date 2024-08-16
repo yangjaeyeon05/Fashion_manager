@@ -133,3 +133,17 @@ function inventoryChart(prodDetailcode) {
 }
 
 // ===================================  2024-08-14 김민석 ========================================= //
+
+
+
+function invAutoUpdateOrder() {
+
+}
+
+function invAutoUpdateReturn() {
+
+}
+
+function invAutoUpdateCancel() {
+
+}

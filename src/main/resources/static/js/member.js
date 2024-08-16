@@ -129,7 +129,7 @@ function memberRecommend(memcode) {
     $.ajax({
         async: false,
         method: "get",
-        url: "/member/recommend",
+        url: "/member/newrecommend",
         data: { memcode: memcode },
         success: function response(result) {
             console.log(result);

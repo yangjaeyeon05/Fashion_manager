@@ -32,61 +32,81 @@ public class MemberService {
 
     // -------------------------- 2024-08-05 ---------------------------------------- //
 
-    // 회원 번호에 맞는 사이즈 가져오기
-    public String memberRecommend(MemberDto memberDto){
-        //  DAO 의 memberRecommend 메소드에 memberDto 를 매개변수로 보내서 회원의 선호 사이즈를 String 타입으로 받아옴
-        String s = memberDao.memberRecommend(memberDto);
-        //  Sout 을 통해서 받은 값 확인
-        System.out.println(s);
-        //  회원의 선호 사이즈 반환
-        return s;
-    }
-
-    // 가져온 회원의 선호 사이즈와 DAO 에서 받아온 정보를 반복문을 통해 사이즈가 일치하는 것만 새로운 LIST 에 저장함.
-    public List<Map<String, String>> SizeRecommend(MemberDto memberDto){
-        String s = memberRecommend(memberDto);
-        memberDto.setMemsize(s);
-        System.out.println(memberDto);
-        List<ProductDto> list = memberDao.SizeRecommend();
-        List<Map<String, String>> recommendList = new ArrayList<>();
-        Map<String, String> recommend = new HashMap<>();
-        for (int i = 0; i < list.size(); i++) {
-            if(list.get(i).getProdSize().equals(memberDto.getMemsize())){
-                recommend.put("size",list.get(i).getProdSize());
-                recommend.put("color",String.valueOf(list.get(i).getColorCode()));
-                recommend.put("name", list.get(i).getProdName());
-                recommend.put("price",String.valueOf(list.get(i).getProdPrice()));
-                recommend.put("desc",list.get(i).getProdDesc());
-                recommend.put("file",list.get(i).getProdFilename());
-                recommendList.add(recommend);
-            }
-        }
-        System.out.println(recommendList);
-        return recommendList;
-    }
+//    // 회원 번호에 맞는 사이즈 가져오기
+//    public String memberRecommend(MemberDto memberDto){
+//        //  DAO 의 memberRecommend 메소드에 memberDto 를 매개변수로 보내서 회원의 선호 사이즈를 String 타입으로 받아옴
+//        String s = memberDao.memberRecommend(memberDto);
+//        //  Sout 을 통해서 받은 값 확인
+//        System.out.println(s);
+//        //  회원의 선호 사이즈 반환
+//        return s;
+//    }
+//
+//    // 가져온 회원의 선호 사이즈와 DAO 에서 받아온 정보를 반복문을 통해 사이즈가 일치하는 것만 새로운 LIST 에 저장함.
+//    public List<Map<String, String>> SizeRecommend(MemberDto memberDto){
+//        String s = memberRecommend(memberDto);
+//        memberDto.setMemsize(s);
+//        System.out.println(memberDto);
+//        List<ProductDto> list = memberDao.SizeRecommend();
+//        List<Map<String, String>> recommendList = new ArrayList<>();
+//        Map<String, String> recommend = new HashMap<>();
+//        for (int i = 0; i < list.size(); i++) {
+//            if(list.get(i).getProdSize().equals(memberDto.getMemsize())){
+//                recommend.put("size",list.get(i).getProdSize());
+//                recommend.put("color",String.valueOf(list.get(i).getColorCode()));
+//                recommend.put("name", list.get(i).getProdName());
+//                recommend.put("price",String.valueOf(list.get(i).getProdPrice()));
+//                recommend.put("desc",list.get(i).getProdDesc());
+//                recommend.put("file",list.get(i).getProdFilename());
+//                recommendList.add(recommend);
+//            }
+//        }
+//        System.out.println(recommendList);
+//        return recommendList;
+//    }
 
 
     // -------------------------- 2024-08-07 ---------------------------------------- //
 
     // 그 날 많이 팔린 물품 + 나의 성별 + 선호 사이즈에 따른 제품 추천
 
-    public List<Map<String, String>> memberRecommend2(MemberDto memberDto){
-
-        System.out.println("memberDto = " + memberDto);
-
-        List<ProductDto> list = memberDao.SizeRecommend();
-        List<Map<String, String>> list1 = memberDao.memberRecommend2(memberDto);
-        for (int i = 0; i < list1.size(); i++) {
-            for (int j = 0; j < list.size(); j++) {
-                if(list1.get(i).get("memgender").equals(list.get(j).getProdGender()) && list1.get(i).get("memsize").equals(list.get(i).getProdSize())){
-
-                }
-            }
-
-        }
-
-
-        return null;
+//    public List<Map<String, String>> memberRecommend2(MemberDto memberDto){
+//
+//        System.out.println("memberDto = " + memberDto);
+//        List<ProductDto> list = memberDao.SizeRecommend(); // 제품목록
+//        List<Map<String, String>> list1 = memberDao.memberRecommend2(memberDto); //
+//        List<Map<String, String>> list2 = new ArrayList<>();
+//
+//        for (int i = 0; i < list1.size(); i++) {
+//            System.out.println(">>");
+//            System.out.println( list1.get(i).get("memgender"));
+//            System.out.println( list1.get(i).get("memsize"));
+//
+//            for (int j = 0; j < list.size(); j++) {
+//                System.out.println(">>>>>>");
+//                System.out.println(list.get(j).getProdGender());
+//                System.out.println(list.get(j).getProdSize());
+//
+//                if(list1.get(i).get("memgender").equals(list.get(j).getProdGender()) && list1.get(i).get("memsize").equals(list.get(j).getProdSize())){
+//                    Map<String, String> map = new HashMap<>();
+//                    map.put("prodname",list.get(j).getProdName());
+//                    map.put("colorcode",String.valueOf(list.get(j).getColorCode()));
+//                    map.put("prodsize",list.get(j).getProdSize());
+//                    map.put("prodprice",String.valueOf(list.get(j).getProdPrice()));
+//                    map.put("proddesc",list.get(j).getProdDesc());
+//                    map.put("prodfilename",list.get(j).getProdFilename());
+//                    map.put("prodgender",list.get(j).getProdGender());
+//                    list2.add(map);
+//                }
+//            }
+//
+//        }
+//        System.out.println("list1 = " + list1);
+//        return list2;
+//    }
+    public List<Map<String, String>> memberRecommend2(MemberDto memberDto) {
+        return memberDao.memberRecommend2(memberDto);
     }
 
+    // ===================================  2024-08-16 김민석 ========================================= //
 }

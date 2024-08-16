@@ -143,7 +143,7 @@ public class OrderDao extends Dao{
 ///////////////////////////////////////////////////////////////////////////////////////////
     // 주문 취소 확정
     public boolean ordcheck (int orddetailcode){
-
+        System.out.println("1111 orddetailcode = " + orddetailcode);
         try{
             String sql = "update orderdetail SET ordstate = -4 where orddetailcode = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -246,6 +246,7 @@ public ArrayList<OrderdetailDto> ordReturn (int offset, int limit, String firstd
         }catch (Exception e){System.out.println(e);}
         return false;
     }
+
     ///////////////////////////////////////////////////////////////////////
     //반품완료 목록 호출 함수
     public ArrayList<OrderdetailDto> returnOrd (int offset, int limit){ //function start
