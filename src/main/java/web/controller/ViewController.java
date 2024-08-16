@@ -55,16 +55,28 @@ public class ViewController {
     public String productGetAll(){return "/product/productgetall.html";}
 
     // 4-1. 매출분석
-    @GetMapping("/sales")
-    public String sales(){return "/sales/sales.html";}
+    @GetMapping("/sales/total")
+    public String totalsales(){return "/sales/total.html";}
 
     // 4-1-1. 연매출분석
-    @GetMapping("/sales/yearlyview")
+    @GetMapping("/sales/yearly")
     public String yearlySales(){return "/sales/yearly.html";}
 
-    // 4-2. 매출/상품분석
-    @GetMapping("/sales/items")
-    public String salesItem(){return "/sales/items.html";}
+    // 4-1-2. 월간매출분석
+    @GetMapping("/sales/monthly")
+    public String monthlySales(){return "/sales/monthly.html";}
+
+    // 4-2. 매출/상품분석/연단위상품분석
+    @GetMapping("/sales/product/total")
+    public String totalItem(){return "/sales/product/total.html";}
+
+    // 4-2-1. 매출/상품분석/월단위상품분석
+    @GetMapping("/sales/product/yearly")
+    public String yearlyItem(){return "/sales/product/yearly.html";}
+
+    // 4-2-2. 매출/상품분석/일단위상품분석
+    @GetMapping("/sales/product/monthly")
+    public String monthlyItem(){return "/sales/product/monthly.html";}
 
     // 4-3. 매출/매출추이분석
     @GetMapping("/sales/weekly")

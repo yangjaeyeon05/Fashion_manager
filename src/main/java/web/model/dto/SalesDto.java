@@ -26,6 +26,7 @@ public class SalesDto {
     private int prodcode; // 제품 코드
     private String prodname; // 제품 이름
     private int prodprice; // 제품 가격
+    private String prodcatename; // 제품 분류명
 
     // 쿠폰 필드
     private String coupcode; // 쿠폰 고유코드

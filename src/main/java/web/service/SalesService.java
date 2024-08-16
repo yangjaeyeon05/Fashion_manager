@@ -15,38 +15,44 @@ public class SalesService {
     @Autowired
     private FileService fileService;
 
-    // [0] 최근 일주일 매출 조회 (레코드 : 일 단위)
+    // [0] (매출탭 기본페이지) 최근 일주일 매출 조회 (레코드 단위 : 일)
     public ArrayList<SalesDto> weeklySales(){
         return salesDao.weeklySales();
     }
 
-    // [1] 총 매출 조회 (레코드 단위 : 연도)
+    // [1] 연단위 매출 조회 (레코드 단위 : 연도)
     public ArrayList<SalesDto> totalSales(){
         return salesDao.totalSales();
     }
 
-    // [1-1] 연매출 조회 (레코드 단위 : 월)
+    // [1-1] 월단위 매출 조회 (레코드 단위 : 월)
     public ArrayList<SalesDto> yearlySales(int year){
         return salesDao.yearlySales(year);
     }
 
-    // [1-2] 월간 매출 조회 (레코드 : 일 단위)
+    // [1-2] 일단위 매출 조회 (레코드 : 일 단위)
     public ArrayList<SalesDto> monthlySales(int year, int month){
         return salesDao.monthlySales(year, month);
     }
-    // [2] 총 판매된 제품 순위
+
+    // [2] 연단위 판매된 제품 순위
     public ArrayList<SalesDto> totalProducts(){
         return salesDao.totalProducts();
     }
 
-    // [2-1] 연간 판매된 제품 순위
+    // [2-1] 월단위 판매된 제품 순위
     public ArrayList<SalesDto> yearlyProducts(int year){
         return salesDao.yearlyProducts(year);
     }
 
-    // [2-2] 월간 판매된 제품 순위
+    // [2-2] 일단위 판매된 제품 순위
     public ArrayList<SalesDto> monthlyProducts(int year, int month){
         return salesDao.monthlyProducts(year, month);
+    }
+
+    // [2-3] 색상 및 크기별 매출 현황, 날짜구간 2000-00-00 ~ 2000-00-00
+    public ArrayList<SalesDto> colorSize (String startDate, String endDate){
+        return salesDao.colorSize(startDate, endDate);
     }
 
     // [3] 쿠폰코드별
@@ -69,8 +75,5 @@ public class SalesService {
         return salesDao.compareDates(firstDate, secondDate);
     }
 
-    // [7] 색상 및 크기별 매출 현황, 날짜구간 2000-00-00 ~ 2000-00-00
-    public ArrayList<SalesDto> colorSize (String startDate, String endDate){
-        return salesDao.colorSize(startDate, endDate);
-    }
+
 }

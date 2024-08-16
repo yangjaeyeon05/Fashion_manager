@@ -42,21 +42,53 @@ public class FileService{
             // 현재 세션에 저장된 최근 SQL문으로 조회된 ResultSet
             ResultSet rs = fileDao.exportToExcel();
             System.out.println("rs in service : "+rs );
+
             // 헤더 작성 (Column/열 레이블/이름들)
-                // 0번째 줄 작성 = 테이블 열 명칭들
+            // 0번째 줄 작성 = 테이블 열 명칭들
             Row headerRow = sheet.createRow(0);
-                // rs에 저장된 열 개수 정보 (메타데이터에서)
+            // rs에 저장된 열 개수 정보 (메타데이터에서)
             int columnCount = rs.getMetaData().getColumnCount();
-                // 각 셀/칸마다 열 이름으로 지정 (테이블 열 이름들 지정하기)
+
+
+            // 셀 스타일 객체 생성 (첫 줄을 볼드체로 + 배경을 노란색으로)
+            CellStyle cellStyle = workbook.createCellStyle();
+            // 첫 줄 폰트를 볼드체로 지정할 폰트 객체
+            Font font = workbook.createFont();
+            font.setBold(true); // 폰트 = 볼드체
+            // 셀 스타일 객체에 폰트 서식 등록
+            cellStyle.setFont(font);
+            // 배경색 노란색으로 설정
+            cellStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+            cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+
+            // 금액 칸 서식 설정
+            CellStyle currencyStyle = workbook.createCellStyle();
+            // 숫자 형식 설정 (대한민국 원)
+            DataFormat format = workbook.createDataFormat();
+            currencyStyle.setDataFormat(format.getFormat("₩ #,##0"));
+
+            ArrayList<Integer> currencyColumn = new ArrayList<>();
+
+            // 각 셀/칸마다 열 이름으로 지정 (테이블 열 이름들 지정하기)
             for (int i = 1; i <= columnCount; i++) {
                 Cell cell = headerRow.createCell(i - 1);
+                if (rs.getMetaData().getColumnName(i).contains("금액")){
+                    currencyColumn.add(i);
+                }
                 cell.setCellValue(rs.getMetaData().getColumnName(i));
+                cell.setCellStyle(cellStyle);
             }
 
+            // 각각 금액 열의 너비를 6000 픽셀로 설정 (대략 23문자)
+            currencyColumn.forEach(col -> {
+                sheet.setColumnWidth(col-1, 6000); // columnCount 는 1부터 시작하므로 1 빼주기
+            });
+
             // 데이터 작성
-                // 현재 작성하는 행 번호 (0번째 행은 테이블 열 이름들 줄)
+            // 현재 작성하는 행 번호 (0번째 행은 테이블 열 이름들 줄)
             int rowCount = 1;
-                // rs.next() 루프
+            // rs.next() 루프
             while (rs.next()) {
                 // 행 생성 후 rowCount 1 증가
                 Row row = sheet.createRow(rowCount++);
@@ -65,6 +97,12 @@ public class FileService{
                     Cell cell = row.createCell(i - 1);
                     // rs.getString(숫자) : 해당 숫자 번째 열의 데이터
                     // 먼저 getInt()를 써보고 숫자가 아닌 데이터면 getString()으로 가져오기
+
+                    // 금액 칸 서식 설정 ( 금액 열일때 )
+                    if (currencyColumn.contains(i)) {
+                        cell.setCellStyle(currencyStyle);
+                    }
+                    
                     try {
                         cell.setCellValue(rs.getInt(i));
                     } catch (NumberFormatException e) {

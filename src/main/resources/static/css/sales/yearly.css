@@ -123,3 +123,10 @@
     display: flex;
     justify-content: space-between;
 }
+
+
+
+.categoryActive{
+    color:rgb(0, 145, 84);
+    text-decoration: underline;
+}

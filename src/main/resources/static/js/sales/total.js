@@ -1,19 +1,6 @@
-let data1 = [
-    { year: 2010, count: 10 },
-    { year: 2011, count: 20 },
-    { year: 2012, count: 15 },
-];
+console.log('support.js');
 
-let data2 = [
-    { year: 2014, count: 22 },
-    { year: 2015, count: 30 },
-    { year: 2016, count: 28 },
-];
-let labelList = []
-let dataList = []
-drawChart(data1)
 getSalesData()
-
 
 // 테이블에 오늘부터 일주일 전까지 날짜 및 데이터 가져오는 함수
 function getSalesData(){
@@ -24,7 +11,7 @@ function getSalesData(){
     $.ajax({  // 테이블 데이터 가져오는 ajax
         async : false,
         method : "GET",
-        url : "/sales/todaytable",
+        url : "/sales/totaltable",
         success : r => {
             console.log(r);
             // 2000-00-00 방식으로 잘라낸 날짜 목록
@@ -80,7 +67,7 @@ function getSalesData(){
 // 엑셀로 테이블 데이터 다운받기
 function excelExport(){
     console.log('excelExport');
-    let xhr = new XMLHttpRequest();
+    var xhr = new XMLHttpRequest();
             xhr.open('GET', '/file/export/excel', true);
             xhr.responseType = 'blob'; // 서버에서 반환된 데이터를 Blob으로 처리
             xhr.onload = function() {
@@ -110,41 +97,61 @@ function excelExport(){
             xhr.send();
 }
 
-//데이터 변경
-function updateData(){
-    //데이터셋 수 만큼 반복
-    let dataset = config.data.datasets;
-    for(let i=0; i<dataset.length; i++){
-        console.log(dataset);
-        //데이터 갯수 만큼 반복
-        let data = dataset[i].data;
-        for(let j=0 ; j < data.length ; j++){
-            data[j] = Math.floor(Math.random() * 50);
-        }
+// 답변 내용 수정
+function createBox(replycode , supcode){
+    console.log('replyUpdate()');
+    // 수정을 위한 텍스트 입력 창 먼저 출력
+    // 어디에 
+    let replyUpdatebox = document.querySelector(".replyUpdatebox");
+    // 무엇을
+    let html = `
+                <th> 답변수정내용  </th>
+                <td colspan="5"> 
+                <div class="updateBox">
+                <input type="text" style="width:80%;"class="replycontent" placeholder="수정할 내용을 입력하세요" /> 
+                <button type="button" class="btn btn-success btn-sm" onclick="submitUpdate(${replycode} , ${supcode})">수정등록</button>
+                </div>
+                </td>
+                `;
+    // 출력
+    replyUpdatebox.innerHTML = html;
+    replyUpdate(replycode , supcode);
+}   // createBox() end
+
+// 답변 수정 요청을 서버로 보내는 함수
+function submitUpdate(replycode , supcode){
+    // 출력 후 입력된 값 가져오기
+    let replycontent = document.querySelector(".replycontent").value;
+    console.log(replycontent);
+    // 입력 내용이 비어 있는 경우 경고 메시지
+    if (!replycontent) {
+        alert('답변 내용을 입력해 주세요.');
+        return;
     }
-    myChart.update();	//차트 업데이트
-}
-
-
-
-function changeData(){
-    console.log("data2")
-    drawChart(data2)
-}
-
-function drawChart(inputData) {
-    let data = inputData
-    new Chart(
-        document.querySelector('#salesChart'),
-        {
-            type: 'line',
-            data: {
-                labels: data.map(row => row.year),
-                datasets: [{
-                    label: 'Acquisitions by year',
-                    data: data.map(row => row.count)
-                }] //dataset
-            } //data
-        } //chartOption
-    ); //newChart()
-}; //drawChart()
+    // 객체 만들어서 전달
+    let info = {
+        replycontent : replycontent , replycode : replycode
+    }
+    console.log(info);
+    // ajax 통신
+    $.ajax({
+        async : false , 
+        method : "put" , 
+        url : "/support/respedit" , 
+        data : JSON.stringify(info) , // 객체를 JSON 문자열로 변환
+        contentType : "application/json" , 
+        success : (r) => {
+            console.log(r);
+            if(r){
+                alert('답변수정성공');
+                replyRead(supcode);     // 새로고침
+                supDetailRead(supcode);
+            }else{
+                alert('답변수정실패')
+            }
+        } , 
+        error : (e) => {
+            console.log(e);
+        }
+    })  // ajax end
+}   // submitUpdate() end
