@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/vendor/vendor.css" rel="stylesheet">
+    <title>Title</title>
+</head>
+<body>
+    <div th:replace="~{/sidebar.html:: sidebar}"></div>
+    <div id="main">
+        <div class="wrap">
+            <div id="title">
+                <span>거래처관리</span>
+                <div>
+                    <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#vendorAddModal"> 거래처등록 </button>                        
+                    <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#pologModal"> 발주현황 </button>  
+                </div>                      
+            </div>
+            <div class="searchBox">
+                <table class="searchTable table">
+                    <colgroup>
+                        <col width="13%">
+                        <col width="13%">
+                        <col width="13%">
+                        <col width="13%">
+                        <col width="13%">
+                        <col width="35%">
+                    </colgroup>
+                    <tbody> 
+                        <tr> 
+                            <th> 상세검색 </th> 
+                                <td colspan="3"> 
+                                    <select class="searchKey"> 
+                                        <option value=""> 선택 </option>
+                                        <option value="vname"> 거래처이름 </option>
+                                        <option value="vaddress"> 지역 </option>
+                                    </select> 
+                                    <input type="text" class="form-text searchKeyword"/>
+                                </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="btnBox">
+                    <button class="btn btn-success" type="button" onclick="vendorallread()"> 검색 </button>                        
+                </div>
+            </div> <!-- searchBox end -->
+
+            <div> <!-- 거래처목록 -->
+                <div class="ref">
+                    <span> * 거래처이름을 클릭하시면 거래처별 상품목록을 볼 수 있습니다. </span>
+                </div>
+                <div class="table-wrapper">
+                    <table class="dataBox table">
+                        <thead>
+                            <tr>
+                                <th> 선택 </th>
+                                <th> 거래처코드 </th>
+                                <th> 이름 </th>
+                                <th> 연락처 </th>
+                                <th> 주소 </th>
+                                <th> 등록일 </th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody class="vendorPrinbox">
+                            
+                        </tbody>
+                    </table>
+                </div>
+                <div class="btnBox">
+                    <button class="btn btn-success" id="vendorUpdate" type="button" data-bs-toggle="modal" data-bs-target="#vendorUPdateModal" onclick="infoRead()"> 수정 </button>                        
+                    <button class="btn btn-success" type="button" onclick="vendorDelete()"> 삭제 </button>                        
+                </div>
+            </div>  <!-- 거래처 목록 출력 end -->
+
+            <!-- 거래처등록 Modal -->
+            <div class="modal fade" id="vendorAddModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">|거래처등록</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <table class="table vendorAddTable">
+                                <tbody> 
+                                    <tr> 
+                                        <th> 거래처 </th> 
+                                            <td> 
+                                                <input style="width: 200px;" type="text" class="form-text vname"/>
+                                            </td>
+                                        <th> 연락처 </th> 
+                                            <td> 
+                                                <input type="text" class="form-text vcontact"/>
+                                            </td>    
+                                    </tr>
+                                    <tr> 
+                                        <th> 주소 </th> 
+                                            <td colspan="3"> 
+                                                <input type="text" class="form-text vaddress"/>
+                                            </td> 
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-success" onclick="vendorAdd()">등록</button>
+                    </div>
+                </div>
+                </div>
+            </div> <!-- 거래처등록 Modal end -->
+
+            <!-- 거래처수정 Modal -->
+            <div class="modal fade" id="vendorUPdateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">|거래처수정</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <table class="table vendorAddTable">
+                                <tbody> 
+                                    <tr> 
+                                        <th> 거래처 </th> 
+                                            <td> 
+                                                <div id="vname"></div>
+                                            </td>
+                                        <th> 연락처 </th> 
+                                            <td> 
+                                                <input type="text" class="form-text vcontact" id="vcontact"/>
+                                            </td>    
+                                    </tr>
+                                    <tr> 
+                                        <th> 주소 </th> 
+                                            <td colspan="3"> 
+                                                <input type="text" class="form-text vaddress" id="vaddress"/>
+                                            </td> 
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-success" onclick="vendorUpdate()">등록</button>
+                    </div>
+                </div>
+                </div>
+            </div> <!-- 거래처수정 Modal end -->
+
+            <!-- 발주현황 Modal -->
+            <div class="modal fade" id="pologModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">|발주현황/h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    발주현황
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-success">등록</button>
+                    </div>
+                </div>
+                </div>
+            </div> <!-- 발주현황 Modal end -->
+
+        </div>  <!-- wrap end -->
+    </div>  <!-- main end -->
+    <!-- JS -->
+    <script src="/js/vendor/vendor.js"></script>
+</body>
+</html>

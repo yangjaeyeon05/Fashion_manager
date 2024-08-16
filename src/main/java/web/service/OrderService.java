@@ -1,10 +1,10 @@
 package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import web.model.dao.OrderDao;
-import web.model.dto.OrderDto;
 import web.model.dto.OrderdetailDto;
 import web.model.dto.PagenationDto;
 
@@ -14,45 +14,144 @@ import java.util.ArrayList;
 //0807 전체수정됨
 public class OrderService {
 
-    @Autowired OrderDao orderDao;
-
-    //주문목록 출력 함수 (페이지 기능 추가)
-//    public PagenationDto<OrderdetailDto> getorder(int page, int size){
-////        System.out.println("OrderService.getorder");
-//        int offset = (page - 1) * size; //현재 페이지(1) - 1 * 표시될 데이터수(10)
-//
-//        ArrayList<OrderdetailDto> ordstat =  orderDao.getorder(offset, size); //주문상태 변환
-//
-//        int totalOrders = orderDao.getTotalOrdersCount(); //최종 주문 DAO의  카운터 된 횟수만큼 가져오기
-//        int totalPages = totalOrders / size; //가지고온 횟수 / 표시될 데이터수(10개)
-//
-//        //주문상태 문자열로 변환
-//        ordstat.forEach(dto -> {
-//            orderStr(dto);
-//        });
-//
-//        return PagenationDto.<OrderdetailDto>builder()
-//                .page(page)
-//                .size(size)
-//                .totaldata(totalOrders)
-//                .totalPage(totalPages)
-//                .data(ordstat)
-//                .build();
-//    }
-
+    @Autowired
+    OrderDao orderDao;
+    
     //주문목록 날짜 출력함수
-    public PagenationDto<OrderdetailDto> getorder(int category ,int page , int size, String firstdate,String todayDate){
+    public PagenationDto<OrderdetailDto> getorder(int category, int page, int size, String firstdate, String todayDate) {
 //        System.out.println("page = " + page);
 //        System.out.println("size = " + size);
         int offset = (page - 1) * size; //현재 페이지(1) - 1 * 표시될 데이터수(10)
 //        System.out.println("offset = " + offset);
 
-        ArrayList<OrderdetailDto> ordstat = orderDao.getorder(category,offset,size,firstdate,todayDate);
+        ArrayList<OrderdetailDto> ordstat = orderDao.getorder(category, offset, size, firstdate, todayDate);
 
-        int totalOrders = orderDao.getTotalOrdersCount(category,firstdate,todayDate);
-        int totalPages = totalOrders / size;
+        int totalOrders = orderDao.getTotalOrdersCount(category, firstdate, todayDate);
+        int totalPages = totalOrders / size + 1;
 
-        ordstat.forEach( dto -> {
+        ordstat.forEach(dto -> {
+            orderStr(dto);
+        });
+        return PagenationDto.<OrderdetailDto>builder()
+                .page(page)
+                .size(size)
+                .totaldata(totalOrders)
+                .totalPage(totalPages)
+                .data(ordstat)
+                .build();
+    }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //주문취소 목록 출력
+    public PagenationDto<OrderdetailDto> ordCancel(int page, int size, String firstdate, String todayDate) {
+//        System.out.println("page = " + page);
+//        System.out.println("size = " + size);
+        int offset = (page - 1) * size; //현재 페이지(1) - 1 * 표시될 데이터수(10)
+//        System.out.println("offset = " + offset);
+
+        ArrayList<OrderdetailDto> ordstat = orderDao.ordCancel(offset, size, firstdate, todayDate);
+
+        int totalOrders = orderDao.getTotalOrdersCount2(firstdate, todayDate);
+        int totalPages = totalOrders / size + 1;
+
+        ordstat.forEach(dto -> {
+            orderStr(dto);
+        });
+        return PagenationDto.<OrderdetailDto>builder()
+                .page(page)
+                .size(size)
+                .totaldata(totalOrders)
+                .totalPage(totalPages)
+                .data(ordstat)
+                .build();
+    }
+///////////////////////////////////////////////////////////////////////////////////////
+    // 주문상태 문자열로 변환 0807생성
+    public void orderStr(OrderdetailDto orderdetailDto) {
+
+        if (orderdetailDto.getOrdstate() == 1) {
+            orderdetailDto.setOrdstateStr("주문완료");
+        } else if (orderdetailDto.getOrdstate() == 2) {
+            orderdetailDto.setOrdstateStr("배송시작");
+        } else if (orderdetailDto.getOrdstate() == 3) {
+            orderdetailDto.setOrdstateStr("반품");
+        } else if (orderdetailDto.getOrdstate() == 4) {
+            orderdetailDto.setOrdstateStr("취소");
+        } else if (orderdetailDto.getOrdstate() == 5) {
+            orderdetailDto.setOrdstateStr("정산완료");
+        } else if (orderdetailDto.getOrdstate() == -4) {
+            orderdetailDto.setOrdstateStr("취소완료");
+        } else if (orderdetailDto.getOrdstate() == -3) {
+            orderdetailDto.setOrdstateStr("반품완료");
+        }
+    }
+//////////////////////////////////////////////////////////////////////
+    // 주문 취소 확정 출력
+    public boolean ordcheck(int orddetailcode) {
+        return orderDao.ordcheck(orddetailcode);
+    }
+///////////////////////////////////////////////////////////////////////////
+    //취소 완료 목록
+    public PagenationDto<OrderdetailDto> cancelOrder(int page, int size ) {
+
+        int offset = (page - 1) * size; //현재 페이지(1) - 1 * 표시될 데이터수(10)
+
+        ArrayList<OrderdetailDto> ordstat = orderDao.cancelOrder(offset, size);
+
+        int totalOrders = orderDao.getTotalOrdersCount3();
+        int totalPages = totalOrders / size + 1;
+
+        ordstat.forEach(dto -> {
+            orderStr(dto);
+        });
+        return PagenationDto.<OrderdetailDto>builder()
+                .page(page)
+                .size(size)
+                .totaldata(totalOrders)
+                .totalPage(totalPages)
+                .data(ordstat)
+                .build();
+    } //함수종료
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    // 주문 반품 확정 출력
+    public boolean returnCheck(int orddetailcode) {
+        return orderDao.returnCheck(orddetailcode);
+    }
+/////////////////////////////////////////////////////////////////
+    //반품완료 목록출력
+    public PagenationDto<OrderdetailDto> returnOrd(int page, int size ) {
+
+        int offset = (page - 1) * size; //현재 페이지(1) - 1 * 표시될 데이터수(10)
+
+        ArrayList<OrderdetailDto> ordstat = orderDao.returnOrd(offset, size);
+
+        int totalOrders = orderDao.getTotalOrdersCount4();
+        int totalPages = totalOrders / size + 1;
+
+        ordstat.forEach(dto -> {
+            orderStr(dto);
+        });
+        return PagenationDto.<OrderdetailDto>builder()
+                .page(page)
+                .size(size)
+                .totaldata(totalOrders)
+                .totalPage(totalPages)
+                .data(ordstat)
+                .build();
+    } //함수종료
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    //반품목록 출력
+    public PagenationDto<OrderdetailDto> ordReturn(int page, int size, String firstdate, String todayDate) {
+//        System.out.println("page = " + page);
+//        System.out.println("size = " + size);
+        int offset = (page - 1) * size; //현재 페이지(1) - 1 * 표시될 데이터수(10)
+//        System.out.println("offset = " + offset);
+
+        ArrayList<OrderdetailDto> ordstat = orderDao.ordReturn(offset, size, firstdate, todayDate);
+
+        int totalOrders = orderDao.getTotalOrdersCount5(firstdate, todayDate);
+        int totalPages = totalOrders / size + 1;
+
+        ordstat.forEach(dto -> {
             orderStr(dto);
         });
         return PagenationDto.<OrderdetailDto>builder()
@@ -64,37 +163,5 @@ public class OrderService {
                 .build();
     }
 
-//    //카테고리 목록 출력함수 0807 생성
-//    public ArrayList<OrderdetailDto> manage2 (int ordcatagory){
-////        System.out.println("OrderController.manage2");
-//        ArrayList<OrderdetailDto> ordcate = orderDao.manage2(ordcatagory);
-//        ordcate.forEach( dto -> {
-//            orderStr( dto );
-////            System.out.println("dto = " + dto); //확인용
-//        });
-//        return ordcate;
-//    }
 
-    // 주문상태 문자열로 변환 0807생성
-    public void orderStr( OrderdetailDto orderdetailDto ){
-
-        if( orderdetailDto.getOrdstate() == 1 ){
-            orderdetailDto.setOrdstateStr("주문완료");
-        }else if( orderdetailDto.getOrdstate() == 2 ){
-            orderdetailDto.setOrdstateStr("배송시작");
-        }else if(orderdetailDto.getOrdstate() == 3){
-            orderdetailDto.setOrdstateStr("반품");
-        }else if(orderdetailDto.getOrdstate() == 4){
-            orderdetailDto.setOrdstateStr("취소");
-        }else if(orderdetailDto.getOrdstate() == 5){
-            orderdetailDto.setOrdstateStr("정산완료");
-        }
-    }
-
-
-
-
-
-
-
-}
+} //class end

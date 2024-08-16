@@ -33,19 +33,19 @@ public class ViewController {
     // 주문 목록 페이지
     @GetMapping("/order")
     public String order(){
-        return "/order.html";
+        return "/order/order.html";
     }
 
     // 주문 반품 페이지
     @GetMapping("order/return")
     public String orderReturn(){
-        return "/orderReturn.html";
+        return "/order/orderReturn.html";
     }
 
     // 주문 취소 페이지
     @GetMapping("/order/cancel")
     public String orderCancel(){
-        return "/orderCancel";
+        return "/order/orderCancel.html";
     }
     // 상품등록 페이지
     @GetMapping("/product/add")
@@ -77,4 +77,8 @@ public class ViewController {
     public String inventory(){
         return "/product/inventory.html";
     }
+
+    // 거래처관리페이지
+    @GetMapping("/vendor")
+    public String vendor(){return "/vendor/vendor.html";}
 }   // class end
