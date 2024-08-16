@@ -172,7 +172,7 @@ create table polog(
 	totalamount int , 								# 주문금액 주문수량 * 도매가
 	quantitydate date default (current_date) , 		# 주문 날짜
 	arrivaldate date , 								# 도착날짜
-    quantitystate int , 							# 처리상태
+    quantitystate int default 1, 							# 처리상태
     primary key(pocode) , 
     foreign key(wpcode) references wholesaleproduct(wpcode)
 	on delete cascade on update cascade 
@@ -211,6 +211,21 @@ insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilen
 insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (4, 3, 3, 'M', "모자1c3.png", "2022-08-01");
 insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (5, 2, 4, 'XXL', "청바지1c4.png", "2022-08-01");
 
+select * from wholesaleproduct wp 
+	inner join vendor v on wp.vendorcode = v.vendorcode
+    inner join productdetail pd on wp.proddetailcode = pd.proddetailcode where v.vendorcode = 1;
+
+select p.prodname , sum( pi.invlogchange) inv 
+	from productdetail pd inner join product p  inner join invlog pi
+	on pd.prodcode = p.prodcode and pd.proddetailcode = pi.proddetailcode
+	group by pd.proddetailcode having proddetailcode = 1;
+    
+select * from wholesaleproduct wp 
+	inner join vendor v on wp.vendorcode = v.vendorcode
+	inner join productdetail pd on wp.proddetailcode = pd.proddetailcode
+	inner join color c on pd.colorcode = c.colorcode
+	inner join polog po on po.wpcode = wp.wpcode;
+    
 # 거래처
 insert into vendor(vname , vcontact , vaddress) values('시크보그무역' , '02-1111-1111' , '서울시 종로구 청계천로 500, 3층');
 insert into vendor(vname , vcontact , vaddress) values('스타일스피어' , '02-2222-2222' , '경기도 고양시 일산동구 중앙로 321, 2층');
@@ -230,11 +245,13 @@ insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) valu
 select * from wholesaleproduct;
 
 # 발주로그
-insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(1 , 3 , 21000 , '2024-08-16' , 1);
+insert into polog(wpcode , quantity , totalamount , arrivaldate) values(1 , 3 , 21000 , '2024-08-16');
 insert into polog(wpcode , quantity , totalamount , quantitystate) values(2 , 5 , 35000 , 1);
 insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(3 , 2 , 10000 , '2024-08-14' , 2);
 insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(4 , 3 , 30000 , '2024-08-14' , 2);
 insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(5 , 3 , 54000 , '2024-08-14' , 2);
+select * from polog;
+update polog set quantitystate = 2 , arrivaldate = (current_date) where pocode = 2;
 
 # members
 insert into members(memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('유재석', '010-1111-1111', 'you@naver.com', 'M', '1', 'M', '2022-08-01');
@@ -270,6 +287,7 @@ insert into invlog(proddetailcode, invlogchange, invlogdetail) values (1, -2, 2)
 insert into invlog(proddetailcode, invlogchange, invlogdetail) values (1, 2, 4);
 insert into invlog(proddetailcode, invlogchange, invlogdetail) values (2, 10, 1);
 insert into invlog(proddetailcode, invlogchange, invlogdetail) values (2, -3, 2);
+select * from invlog;
 
 # support
 insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(1, 1, '상담1', '반품문의',	'2024-07-31', null, 1, 1);

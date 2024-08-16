@@ -14,7 +14,7 @@
                 <span>거래처관리</span>
                 <div>
                     <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#vendorAddModal"> 거래처등록 </button>                        
-                    <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#pologModal"> 발주현황 </button>  
+                    <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#pologModal" onclick="pologRead()"> 발주현황 </button>  
                 </div>                      
             </div>
             <div class="searchBox">
@@ -55,7 +55,7 @@
                         <thead>
                             <tr>
                                 <th> 선택 </th>
-                                <th> 거래처코드 </th>
+                                <th> 코드 </th>
                                 <th> 이름 </th>
                                 <th> 연락처 </th>
                                 <th> 주소 </th>
@@ -154,16 +154,75 @@
                 </div>
             </div> <!-- 거래처수정 Modal end -->
 
-            <!-- 발주현황 Modal -->
-            <div class="modal fade" id="pologModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
+            <!-- 거래처별 도매상품 Modal -->
+            <div class="modal fade" id="wpModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">|발주현황/h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">|도매상품</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                    발주현황
+                        <div class="table-wrapper">
+                            <table class="dataBox table" id="wpTable">
+                                <thead>
+                                    <tr>
+                                        <th> 도매코드 </th>
+                                        <th> 도매이름 </th>
+                                        <th> 도매가 </th>
+                                        <th> 상품이름 </th>
+                                        <th> 사이즈 </th>
+                                        <th> 컬러 </th>
+                                        <th> 거래처명 </th>
+                                        <th> 재고 </th>
+                                        <th> 발주수량 </th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody class="wpPrintbox">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+                </div>
+            </div> <!-- 거래처별 도매상품  Modal end -->
+
+            <!-- 발주현황 Modal -->
+            <div class="modal fade" id="pologModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">|발주현황 </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-wrapper">
+                            <table class="dataBox table" id="poTable">
+                                <thead>
+                                    <tr>
+                                        <th> 발주코드 </th>
+                                        <th> 도매이름 </th>
+                                        <th> 수량 </th>
+                                        <th> 사이즈 </th>
+                                        <th> 컬러 </th>
+                                        <th> 총주문금액 </th>
+                                        <th> 거래처명 </th>
+                                        <th> 주문날짜 </th>
+                                        <th> 도착날짜 </th>
+                                        <th> 처리상태 </th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody class="poPrintbox">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
