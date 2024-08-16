@@ -27,13 +27,13 @@ public class SalesDao extends Dao{
 
 
 
-    // [0] 최근 일주일 매출 조회 (레코드 : 일 단위)
+    // [0] (매출탭 기본페이지) 최근 일주일 매출 조회 (레코드 단위 : 일)
     public ArrayList<SalesDto> weeklySales() {
         try{
             ArrayList<SalesDto> salesList = new ArrayList<>();
             // 최근 일주일 매출 : 날짜 / 주문건수 / 주문상품수량 / 반품상품수량 / 취소상품수량 / 실주문상품수량 / 총매출금액 / 할인금액 / 실매출금액
             String sql = "select day(orddate) 일자, " + // 주문날짜에서 일 부분 잘라서 구분
-                    "count(distinct ordcode) 주문건수, " + // 주문코드마다 한번씩 더하기 (orderdetail테이블에서 ordcode 하나에 상품이 여러개 있을 수 있다)
+                    "count(ordcode) 주문건수, " + // 주문코드마다 한번씩 더하기 (orderdetail테이블에서 ordcode 하나에 상품이 여러개 있을 수 있다)
                     "sum(ordamount) 총주문상품수, " + // 총 주문된 상품 수
                     "sum(case when ordstate = 3 then ordamount else 0 end) 반품상품수량, " + // 반품된 상품 수
                     "sum(case when ordstate = 4 then ordamount else 0 end) 취소상품수량, " + // 취소된 상품 수
@@ -73,20 +73,20 @@ public class SalesDao extends Dao{
         return null; // try/error 실패시 null 반환
     }
 
-    // [1] 총 매출 조회 (레코드 단위 : 연도)
+    // [1] 연단위 매출 조회 (레코드 단위 : 연도)
     public ArrayList<SalesDto> totalSales() {
         try{
             ArrayList<SalesDto> salesList = new ArrayList<>();
             // 총 매출 : 연도 / 주문건수 / 반품건수 / 취소건수 / 실주문건수 / 총매출금액 / 할인금액 / 실매출금액
             String sql = "select year(orddate) 연도, " +
-                    " count(distinct ordcode) 주문건수, " +
+                    " count(ordcode) 주문건수, " +
                     " sum(ordamount) 주문상품수량, " +
                     " sum(case when ordstate = 3 then ordamount else 0 end) 반품상품수량, " +
                     " sum(case when ordstate = 4 then ordamount else 0 end) 취소상품수량, " +
                     " sum(case when ordstate !=3 and ordstate !=4 then ordamount else 0 end) 실주문상품수량, " +
-                    " format(sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount, 0) else 0 end), 'c', 'ko-KR') 총매출금액, " +
-                    " format(sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(coupsalerate/100), 0) else 0 end), 'c', 'ko-KR') 할인금액, " +
-                    " format(sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(1-(coupsalerate/100)), 0) else 0 end), 'c', 'ko-KR') 실매출금액 " +
+                    " sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount, 0) else 0 end) 총매출금액, " +
+                    " sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(coupsalerate/100), 0) else 0 end) 할인금액, " +
+                    " sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(1-(coupsalerate/100)), 0) else 0 end) 실매출금액 " +
                     " from orderdetail left outer join orders using (ordcode) inner join coupon using (coupcode) " +
                     " group by year(orddate);";
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -95,13 +95,14 @@ public class SalesDao extends Dao{
             // PreparedStatement 세션에 등록/교체
             HttpSession session = request.getSession();
             session.setAttribute("currentSql", ps);
+            System.out.println("세션 : " + session.getAttribute("currentSql"));
 
             ResultSet rs = ps.executeQuery();
             while(rs.next()){ // ResultSet 추출하기
                 SalesDto dto = SalesDto.builder() // SalesDto 하나 = SQL 조회된 레코드 행 하나, Lombok Build 메서드
                         .year(rs.getInt("연도"))
                         .orders(rs.getInt("주문건수"))
-                        .ordered(rs.getInt("총주문상품수"))
+                        .ordered(rs.getInt("주문상품수량"))
                         .returned(rs.getInt("반품상품수량"))
                         .canceled(rs.getInt("취소상품수량"))
                         .completed(rs.getInt("실주문상품수량"))
@@ -118,22 +119,22 @@ public class SalesDao extends Dao{
         return null; // try/error 실패시 null 반환
     }
 
-    // [1-1] 연매출 조회 (레코드 단위 : 월)
+    // [1-1] 월단위 매출 조회 (레코드 단위 : 월)
     public ArrayList<SalesDto> yearlySales(int year) {
         try{
             ArrayList<SalesDto> salesList = new ArrayList<>();
             //연매출 : 월 / 주문건수 / 반품건수 / 취소건수 / 실주문건수 / 총매출금액 / 할인금액 / 실매출금액
-            String sql = "select month(orddate) as 월, " +
-                         "count(distinct ordcode) 주문건수, " +
-                         "sum(case when ordstate = 3 then 1 else 0 end) 반품상품수량, " +
-                         "sum(case when ordstate = 4 then 1 else 0 end) canceled, " +
-                         "sum(case when ordstate !=3 and ordstate !=4 then 1 else 0 end) completed, " +
-                         "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount, 0) else 0 end) revenue, " +
-                         "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(coupsalerate/100), 0) else 0 end) saleAmount, " +
-                         "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(1-(coupsalerate/100)), 0) else 0 end) income " +
-                         "from orderdetail left outer join orders using(ordcode) inner join coupon using(coupcode) " +
-                         "where year(orddate) = ? " +
-                         "group by MONTH(orddate);";
+            String sql = " select month(orddate) as 월, " +
+                         " count(ordcode) 주문건수, " +
+                         " sum(case when ordstate = 3 then ordamount else 0 end) 반품상품수량, " +
+                         " sum(case when ordstate = 4 then ordamount else 0 end) 취소상품수량, " +
+                         " sum(case when ordstate !=3 and ordstate !=4 then ordamount else 0 end) 실주문상품수량, " +
+                         " sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount, 0) else 0 end) 총매출금액, " +
+                         " sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(coupsalerate/100), 0) else 0 end) 할인금액, " +
+                         " sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(1-(coupsalerate/100)), 0) else 0 end) 실매출금액 " +
+                         " from orderdetail left outer join orders using (ordcode) inner join coupon using (coupcode) " +
+                         " where year(orddate) = ? " +
+                         " group by month(orddate);";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, year);
 
@@ -165,13 +166,13 @@ public class SalesDao extends Dao{
         return null; // try/error 실패시 null 반환
     }
 
-    // [1-2] 월간 매출 조회 (레코드 : 일 단위)
+    // [1-2] 일단위 매출 조회 (레코드 : 일 단위)
     public ArrayList<SalesDto> monthlySales(int year, int month) {
         try{
             ArrayList<SalesDto> salesList = new ArrayList<>();
             //월간매출 : 날짜 / 월 / 주문건수 / 반품건수 / 취소건수 / 실주문건수 / 총매출금액 / 할인금액 / 실매출금액
             String sql = " select day(orddate) 일자, " +
-                    " count(distinct ordcode) 주문건수, " +
+                    " count(ordcode) 주문건수, " +
                     " sum(ordamount) 총주문상품수, " + // 총 주문된 상품 수
                     " sum(case when ordstate = 3 then 1 else 0 end) 반품상품수량, " +
                     " sum(case when ordstate = 4 then 1 else 0 end) 취소상품수량, " +
@@ -185,6 +186,10 @@ public class SalesDao extends Dao{
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, year); ps.setInt(2, month);
 
+            // 엑셀 내보내기시 필요 코드 2
+            // PreparedStatement 세션에 등록/교체
+            HttpSession session = request.getSession();
+            session.setAttribute("currentSql", ps);
 
             ResultSet rs = ps.executeQuery();
             while(rs.next()){ // ResultSet 추출하기
@@ -208,36 +213,45 @@ public class SalesDao extends Dao{
         return null; // try/error 실패시 null 반환
     }
 
-    // [2] 총 판매된 제품 순위
+    // [2] 연단위 판매된 제품 순위
     public ArrayList<SalesDto> totalProducts() {
         try{
             ArrayList<SalesDto> productList = new ArrayList<>();
-            //총판매제품순위 : (순위) 제품코드 / 제품명 / 제품가격 / 제품카테고리명 / 주문건수 / 실주문건수 / 총매출금액 / 할인금액 / 실매출금액
-            String sql = "select prodcode, prodname, prodprice, prodcatename, " +
-                        "count(ordstate) ordered, " +
-                        "sum(case when ordstate = 3 then 1 else 0 end) returned, " +
-                        "sum(case when ordstate = 4 then 1 else 0 end) canceled, " +
-                        "sum(case when ordstate !=3 and ordstate !=4 then 1 else 0 end) completed, " +
-                        "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount, 0) else 0 end) revenue, " +
-                        "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(coupsalerate/100), 0) else 0 end) saleAmount, " +
-                        "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(1-(coupsalerate/100)), 0) else 0 end) income " +
+            //연간판매제품순위 : (순위) 제품코드 / 제품명 / 제품가격 / 제품카테고리명 / 주문건수 / 반품건수 / 취소건수 / 실주문건수 / 총매출금액 / 할인금액 / 실매출금액
+            String sql = "select prodcode 제품코드, prodname 제품명, prodprice 제품가격, prodcatename 제품분류명, " +
+                        "count(ordcode) 주문건수, " +
+                        "sum(ordamount) 주문상품수량, " +
+                        "sum(case when ordstate = 3 then ordamount else 0 end) 반품상품수량, " +
+                        "sum(case when ordstate = 4 then ordamount else 0 end) 취소상품수량, " +
+                        "sum(case when ordstate !=3 and ordstate !=4 then ordamount else 0 end) 실주문상품수량, " +
+                        "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount, 0) else 0 end) 총매출금액, " +
+                        "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(coupsalerate/100), 0) else 0 end) 할인금액, " +
+                        "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(1-(coupsalerate/100)), 0) else 0 end) 실매출금액 " +
                         "from orderdetail left outer join orders using(ordcode) inner join productdetail using(proddetailcode) inner join product using(prodcode) inner join coupon using(coupcode) " +
-                        "group by prodcode order by income desc;";
+                        "group by prodcode, prodcatecode order by cast(replace(실매출금액, ',', '') as unsigned) desc;";
             PreparedStatement ps = conn.prepareStatement(sql);
+
+            // 엑셀 내보내기시 필요 코드 2
+            // PreparedStatement 세션에 등록/교체
+            HttpSession session = request.getSession();
+            session.setAttribute("currentSql", ps);
 
 
             ResultSet rs = ps.executeQuery();
             while(rs.next()){ // ResultSet 추출하기
                 SalesDto dto = SalesDto.builder() // SalesDto 하나 = SQL 조회된 레코드 행 하나, Lombok Build 메서드
-                        .day(rs.getInt("day"))
-                        .orders(rs.getInt("orders"))
-                        .ordered(rs.getInt("ordered"))
-                        .returned(rs.getInt("returned"))
-                        .canceled(rs.getInt("canceled"))
-                        .completed(rs.getInt("completed"))
-                        .revenue(rs.getInt("revenue"))
-                        .saleAmount(rs.getInt("saleAmount"))
-                        .income(rs.getInt("income"))
+                        .prodcode(rs.getInt("제품코드"))
+                        .prodname(rs.getString("제품명"))
+                        .prodprice(rs.getInt("제품가격"))
+                        .prodcatename(rs.getString("제품분류명"))
+                        .orders(rs.getInt("주문건수"))
+                        .ordered(rs.getInt("총주문상품수"))
+                        .returned(rs.getInt("반품상품수량"))
+                        .canceled(rs.getInt("취소상품수량"))
+                        .completed(rs.getInt("실주문상품수량"))
+                        .revenue(rs.getInt("총매출금액"))
+                        .saleAmount(rs.getInt("할인금액"))
+                        .income(rs.getInt("실매출금액"))
                         .build();
                 productList.add(dto);
             }
@@ -249,37 +263,47 @@ public class SalesDao extends Dao{
         return null;
     }
 
-    // [2-1] 연간 판매된 제품 순위
+    // [2-1] 월단위 판매된 제품 순위
     public ArrayList<SalesDto> yearlyProducts(int year) {
         try{
             ArrayList<SalesDto> productList = new ArrayList<>();
             //연간판매제품순위 : 순위 / 제품코드 / 제품명 / 제품카테고리명 / 실주문건수 / 총매출금액 / 할인금액 / 실매출금액
-            String sql = "select prodcode, prodname, prodprice, " +
-                    "count(ordstate) ordered, " +
-                    "sum(case when ordstate = 3 then 1 else 0 end) returned, " +
-                    "sum(case when ordstate = 4 then 1 else 0 end) canceled, " +
-                    "sum(case when ordstate !=3 and ordstate !=4 then 1 else 0 end) completed, " +
-                    "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount, 0) else 0 end) revenue, " +
-                    "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(coupsalerate/100), 0) else 0 end) saleAmount, " +
-                    "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(1-(coupsalerate/100)), 0) else 0 end) income " +
+            String sql = "select prodcode 제품코드, prodname 제품명, prodprice 제품가격, prodcatename 제품분류명, " +
+                    "count(ordcode) 주문건수, " +
+                    "sum(ordamount) 주문상품수량, " +
+                    "sum(case when ordstate = 3 then ordamount else 0 end) returned, " +
+                    "sum(case when ordstate = 4 then ordamount else 0 end) canceled, " +
+                    "sum(case when ordstate !=3 and ordstate !=4 then ordamount else 0 end) completed, " +
+                    "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount, 0) else 0 end) 총매출금액, " +
+                    "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(coupsalerate/100), 0) else 0 end) 할인금액, " +
+                    "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(1-(coupsalerate/100)), 0) else 0 end) 실매출금액 " +
                     "from orderdetail left outer join orders using(ordcode) inner join productdetail using(proddetailcode) inner join product using(prodcode) inner join coupon using(coupcode) " +
-                    "group by prodcode order by income desc;";
+                    "where year(orddate) = ? " +
+                    "group by prodcode, prodcatecode order by cast(replace(실매출금액, ',', '') as unsigned) desc;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, year);
+
+            // 엑셀 내보내기시 필요 코드 2
+            // PreparedStatement 세션에 등록/교체
+            HttpSession session = request.getSession();
+            session.setAttribute("currentSql", ps);
 
 
             ResultSet rs = ps.executeQuery();
             while(rs.next()){ // ResultSet 추출하기
                 SalesDto dto = SalesDto.builder() // SalesDto 하나 = SQL 조회된 레코드 행 하나, Lombok Build 메서드
-                        .day(rs.getInt("day"))
-                        .orders(rs.getInt("orders"))
-                        .ordered(rs.getInt("ordered"))
-                        .returned(rs.getInt("returned"))
-                        .canceled(rs.getInt("canceled"))
-                        .completed(rs.getInt("completed"))
-                        .revenue(rs.getInt("revenue"))
-                        .saleAmount(rs.getInt("saleAmount"))
-                        .income(rs.getInt("income"))
+                        .prodcode(rs.getInt("제품코드"))
+                        .prodname(rs.getString("제품명"))
+                        .prodprice(rs.getInt("제품가격"))
+                        .prodcatename(rs.getString("제품분류명"))
+                        .orders(rs.getInt("주문건수"))
+                        .ordered(rs.getInt("총주문상품수"))
+                        .returned(rs.getInt("반품상품수량"))
+                        .canceled(rs.getInt("취소상품수량"))
+                        .completed(rs.getInt("실주문상품수량"))
+                        .revenue(rs.getInt("총매출금액"))
+                        .saleAmount(rs.getInt("할인금액"))
+                        .income(rs.getInt("실매출금액"))
                         .build();
                 productList.add(dto);
             }
@@ -291,29 +315,77 @@ public class SalesDao extends Dao{
         return null;
     }
 
-    // [2-2] 월간 판매된 제품 순위
+    // [2-2] 일단위 판매된 제품 순위
     public ArrayList<SalesDto> monthlyProducts(int year, int month) {
         try{
             ArrayList<SalesDto> productList = new ArrayList<>();
             //월간판매제품순위 : 순위 / 제품코드 / 제품명 / 제품카테고리명 / 실주문건수 / 총매출금액 / 할인금액 / 실매출금액
-            String sql = "select prodcode, prodname, prodprice, " +
-                    "count(ordstate) ordered, " +
-                    "sum(case when ordstate = 3 then 1 else 0 end) returned, " +
-                    "sum(case when ordstate = 4 then 1 else 0 end) canceled, " +
-                    "sum(case when ordstate !=3 and ordstate !=4 then 1 else 0 end) completed, " +
-                    "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount, 0) else 0 end) revenue, " +
-                    "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(coupsalerate/100), 0) else 0 end) saleAmount, " +
-                    "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(1-(coupsalerate/100)), 0) else 0 end) income " +
+            String sql = "select prodcode 제품코드, prodname 제품명, prodprice 제품가격, prodcatename 제품분류명, " +
+                    "count(ordcode) 주문건수, " +
+                    "sum(ordamount) 주문상품수량, " +
+                    "sum(case when ordstate = 3 then ordamount else 0 end) returned, " +
+                    "sum(case when ordstate = 4 then ordamount else 0 end) canceled, " +
+                    "sum(case when ordstate !=3 and ordstate !=4 then ordamount else 0 end) completed, " +
+                    "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount, 0) else 0 end) 총매출금액, " +
+                    "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(coupsalerate/100), 0) else 0 end) 할인금액, " +
+                    "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(1-(coupsalerate/100)), 0) else 0 end) 실매출금액 " +
                     "from orderdetail left outer join orders using(ordcode) inner join productdetail using(proddetailcode) inner join product using(prodcode) inner join coupon using(coupcode) " +
-                    "group by prodcode order by income desc;";
+                    "where year(orddate) = ? and month(orddate) = ? " +
+                    "group by prodcode, prodcatecode order by cast(replace(실매출금액, ',', '') as unsigned) desc;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, year); ps.setInt(2, month);
 
+            // 엑셀 내보내기시 필요 코드 2
+            // PreparedStatement 세션에 등록/교체
+            HttpSession session = request.getSession();
+            session.setAttribute("currentSql", ps);
+
 
             ResultSet rs = ps.executeQuery();
-            return null;
+            while(rs.next()){ // ResultSet 추출하기
+                SalesDto dto = SalesDto.builder() // SalesDto 하나 = SQL 조회된 레코드 행 하나, Lombok Build 메서드
+                        .prodcode(rs.getInt("제품코드"))
+                        .prodname(rs.getString("제품명"))
+                        .prodprice(rs.getInt("제품가격"))
+                        .prodcatename(rs.getString("제품분류명"))
+                        .orders(rs.getInt("주문건수"))
+                        .ordered(rs.getInt("총주문상품수"))
+                        .returned(rs.getInt("반품상품수량"))
+                        .canceled(rs.getInt("취소상품수량"))
+                        .completed(rs.getInt("실주문상품수량"))
+                        .revenue(rs.getInt("총매출금액"))
+                        .saleAmount(rs.getInt("할인금액"))
+                        .income(rs.getInt("실매출금액"))
+                        .build();
+                productList.add(dto);
+            }
+            return productList; // DTO 목록 반환 = 조회된 정보 테이블
         }catch(Exception e){
             System.out.println("monthlyProduct() : " + e );
+        }
+        return null;
+    }
+
+    // [2-3] 색상 및 크기별 매출 현황, 날짜구간 2000-00-00 ~ 2000-00-00
+    public ArrayList<SalesDto> colorSize (String startDate, String endDate){
+        try {
+            ArrayList<SalesDto> colorSizeList = new ArrayList<>();
+            //색상 및 크기별 매출 현황 : 순위 / 제품코드 / 제품명 / 제품카테고리명 / 실주문건수 / 총매출금액 / 할인금액 / 실매출금액
+            String sql = "select prodcode 제품코드, prodname 제품명, prodprice 제품가격, prodcatename 제품분류명, " +
+                    "count(ordcode) 주문건수, " +
+                    "sum(ordamount) 주문상품수량, " +
+                    "sum(case when ordstate = 3 then ordamount else 0 end) returned, " +
+                    "sum(case when ordstate = 4 then ordamount else 0 end) canceled, " +
+                    "sum(case when ordstate !=3 and ordstate !=4 then ordamount else 0 end) completed, " +
+                    "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount, 0) else 0 end) 총매출금액, " +
+                    "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(coupsalerate/100), 0) else 0 end) 할인금액, " +
+                    "sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(1-(coupsalerate/100)), 0) else 0 end) 실매출금액 " +
+                    "from orderdetail left outer join orders using(ordcode) inner join productdetail using(proddetailcode) inner join product using(prodcode) inner join coupon using(coupcode) " +
+                    "where year(orddate) = ? and month(orddate) = ? " +
+                    "group by prodcode, prodcatecode order by cast(replace(실매출금액, ',', '') as unsigned) desc;";
+            return colorSizeList;
+        } catch (Exception e) {
+            System.out.println("monthlyProduct() : " + e);
         }
         return null;
     }
@@ -405,27 +477,4 @@ public class SalesDao extends Dao{
         }
         return null;
     }
-
-    // [7] 색상 및 크기별 매출 현황, 날짜구간 2000-00-00 ~ 2000-00-00
-    public ArrayList<SalesDto> colorSize (@RequestParam String startDate, @RequestParam String endDate){
-        try {
-            ArrayList<SalesDto> couponList = new ArrayList<>();
-            String sql = "select coupcode, coupname, coupsalerate, coupexpdate, " +
-                    " count(distinct ordcode) orders, " +
-                    " count(ordstate) ordered, " +
-                    " sum(case when ordstate = 3 then 1 else 0 end) returned, " +
-                    " sum(case when ordstate = 4 then 1 else 0 end) canceled, " +
-                    " sum(case when ordstate !=3 and ordstate !=4 then 1 else 0 end) completed, " +
-                    " sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount, 0) else 0 end) revenue, " +
-                    " sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(coupsalerate/100), 0) else 0 end) saleamount, " +
-                    " sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(1-(coupsalerate/100)), 0) else 0 end) income " +
-                    " from orderdetail left outer join orders using(ordcode) inner join coupon using(coupcode) " +
-                    " group by coupcode order by income desc;";
-            return couponList;
-        } catch (Exception e) {
-            System.out.println("monthlyProduct() : " + e);
-        }
-        return null;
-    }
-
 }

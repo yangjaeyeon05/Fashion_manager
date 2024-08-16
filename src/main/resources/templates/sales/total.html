@@ -6,7 +6,7 @@
 
     <!-- CSS -->
     <link href="/css/main.css" rel="stylesheet">
-    <link href="/css/sales/yearly.css" rel="stylesheet">
+    <link href="/css/sales/total.css" rel="stylesheet">
 </head>
 <body>
     <div th:replace="~{/sidebar.html:: sidebar}"></div>
@@ -18,14 +18,14 @@
                 </span>
             </div>
             <div class="row d-flex p-2" id="topMenu">
-                <div class="col-4 categoryActive" id="yearly" onclick="location.href='/sales/yearly'">
+                <div class="col-4 categoryActive" id="total" onclick="location.href='/sales/total'">
                     연매출조회
                 </div>
-                <div class="col-4 categoryActive" id="yearly" onclick="location.href='/sales/yearly'">
+                <div class="col-4" id="yearly" onclick="location.href='/sales/yearly'">
                     월간매출조회
                 </div>
                 <div class="col-4" id="monthly" onclick="location.href='/sales/monthly'">
-                    월간매출조회
+                    일간매출조회
                 </div>
             </div>
 
@@ -115,10 +115,22 @@
                     </table>
                 </div>
             </div>  <!-- 상담목록 출력 end -->
+            <h3>최근 일주일 매출 현황</h3>
+            <!-- 차트 -->
+            <div style="width: 800px;"><canvas id="salesChart"></canvas></div>
+            <div>테스트중 : 1년 목록</div>
+            <button type="button" onclick="excelExport()">엑셀로 다운받기</button>
+            <table class="table">
+                <thead>
+                    <tr><th>날짜</th><th>주문건수</th><th>주문상품수</th><th>반품건수</th><th>취소건수</th><th>실주문상품수</th><th>총매출금액</th><th>할인금액</th><th>실매출금액</th></tr>
+                </thead>
+                <tbody id="tableBox">
+                </tbody>
+            </table>
         </div>
     </div>
     <!-- JS -->
-    <script src="/js/sales/yearly.js"></script>
+    <script src="/js/sales/total.js"></script>
 </body>
 </html>
 

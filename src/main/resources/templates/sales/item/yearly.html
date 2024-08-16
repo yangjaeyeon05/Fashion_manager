@@ -2,33 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>매출분석</title>
-    <style>
-        * {
-            padding: 0; margin-left: 0px; box-sizing: border-box;
-            border: 1px solid blue;
-        }
-        #wrap {
-            width: 100%; margin-left: 250px;
-        }
-    </style>
-    <!-- TODO -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>연매출분석</title>
 </head>
 <body>
     <div th:replace="~{/sidebar.html:: sidebar}"></div>
-    <div class="container" id="wrap">
+    <div class="container" id="main">
         <div class="row d-flex p-2" id="topMenu">
-            <div class="col-4" id="yearly">
+            <div class="col-4 categoryActive" id="yearly" onclick="location.href='/sales/yearly'">
                 연매출조회
             </div>
-            <div class="col-4" id="monthly">
+            <div class="col-4" id="monthly" onclick="location.href='/sales/monthly'">
                 월간매출조회
             </div>
         </div>
 
         <div class="row" id="main">
-            <h3>최근 일주일 매출 현황</h3>
+            <h3>연매출조회</h3>
+            브랜드별 카테고리별
             <select class="form-select">
                 <option selected value="2024">2024</option>
                 <option value="2023">2023</option>
@@ -41,14 +31,14 @@
                 </thead>
             </table>
             <!-- 차트 -->
-            <div style="width: 800px;"><canvas id="salesChart"></canvas></div>
+            <div style="width: 800px;"><canvas id="acquisitions"></canvas></div>
         </div>
     </div>
     <!--TODO-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-    <script src="/js/sales.js"></script>
+    <script src="/js/sales/item/yearly.js"></script>
     <!-- <script src="/js/sales.js"></script> -->
 </body>
 </html>
