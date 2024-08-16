@@ -49,7 +49,7 @@ create table members(					# 회원
 	memcode int auto_increment,				# 회원코드PK
     memname	varchar(20) not null unique,	# 회원명
     memcontact varchar(13) not null,		# 회원연락처
-    mememail varchar(30) not null unique,	# 회원이메일
+    mememail varchar(50) not null unique,	# 회원이메일
     memgender char not null,				# 회원성별
     memcolor int,					# 회원 선호색상 (선택)FK
     memsize	varchar(10),					# 회원 선호사이즈 (선택)
@@ -179,31 +179,7 @@ create table polog(
    );
 
 
-#샘플
-# 거래처
-insert into vendor(vname , vcontact , vaddress) values('시크보그무역' , '02-1111-1111' , '서울시 종로구 청계천로 500, 3층');
-insert into vendor(vname , vcontact , vaddress) values('스타일스피어' , '02-2222-2222' , '경기도 고양시 일산동구 중앙로 321, 2층');
-insert into vendor(vname , vcontact , vaddress) values('엘레강스엠포리엄' , '02-3333-3333' , '부산시 부산진구 부전로 654, 5층');
-insert into vendor(vname , vcontact , vaddress) values('트렌드아우라' , '02-4444-4444' , '광주시 서구 상무대로 789, 4층');
-insert into vendor(vname , vcontact , vaddress) values('럭소라' , '02-5555-5555' , '대구시 중구 동성로 987, 6층');
-
-select * from vendor;
-
-# 도매상품
-insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('반팔-WH-S' , 7000 , 1, 1);
-insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('반팔-WH-M' , 7000 , 2, 1);
-insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('양말-BL' , 5000 , 3, 2);
-insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('모자-WH' , 10000 , 4, 4);
-insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('청바지-BLUE' , 18000 , 5, 5);
-
-select * from wholesaleproduct;
-
-# 발주로그
-insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(1 , 3 , 21000 , '2024-08-16' , 1);
-insert into polog(wpcode , quantity , totalamount , quantitystate) values(2 , 5 , 35000 , 1);
-insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(3 , 2 , 10000 , '2024-08-14' , 2);
-insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(4 , 3 , 30000 , '2024-08-14' , 2);
-insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(5 , 3 , 54000 , '2024-08-14' , 2);
+# 샘플
 
 select * from polog;
 
@@ -234,6 +210,31 @@ insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilen
 insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (3, 4, 2, 'L', "양말1c2.png", "2022-08-01");
 insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (4, 3, 3, 'M', "모자1c3.png", "2022-08-01");
 insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (5, 2, 4, 'XXL', "청바지1c4.png", "2022-08-01");
+
+# 거래처
+insert into vendor(vname , vcontact , vaddress) values('시크보그무역' , '02-1111-1111' , '서울시 종로구 청계천로 500, 3층');
+insert into vendor(vname , vcontact , vaddress) values('스타일스피어' , '02-2222-2222' , '경기도 고양시 일산동구 중앙로 321, 2층');
+insert into vendor(vname , vcontact , vaddress) values('엘레강스엠포리엄' , '02-3333-3333' , '부산시 부산진구 부전로 654, 5층');
+insert into vendor(vname , vcontact , vaddress) values('트렌드아우라' , '02-4444-4444' , '광주시 서구 상무대로 789, 4층');
+insert into vendor(vname , vcontact , vaddress) values('럭소라' , '02-5555-5555' , '대구시 중구 동성로 987, 6층');
+
+select * from vendor;
+
+# 도매상품
+insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('반팔-WH-S' , 7000 , 1, 1);
+insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('반팔-WH-M' , 7000 , 2, 1);
+insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('양말-BL' , 5000 , 3, 2);
+insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('모자-WH' , 10000 , 4, 4);
+insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('청바지-BLUE' , 18000 , 5, 5);
+
+select * from wholesaleproduct;
+
+# 발주로그
+insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(1 , 3 , 21000 , '2024-08-16' , 1);
+insert into polog(wpcode , quantity , totalamount , quantitystate) values(2 , 5 , 35000 , 1);
+insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(3 , 2 , 10000 , '2024-08-14' , 2);
+insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(4 , 3 , 30000 , '2024-08-14' , 2);
+insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(5 , 3 , 54000 , '2024-08-14' , 2);
 
 # members
 insert into members(memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('유재석', '010-1111-1111', 'you@naver.com', 'M', '1', 'M', '2022-08-01');
@@ -324,6 +325,53 @@ insert into color (colorname) values ('베이지색');
 insert into color (colorname) values ('금색');
 insert into color (colorname) values ('은색');
 insert into color (colorname) values ('올리브색');
+
+# members
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('김태희', '010-7555-7531', 'vcrush0@joomla.org', 'M', 13, 'XXL', '2023-12-12');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('이병헌', '010-2132-1327', 'gsainz1@trellian.com', 'F', 8, 'S', '2022-05-03');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('송혜교', '010-7841-5259', 'krugieri2@google.ca', 'M', 12, 'S', '2023-08-08');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('현빈', '010-6447-4162', 'jsherlaw3@purevolume.com', 'F', 16, 'S', '2022-05-13');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('한지민', '010-7702-2845', 'hlangland4@washington.edu', 'M', 11, 'M', '2023-10-22');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('공효진', '010-4586-9843', 'mbierman5@icq.com', 'M', 14, 'XXL', '2023-10-07');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('조인성', '010-9551-7991', 'mmcvity6@csmonitor.com', 'F', 6, 'L', '2023-07-19');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('김수현', '010-1893-4239', 'ahinkes7@tamu.edu', 'F', 4, 'M', '2023-04-25');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('박보검', '010-7799-3466', 'pbyrnes8@deliciousdays.com', 'F', 15, 'S', '2021-03-02');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('수지', '010-1450-3720', 'csuthren9@symantec.com', 'M', 12, 'M', '2023-04-13');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('이민호', '010-3598-1757', 'hblazia@addthis.com', 'F', 7, 'XL', '2021-11-20');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('김유정', '010-7556-8117', 'eregib@google.com.br', 'F', 4, 'XXL', '2023-11-30');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('정해인', '010-7989-8751', 'jcoggellc@geocities.jp', 'F', 12, 'M', '2021-07-31');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('김고은', '010-5549-5179', 'yderbyd@ucoz.com', 'M', 13, 'XL', '2022-08-23');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('이동욱', '010-5213-6525', 'cbanfille@amazonaws.com', 'M', 7, 'XXL', '2023-09-11');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('박서준', '010-7314-5562', 'nfulhamf@nsw.gov.au', 'F', 11, 'M', '2023-10-20');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('김래원', '010-6947-6883', 'mgallawayg@narod.ru', 'M', 19, 'L', '2023-12-23');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('김남길', '010-6344-4600', 'lbarleeh@umn.edu', 'F', 2, 'M', '2023-12-12');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('한효주', '010-2470-4333', 'nbahiai@tuttocitta.it', 'M', 4, 'XXL', '2021-10-19');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('이준기', '010-2984-8108', 'cwicksteadj@1688.com', 'M', 13, 'S', '2024-04-27');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('김지원', '010-8125-4750', 'ndowdeswellk@mtv.com', 'M', 1, 'XL', '2023-08-11');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('박해일', '010-7396-5391', 'njacobsonl@usa.gov', 'M', 13, 'M', '2021-08-19');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('김태리', '010-7333-8496', 'jarmanm@jalbum.net', 'M', 8, 'XXL', '2022-03-21');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('윤시윤', '010-1314-3760', 'iborsnalln@pen.io', 'F', 11, 'M', '2022-06-09');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('이성민', '010-1542-1592', 'rpavelino@mit.edu', 'F', 6, 'XL', '2023-01-26');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('김희철', '010-7529-7575', 'fsidep@acquirethisname.com', 'F', 6, 'L', '2022-12-27');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('이영하', '010-9649-1404', 'cfilipyevq@myspace.com', 'F', 3, 'XXL', '2021-06-17');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('이종석', '010-7193-9543', 'rzanollir@live.com', 'M', 2, 'S', '2022-11-06');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('김소현', '010-4841-9710', 'dsapps@cafepress.com', 'M', 8, 'M', '2023-09-03');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('유연석', '010-6001-1110', 'ebutent@usa.gov', 'F', 5, 'M', '2022-05-18');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('김혜수', '010-9736-8921', 'adalessiou@prnewswire.com', 'M', 19, 'S', '2022-12-24');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('정려원', '010-4221-7426', 'tpleagerv@networkadvertising.org', 'F', 1, 'XL', '2022-03-13');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('이유영', '010-2953-5880', 'taylwinw@eepurl.com', 'F', 9, 'XL', '2023-08-06');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('이하늬', '010-7392-7128', 'obeddiex@blogspot.com', 'F', 10, 'M', '2022-06-15');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('김민준', '010-3963-6014', 'mspilletty@oracle.com', 'F', 13, 'S', '2021-01-01');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('이상윤', '010-4523-1493', 'vbarukhz@fastcompany.com', 'F', 8, 'M', '2022-02-20');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('이시언', '010-2980-3773', 'lkempe10@amazon.co.jp', 'F', 17, 'XXL', '2021-09-24');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('김민희', '010-7538-8093', 'gtrickey11@flavors.me', 'F', 19, 'L', '2022-08-24');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('이준', '010-7144-8966', 'ledeson12@theatlantic.com', 'F', 2, 'L', '2021-09-13');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('김성령', '010-6245-2183', 'drobens13@china.com.cn', 'F', 6, 'XXL', '2021-11-30');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('이유비', '010-9147-8260', 'mrickett14@i2i.jp', 'F', 1, 'XL', '2022-07-06');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('이종혁', '010-5232-4611', 'kcecil15@unblog.fr', 'F', 16, 'XL', '2023-07-18');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('김재중', '010-9456-7455', 'aplante16@g.co', 'F', 1, 'XXL', '2021-03-01');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('이재영', '010-7778-8815', 'dmacguire17@geocities.com', 'M', 7, 'XXL', '2023-12-21');
+insert into members (memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('조권', '010-1562-5369', 'hkelling18@go.com', 'F', 10, 'M', '2023-11-05');
 
 # productcategory
 insert into productcategory (prodcatename) values ('민소매');
