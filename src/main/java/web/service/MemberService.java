@@ -68,4 +68,25 @@ public class MemberService {
 
     // -------------------------- 2024-08-07 ---------------------------------------- //
 
+    // 그 날 많이 팔린 물품 + 나의 성별 + 선호 사이즈에 따른 제품 추천
+
+    public List<Map<String, String>> memberRecommend2(MemberDto memberDto){
+
+        System.out.println("memberDto = " + memberDto);
+
+        List<ProductDto> list = memberDao.SizeRecommend();
+        List<Map<String, String>> list1 = memberDao.memberRecommend2(memberDto);
+        for (int i = 0; i < list1.size(); i++) {
+            for (int j = 0; j < list.size(); j++) {
+                if(list1.get(i).get("memgender").equals(list.get(j).getProdGender()) && list1.get(i).get("memsize").equals(list.get(i).getProdSize())){
+
+                }
+            }
+
+        }
+
+
+        return null;
+    }
+
 }

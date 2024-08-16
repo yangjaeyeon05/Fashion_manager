@@ -10,7 +10,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class MemberDao extends Dao{
@@ -98,7 +100,7 @@ public class MemberDao extends Dao{
     public List<ProductDto> SizeRecommend(){
         List<ProductDto> list = new ArrayList<>();
         try{
-            String sql = "select prodsize, colorcode, prodname, prodprice, proddesc, prodfilename from product p inner join productdetail pd on p.prodcode = pd.prodcode";
+            String sql = "select prodsize, colorcode, prodname, prodprice, proddesc, prodfilename, prodgender from product p inner join productdetail pd on p.prodcode = pd.prodcode";
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next()){
@@ -109,6 +111,7 @@ public class MemberDao extends Dao{
                         .prodPrice(rs.getInt("prodprice"))
                         .prodDesc(rs.getString("proddesc"))
                         .prodFilename(rs.getString("prodfilename"))
+                        .prodGender(rs.getString("prodgender"))
                         .build());
             }
         }catch (Exception e){
@@ -119,4 +122,44 @@ public class MemberDao extends Dao{
 
 
     // -------------------------- 2024-08-07 ---------------------------------------- //
+
+    // 그 날 많이 팔린 물품 + 나의 성별 + 선호 사이즈에 따른 제품 추천
+
+    public List<Map<String, String>> memberRecommend2(MemberDto memberDto){
+        List<Map<String, String>> list = new ArrayList<>();
+        Map<String , String> map = new HashMap<>();
+        System.out.println("memberDto = " + memberDto);
+        try{
+            String sql = "select * from\n" +
+                    "( select dayofweek(od.orddate) dow, sum(odd.ordamount) sum, od.ordcode\n" +
+                    "from orders od \n" +
+                    "inner join orderdetail odd \n" +
+                    "on od.ordcode = odd.ordcode \n" +
+                    "inner join members m\n" +
+                    "on od.memcode = m.memcode\n" +
+                    "where m.memcode != ? \n" +
+                    "and dayofweek(od.orddate) = dayofweek(now())\n" +
+                    "group by od.ordcode \n" +
+                    "order by sum desc ) as query1  , members where memcode = ?";
+
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1,memberDto.getMemcode());
+            ps.setInt(2,memberDto.getMemcode());
+
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                map.put("dow",String.valueOf(rs.getInt("dow")));
+                map.put("sum",String.valueOf(rs.getInt("sum")));
+                map.put("memgender",rs.getString("memgender"));
+                map.put("memsize",rs.getString("memsize"));
+
+                list.add(map);
+            }
+        }catch (Exception e){
+            System.out.println("에러 정보는 " + e);
+        }
+
+        return list;
+    }
 }
