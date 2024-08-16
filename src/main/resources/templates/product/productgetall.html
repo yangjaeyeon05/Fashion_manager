@@ -9,6 +9,7 @@
 <body>
     <div th:replace="~{/sidebar.html:: sidebar}"></div>
     <div id="main">
+        <div class="wrap">
         <h1>상품 목록</h1>
         <div class="searchBox">
             <table class="searchTable table">
@@ -89,6 +90,9 @@
             <div class="btnBox">
                 <button class="searchBtn btn btn-success" type="button" onclick="onSearch()"> 검색 </button>
             </div>
+            <div id="excel">
+                <button type="button" onclick="excelDown()">엑셀파일</button>
+            </div>
         </div> <!-- searchBox end -->
         <table class="productList table">
             <thead>
@@ -108,6 +112,7 @@
             <tbody class="productPrint">
             </tbody>
         </table>
+        </div>
     </div>
     <script src="/js/product/productgetall.js"></script>
 </body>

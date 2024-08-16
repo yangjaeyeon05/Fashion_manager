@@ -53,7 +53,9 @@ public class ViewController {
     //08.08 상품목록 페이지
     @GetMapping("/product")
     public String productGetAll(){return "/product/productgetall.html";}
-
+    //08.16 상품수정 페이지
+    @GetMapping("/product/edit")
+    public String productEdit(){return "/product/productedit.html";}
     // 4-1. 매출분석
     @GetMapping("/sales")
     public String sales(){return "/sales/sales.html";}

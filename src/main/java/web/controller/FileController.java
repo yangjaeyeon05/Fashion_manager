@@ -27,7 +27,7 @@ public class FileController {
             System.out.println("excelController");
             // @Service에서 ResultSet을 바이트배열로 변환해서 받아온 바이트배열
             byte[] excelBytes = fileService.exportToExcel();
-
+            System.out.println("excelBytes = " + excelBytes.length);
             // 헤더 생성
             HttpHeaders headers = new HttpHeaders();
             // 파일 이름 정하기

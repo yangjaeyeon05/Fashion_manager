@@ -1,5 +1,7 @@
 package web.model.dao;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +15,9 @@ import java.util.ArrayList;
 
 @Component
 public class ProdcutDao extends  Dao {
+
+    @Autowired
+    HttpServletRequest request;
 
     public boolean productAdd(ProductDto productDto){
         System.out.println("ProdcutDao.productAdd");
@@ -174,6 +179,11 @@ public class ProdcutDao extends  Dao {
             }
             PreparedStatement ps=conn.prepareStatement(sql);
             System.out.println(" sql  = " +  sql );
+            // 엑셀 내보내기시 필요 코드 2
+            // PreparedStatement 세션에 등록/교체
+            HttpSession session = request.getSession();
+            session.setAttribute("currentSql", ps);
+            System.out.println("session = " + session.getAttribute("currentSql"));
             ResultSet rs=ps.executeQuery();
             while (rs.next()){
                 ProductDto productDto=ProductDto.builder() //productDto에 빌더패턴 이용하여 데이터 삽입
