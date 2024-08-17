@@ -19,15 +19,15 @@ public class MemberService {
     MemberDao memberDao;
 
     // 회원목록 출력
-    public List<MemberDto> memberPrint(){
-        return memberDao.memberPrint();
+    public List<MemberDto> memberPrint(){           // 매개변수는 없고 MemberDao 에서 LIST<ProductDto> 받아옴
+        return memberDao.memberPrint();             // MemberDao 의 memberPrint 에서 받은 list 를 그대로 반환함
     }
 
     // 회원 정보 수정(블랙리스트만)
-    public boolean memberEdit(MemberDto memberDto){
+    public boolean memberEdit(MemberDto memberDto){     // 매개변수로 memberDto 를 받고
         System.out.println(memberDto.getMemcode());
         System.out.println(memberDto.getBlacklist());
-        return memberDao.memberEdit(memberDto);
+        return memberDao.memberEdit(memberDto);         // memberDao 의 memberEdit 메소드에 memberDto 를 보내고 반환값을 그대로 반환함.
     }
 
     // -------------------------- 2024-08-05 ---------------------------------------- //
@@ -104,8 +104,10 @@ public class MemberService {
 //        System.out.println("list1 = " + list1);
 //        return list2;
 //    }
-    public List<Map<String, String>> memberRecommend2(MemberDto memberDto) {
-        return memberDao.memberRecommend2(memberDto);
+
+    // 그 날 많이 팔린 물품 + 나의 성별 + 선호 사이즈에 따른 제품 추천
+    public List<Map<String, String>> memberRecommend2(MemberDto memberDto) {    // 매개변수로 memberDto 를 받고
+        return memberDao.memberRecommend2(memberDto);                           // memberDao 의 memberRecommend2 메소드에 memberDto 를 보내고 받은 List 을 그대로 반환함.
     }
 
     // ===================================  2024-08-16 김민석 ========================================= //

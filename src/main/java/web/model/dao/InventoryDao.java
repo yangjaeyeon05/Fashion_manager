@@ -54,9 +54,9 @@ public class InventoryDao extends Dao{
         try{
             String sql = "insert into invlog(proddetailcode, invlogchange, invlogdetail) values (?, ?, ?)";     // 재고 테이블에 재고 기록 추가
             ps = conn.prepareStatement(sql);
-            ps.setInt(1,inventoryDto.getProddetailcode());
-            ps.setInt(2,inventoryDto.getInvlogchange());
-            ps.setInt(3,inventoryDto.getInvlogdetail());
+            ps.setInt(1,inventoryDto.getProddetailcode());                                          // 제품 상세 코드
+            ps.setInt(2,inventoryDto.getInvlogchange());                                            // 재고 수량 변화
+            ps.setInt(3,inventoryDto.getInvlogdetail());                                            // 재고 변화 사유
             int count = ps.executeUpdate();
             if(count == 1){
                 return true;
@@ -101,6 +101,7 @@ public class InventoryDao extends Dao{
 
     // ===================================  2024-08-13 김민석 ========================================= //
 
+    // 재고 현황 날짜별 그래프 출력
     public List<InventoryDto> inventoryChart(InventoryDto inventoryDto){
         List<InventoryDto> list = new ArrayList<>();
         try{
@@ -112,7 +113,7 @@ public class InventoryDao extends Dao{
             rs = ps.executeQuery();
 
             while (rs.next()){
-                // 리스트에 InventoryDto 타입으로 재고 수량, 재고 입고 날짜 Set 함
+                // 리스트에 InventoryDto 타입으로 재고 수량, 재고 입고 날짜 add 함
                 list.add(InventoryDto
                         .builder()
                         .prodAmount(rs.getInt("sum"))
@@ -169,6 +170,7 @@ public class InventoryDao extends Dao{
     public InventoryDto invAutoUpdateCancel(OrderdetailDto orderdetailDto){
         System.out.println("orderdetailDto = " + orderdetailDto);
         try{
+            // 주문 테이블에서 특정 주문 상세 코드와 주문 상태 필드에서 취소 완료 상태인 것만 조회해서 주문 수량, 제품 상세 코드를 가져옴
             String sql = "Select ordamount, proddetailcode From orderdetail where ordstate = -4 and orddetailcode = ?";
             
             ps = conn.prepareStatement(sql);
@@ -177,9 +179,9 @@ public class InventoryDao extends Dao{
             rs = ps.executeQuery();
             if(rs.next()){
                 return InventoryDto
-                        .builder()
-                        .invlogchange(rs.getInt("ordamount"))
-                        .proddetailcode(rs.getInt("proddetailcode"))
+                        .builder()                                                     // InventoryDto 에 builder를 통해서
+                        .invlogchange(rs.getInt("ordamount"))               // 주문 수량을 재고 수량 변화에 set
+                        .proddetailcode(rs.getInt("proddetailcode"))        // 제품 상세 코드를 set 하고 반환함
                         .build();
             }
         }catch (Exception e){
@@ -192,6 +194,7 @@ public class InventoryDao extends Dao{
     public boolean invAutoUpdateCancel2(InventoryDto inventoryDto){
         System.out.println("inventoryDto = " + inventoryDto);
         try{
+            // 재고 테이블에 레코드를 추가하는데 주문 취소 완료 시에 들어오는 것이므로 invlogdetail = 3으로 고정, 나머지는 invAutoUpdateCancel 메소드에서 반환 받은 InventoryDto 를 통해서 지정함
             String sql = "insert into invlog(proddetailcode, invlogchange, invlogdetail) values (?, ?, 3)";     // 재고 테이블에 재고 기록 추가
             ps = conn.prepareStatement(sql);
             ps.setInt(1,inventoryDto.getProddetailcode());
@@ -210,6 +213,7 @@ public class InventoryDao extends Dao{
     public InventoryDto invAutoUpdateReturn(OrderdetailDto orderdetailDto){
         System.out.println("orderdetailDto = " + orderdetailDto);
         try{
+            // 주문 테이블에서 특정 주문 상세 코드와 주문 상태 필드에서 반품 완료 상태인 것만 조회해서 주문 수량, 제품 상세 코드를 가져옴
             String sql = "Select ordamount, proddetailcode From orderdetail where ordstate = -3 and orddetailcode = ?";
             
             ps = conn.prepareStatement(sql);
@@ -218,9 +222,9 @@ public class InventoryDao extends Dao{
             rs = ps.executeQuery();
             if(rs.next()){
                 return InventoryDto
-                        .builder()
-                        .invlogchange(rs.getInt("ordamount"))
-                        .proddetailcode(rs.getInt("proddetailcode"))
+                        .builder()                                                  // InventoryDto 에 builder를 통해서
+                        .invlogchange(rs.getInt("ordamount"))            // 주문 수량을 재고 수량 변화에 set
+                        .proddetailcode(rs.getInt("proddetailcode"))     // 제품 상세 코드를 set 하고 반환함
                         .build();
             }
         }catch (Exception e){
@@ -233,6 +237,7 @@ public class InventoryDao extends Dao{
     public boolean invAutoUpdateReturn2(InventoryDto inventoryDto){
         System.out.println("inventoryDto = " + inventoryDto);
         try{
+            // 재고 테이블에 레코드를 추가하는데 반품 완료 시에 들어오는 것이므로 invlogdetail = 4로 고정, 나머지는 invAutoUpdateReturn 메소드에서 반환 받은 InventoryDto 를 통해서 지정함
             String sql = "insert into invlog(proddetailcode, invlogchange, invlogdetail) values (?, ?, 4)";     // 재고 테이블에 재고 기록 추가
             ps = conn.prepareStatement(sql);
             ps.setInt(1,inventoryDto.getProddetailcode());

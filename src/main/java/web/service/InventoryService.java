@@ -21,7 +21,7 @@ public class InventoryService {
 
     //  재고 목록 출력
     public List<ProductDto> inventoryRead(){        // 매개변수는 없고 inventoryDao 에서 LIST<ProductDto> 받아옴
-        return inventoryDao.inventoryRead();        // inventoryDao 에서 받은 list 를 그대로 반환함.
+        return inventoryDao.inventoryRead();        // inventoryDao 의 inventoryRead 에서 받은 list 를 그대로 반환함.
     }
 
     //  재고 현황 업데이트1
@@ -51,9 +51,10 @@ public class InventoryService {
 
     // ===================================  2024-08-13 김민석 ========================================= //
 
-    public List<InventoryDto> inventoryChart(InventoryDto inventoryDto){
+    // 재고 현황 날짜별 그래프 출력
+    public List<InventoryDto> inventoryChart(InventoryDto inventoryDto){        // 매개변수로 inventoryDto 를 받고
         System.out.println("inventoryDto = " + inventoryDto);
-        return inventoryDao.inventoryChart(inventoryDto);
+        return inventoryDao.inventoryChart(inventoryDto);                       // inventoryDao 에서 inventoryChart 에 inventoryDto 를 매개변수로 보내고 받은 List 을 그대로 반환함.
     }
 
     // ===================================  2024-08-14 김민석 ========================================= //
@@ -67,19 +68,19 @@ public class InventoryService {
 //    }
 
     // 주문 취소 시 자동 업데이트
-    public boolean invAutoUpdateCancel(OrderdetailDto orderdetailDto){
+    public boolean invAutoUpdateCancel(OrderdetailDto orderdetailDto){                  // 매개변수로 orderdetailDto 를 받고
         System.out.println("orderdetailDto = " + orderdetailDto);
-        InventoryDto inventoryDto = inventoryDao.invAutoUpdateReturn(orderdetailDto);
+        InventoryDto inventoryDto = inventoryDao.invAutoUpdateCancel(orderdetailDto);   // inventoryDao 에서 invAutoUpdateCancel 에 orderdetailDto 를 매개변수로 보내고 받은 inventoryDto 를 저장함.
         System.out.println("inventoryDto = " + inventoryDto);
-        return inventoryDao.invAutoUpdateReturn2(inventoryDto);
+        return inventoryDao.invAutoUpdateCancel2(inventoryDto);                         // inventoryDao 에서 invAutoUpdateCancel2 에 inventoryDto 를 매개변수로 보내고 받은 boolean 을 그대로 반환함.
     }
 
     // 반품 완료 시 자동 업데이트
-    public boolean invAutoUpdateReturn(OrderdetailDto orderdetailDto){
+    public boolean invAutoUpdateReturn(OrderdetailDto orderdetailDto){                  // 매개변수로 orderdetailDto 를 받고
         System.out.println("orderdetailDto = " + orderdetailDto);
-        InventoryDto inventoryDto = inventoryDao.invAutoUpdateCancel(orderdetailDto);
+        InventoryDto inventoryDto = inventoryDao.invAutoUpdateReturn(orderdetailDto);   // inventoryDao 에서 invAutoUpdateReturn 에 orderdetailDto 를 매개변수로 보내고 받은 inventoryDto 를 저장함.
         System.out.println("inventoryDto = " + inventoryDto);
-        return inventoryDao.invAutoUpdateCancel2(inventoryDto);
+        return inventoryDao.invAutoUpdateReturn2(inventoryDto);                         // inventoryDao 에서 invAutoUpdateReturn2 에 inventoryDto 를 매개변수로 보내고 받은 boolean 을 그대로 반환함.
     }
 
     // ===================================  2024-08-16 김민석 ========================================= //
