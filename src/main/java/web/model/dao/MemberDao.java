@@ -4,15 +4,13 @@ package web.model.dao;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import web.model.dto.MemberDto;
+import web.model.dto.PagenationDto;
 import web.model.dto.ProductDto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class MemberDao extends Dao{
@@ -22,12 +20,44 @@ public class MemberDao extends Dao{
 
 
     // 회원목록 출력
-    public List<MemberDto> memberPrint(){
+    public List<MemberDto> memberPrint(PagenationDto pagenationDto, int offset){
         List<MemberDto> list = new ArrayList<>();
         try{
             // 회원 테이블과 색상 테이블을 join 을 통해서 같이 조회해서 가져옴
             String sql = "select *from members join color on members.memcolor = color.colorcode";
+            if(Objects.equals(pagenationDto.getSearchKey(), "0")){
+                sql = "select *from members join color on members.memcolor = color.colorcode";
+            }
+            if(!pagenationDto.getSearchKey().isEmpty() && !pagenationDto.getSearchKeyword().isEmpty()){
+                sql = " select * from members join color on members.memcolor = color.colorcode where  " + pagenationDto.getSearchKey() + " like ? limit ?, ?";
+                PreparedStatement ps2 = conn.prepareStatement(sql);
+                ps2.setString(1,"%" + pagenationDto.getSearchKeyword() + "%");
+                ps2.setInt(2,offset);
+                ps2.setInt(3,pagenationDto.getSize());
+                rs = ps2.executeQuery();
+                while (rs.next()){
+                    list.add(MemberDto.builder()                                       // 리스트에 builder 를 통해서 MemberDto 를 바로 생성하고 add 함
+                            .memcode(rs.getInt("memcode"))                  // 회원 번호
+                            .memname(rs.getString("memname"))               // 회원 이름
+                            .memcontact(rs.getString("memcontact"))         // 회원 전화번호
+                            .mememail(rs.getString("mememail"))             // 회원 이메일
+                            .memgender(rs.getString("memgender"))           // 회원 성별
+                            .colorname(rs.getString("colorname"))           // 회원의 색상
+                            .memsize(rs.getString("memsize"))               // 회원의 선호 사이즈
+                            .memjoindate(rs.getString("memjoindate"))       // 회원 가입 날짜
+                            .memlastdate(rs.getString("memlastdate"))       // 최근 접속 일자
+                            .blacklist(rs.getInt("blacklist"))              // 블랙리스트 여부
+                            .build());
+                }
+                return list;
+            }
+
+            sql += " limit ?, ?";
+            System.out.println("sql = " + sql);
             ps = conn.prepareStatement(sql);
+            ps.setInt(1,offset);
+            ps.setInt(2,pagenationDto.getSize());
+            System.out.println("sql = " + sql);
             rs = ps.executeQuery();
             while (rs.next()){
                 list.add(MemberDto.builder()                                       // 리스트에 builder 를 통해서 MemberDto 를 바로 생성하고 add 함
@@ -47,6 +77,36 @@ public class MemberDao extends Dao{
             System.out.println("에러는 " + e);
         }
         return list;
+    }
+
+    // 전체 회원 수 조회
+    public int memberCount(PagenationDto pagenationDto){
+        try{
+            String sql = "select count(*) as count from members join color on members.memcolor = color.colorcode";
+            if(Objects.equals(pagenationDto.getSearchKey(), "0")){
+                sql = "select count(*) as count from members join color on members.memcolor = color.colorcode";
+            }
+            if(!pagenationDto.getSearchKey().isEmpty() && !pagenationDto.getSearchKeyword().isEmpty()){
+                sql = " select count(*) as count from members join color on members.memcolor = color.colorcode where   " + pagenationDto.getSearchKey() + " like  ?";
+                PreparedStatement ps2 = conn.prepareStatement(sql);
+                ps2.setString(1,"%" + pagenationDto.getSearchKeyword() + "%");
+                rs = ps2.executeQuery();
+                if(rs.next()){
+                    return rs.getInt("count");
+                }
+            }
+            System.out.println("sql = " + sql);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("count");
+            }
+
+        }catch (Exception e){
+            System.out.println("에러 정보는 " + e);
+        }
+        return 0;
     }
 
     // 회원 정보 수정(블랙리스트만)

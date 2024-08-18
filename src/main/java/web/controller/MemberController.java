@@ -4,6 +4,7 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.MemberDto;
+import web.model.dto.PagenationDto;
 import web.service.MemberService;
 
 import java.util.List;
@@ -18,8 +19,10 @@ public class MemberController {
 
     // 회원목록 출력
     @GetMapping("/list")                            // Method 는 GET
-    public List<MemberDto> memberPrint(){           // 매개변수는 없고 memberService 에서 LIST<MemberDto> 받아서 HTML 로 반환
-        return memberService.memberPrint();
+    public PagenationDto<MemberDto> memberPrint(PagenationDto pagenationDto){           // 매개변수는 pagenationDto 를 받아서 memberService 에서 PagenationDto<MemberDto> 받아서 HTML 로 반환
+        System.out.println("MemberController.memberPrint");
+        System.out.println("pagenationDto = " + pagenationDto);
+        return memberService.memberPrint(pagenationDto);
     }
 
     // 회원 정보 수정(블랙리스트만)

@@ -136,14 +136,3 @@ function inventoryChart(prodDetailcode) {
 
 
 
-function invAutoUpdateOrder() {
-
-}
-
-function invAutoUpdateReturn() {
-
-}
-
-function invAutoUpdateCancel() {
-
-}

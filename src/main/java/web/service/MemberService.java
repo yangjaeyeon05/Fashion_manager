@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import web.model.dao.MemberDao;
 import web.model.dto.MemberDto;
+import web.model.dto.PagenationDto;
 import web.model.dto.ProductDto;
 
 import java.util.ArrayList;
@@ -19,8 +20,30 @@ public class MemberService {
     MemberDao memberDao;
 
     // 회원목록 출력
-    public List<MemberDto> memberPrint(){           // 매개변수는 없고 MemberDao 에서 LIST<ProductDto> 받아옴
-        return memberDao.memberPrint();             // MemberDao 의 memberPrint 에서 받은 list 를 그대로 반환함
+    public PagenationDto<MemberDto> memberPrint(PagenationDto pagenationDto){
+        System.out.println("MemberService.memberPrint");
+        System.out.println("pagenationDto = " + pagenationDto);
+
+        // 매개변수는 없고 MemberDao 에서 LIST<ProductDto> 받아옴
+        int offset = (pagenationDto.getPage() - 1) * pagenationDto.getSize();
+        System.out.println("offset = " + offset);
+
+        int memberCount = memberDao.memberCount(pagenationDto);
+        System.out.println("memberCount = " + memberCount);
+
+        int totalpages = memberCount % pagenationDto.getSize() == 0 ? (memberCount / pagenationDto.getSize()) : (memberCount / pagenationDto.getSize()) + 1;
+        System.out.println("totalpages = " + totalpages);
+
+        List<MemberDto> list = memberDao.memberPrint(pagenationDto, offset);
+        System.out.println("list = " + list);
+
+        return  PagenationDto.<MemberDto>builder()
+                .page(pagenationDto.getPage())
+                .size(pagenationDto.getSize())
+                .totaldata(memberCount)
+                .totalPage(totalpages)
+                .data(list)
+                .build();            // MemberDao 의 memberPrint 에서 받은 list 를 그대로 반환함
     }
 
     // 회원 정보 수정(블랙리스트만)
