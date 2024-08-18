@@ -22,22 +22,27 @@ public class InventoryService {
         System.out.println("InventoryService.inventoryRead");
         System.out.println("pagenationDto = " + pagenationDto);
 
+        // 이 페이지에서 내가 몇 번째부터 출력할 것인지 알려주는 변수
+        // 계산식은 (현재 페이지 번호 - 1) X 내가 출력할 데이터의 갯수
         int offset = (pagenationDto.getPage() - 1) * pagenationDto.getSize();
         System.out.println("offset = " + offset);
 
+        // 재고 수량 총 갯수를 inventoryDao 의 inventoryCount 메소드에서 계산해서 int 타입의  inventoryCount 변수에 저장함
         int inventoryCount = inventoryDao.inventoryCount();
 
+        // 총 페이지 수 : 재고 총 갯수 % 내가 출력할 데이터의 갯수 = 0 이라면 재고 총 갯수 / 내가 출력할 데이터의 갯수 그대로 저장, 0이 아니라면 원래 계산식에서 +1함
         int totalpages = inventoryCount % pagenationDto.getSize() == 0 ? (inventoryCount / pagenationDto.getSize()) : (inventoryCount / pagenationDto.getSize()) + 1;
         System.out.println("totalpages = " + totalpages);
 
+        // inventoryDao 의 inventoryRead 메소드에 pagenationDto 와 offset 를 보내서 list 를 반환 받고 저장함.
         List<ProductDto> list = inventoryDao.inventoryRead(pagenationDto, offset);
 
-        return PagenationDto.<ProductDto>builder()
-                .page(pagenationDto.getPage())
-                .size(pagenationDto.getSize())
-                .totaldata(inventoryCount)
-                .totalPage(totalpages)
-                .data(list)
+        return PagenationDto.<ProductDto>builder()      // PagenationDto 의 제네릭 타입을 ProductDto 로 지정해서 빌더로 생성
+                .page(pagenationDto.getPage())          // page 에 pagenationDto.getPage()를 통해서 꺼내온 값 저장
+                .size(pagenationDto.getSize())          // size 에 pagenationDto.getSize()를 통해서 꺼내온 값 저장
+                .totaldata(inventoryCount)              // totaldata 에 재고 수량 총 갯수를 담은 변수인 inventoryCount 를 저장
+                .totalPage(totalpages)                  // totalPage에 미리 계산한 총 페이지 수를 담은 변수인 totalpages 를 저장
+                .data(list)                             // 조회된 게시물 정보 목록/리스트인 data 에 List<ProductDto> 타입의 list 변수를 저장
                 .build(); // inventoryDao 의 inventoryRead 에서 받은 list 를 그대로 반환함.
     }
 

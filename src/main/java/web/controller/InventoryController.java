@@ -19,7 +19,7 @@ public class InventoryController {
 
     //  재고 목록 출력
     @GetMapping("/read")                            // Method 는 GET
-    public PagenationDto<ProductDto> inventoryRead(PagenationDto pagenationDto){        // 매개변수는 없고 inventoryService 에서 LIST<ProductDto> 받아서 HTML 로 반환
+    public PagenationDto<ProductDto> inventoryRead(PagenationDto pagenationDto){        // 매개변수 pagenationDto 받고 inventoryService 에서 PagenationDto<ProductDto> 받아서 HTML 로 반환
         System.out.println("InventoryController.inventoryRead");
         System.out.println("pagenationDto = " + pagenationDto);
         return inventoryService.inventoryRead(pagenationDto);

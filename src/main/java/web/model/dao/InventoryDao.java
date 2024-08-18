@@ -32,8 +32,8 @@ public class InventoryDao extends Dao{
                     "    group by pd.proddetailcode limit ?, ?";
 
             ps = conn.prepareStatement(sql);
-            ps.setInt(1,offset);
-            ps.setInt(2,pagenationDto.getSize());
+            ps.setInt(1,offset);                    // 1번째 ? 에 내가 몇 번째부터 출력할 것인지 알려주는 변수 offset 을 지정
+            ps.setInt(2,pagenationDto.getSize());   // 2번째 ? 에 내가 출력할 데이터의 갯수를 나타내는 pagenationDto 에 있는 멤버변수 size 에 저장되어 있는 값을 꺼내와서 지정
             rs = ps.executeQuery();
             while(rs.next()){
                 list.add(ProductDto.builder()                               // 빌더를 통해서 ProductDto 를 생성하고 list 에 바로 add 함
@@ -51,8 +51,10 @@ public class InventoryDao extends Dao{
         return list;                        // 저장된 list 반환
     }
 
+    // 재고 수량 계산 메소드
     public int inventoryCount(){
         try{
+            // 재고 목록 출력 구문에서 서브쿼리를 사용해서 재고를 출력한 테이블의 총 레코드 수를 계산
             String sql = "select count(*) as count from " +
                     " (select p.prodname , prodgender , pd.prodsize , pd.proddetailcode ,  sum( pi.invlogchange) inv " +
                     " from productdetail pd inner join product p inner join invlog pi " +
@@ -193,7 +195,7 @@ public class InventoryDao extends Dao{
         System.out.println("orderdetailDto = " + orderdetailDto);
         try{
             // 주문 테이블에서 특정 주문 상세 코드와 주문 상태 필드에서 취소 완료 상태인 것만 조회해서 주문 수량, 제품 상세 코드를 가져옴
-            String sql = "Select ordamount, proddetailcode From orderdetail where ordstate = -4 and orddetailcode = ?";
+            String sql = "Select ordamount, proddetailcode From orderdetail where ordstate = -3 and orddetailcode = ?";
             
             ps = conn.prepareStatement(sql);
             ps.setInt(1,orderdetailDto.getOrddetailcode());
@@ -236,7 +238,7 @@ public class InventoryDao extends Dao{
         System.out.println("orderdetailDto = " + orderdetailDto);
         try{
             // 주문 테이블에서 특정 주문 상세 코드와 주문 상태 필드에서 반품 완료 상태인 것만 조회해서 주문 수량, 제품 상세 코드를 가져옴
-            String sql = "Select ordamount, proddetailcode From orderdetail where ordstate = -3 and orddetailcode = ?";
+            String sql = "Select ordamount, proddetailcode From orderdetail where ordstate = -4 and orddetailcode = ?";
             
             ps = conn.prepareStatement(sql);
             ps.setInt(1,orderdetailDto.getOrddetailcode());

@@ -74,7 +74,7 @@ function inventoryRead(page = 1, size = 10) {
                 for(let i = 1; i<= total; i++){ //for start 반복문을 돌려서
                     pageHTML += `
                     <li class="page-item ${i === currentPage ? 'active' : ''}">
-                    <a class="page-link" href="#" onclick="memberList(${i}, ${size})">${i}</a>
+                    <a class="page-link" href="#" onclick="inventoryRead(${i}, ${size})">${i}</a>
                     </li>
                     `;
                     //페이지의 번호와 데이터에 맞는 버튼 생성
