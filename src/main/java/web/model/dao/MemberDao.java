@@ -25,15 +25,17 @@ public class MemberDao extends Dao{
         try{
             // 회원 테이블과 색상 테이블을 join 을 통해서 같이 조회해서 가져옴
             String sql = "select *from members join color on members.memcolor = color.colorcode";
+            // 만약 pagenationDto 의 멤버변수 searchKey 에 저장된 값이 0이라면 아래 sql 구문 사용
             if(Objects.equals(pagenationDto.getSearchKey(), "0")){
                 sql = "select *from members join color on members.memcolor = color.colorcode";
             }
+            // 만약 searchKey 와 searchKeyword 에 저장된 값이 0이 아니고 다른 문자가 있다면 아래 sql 구문 사용
             if(!pagenationDto.getSearchKey().isEmpty() && !pagenationDto.getSearchKeyword().isEmpty()){
                 sql = " select * from members join color on members.memcolor = color.colorcode where  " + pagenationDto.getSearchKey() + " like ? limit ?, ?";
                 PreparedStatement ps2 = conn.prepareStatement(sql);
-                ps2.setString(1,"%" + pagenationDto.getSearchKeyword() + "%");
-                ps2.setInt(2,offset);
-                ps2.setInt(3,pagenationDto.getSize());
+                ps2.setString(1,"%" + pagenationDto.getSearchKeyword() + "%");      // "% %" 사이의 문자를 집어넣음
+                ps2.setInt(2,offset);                       // 1번째 ? 에 내가 몇 번째부터 출력할 것인지 알려주는 변수 offset 을 지정
+                ps2.setInt(3,pagenationDto.getSize());      // 2번째 ? 에 내가 출력할 데이터의 갯수를 나타내는 pagenationDto 에 있는 멤버변수 size 에 저장되어 있는 값을 꺼내와서 지정
                 rs = ps2.executeQuery();
                 while (rs.next()){
                     list.add(MemberDto.builder()                                       // 리스트에 builder 를 통해서 MemberDto 를 바로 생성하고 add 함
@@ -55,8 +57,8 @@ public class MemberDao extends Dao{
             sql += " limit ?, ?";
             System.out.println("sql = " + sql);
             ps = conn.prepareStatement(sql);
-            ps.setInt(1,offset);
-            ps.setInt(2,pagenationDto.getSize());
+            ps.setInt(1,offset);                        // 1번째 ? 에 내가 몇 번째부터 출력할 것인지 알려주는 변수 offset 을 지정
+            ps.setInt(2,pagenationDto.getSize());       // 2번째 ? 에 내가 출력할 데이터의 갯수를 나타내는 pagenationDto 에 있는 멤버변수 size 에 저장되어 있는 값을 꺼내와서 지정
             System.out.println("sql = " + sql);
             rs = ps.executeQuery();
             while (rs.next()){
@@ -82,14 +84,17 @@ public class MemberDao extends Dao{
     // 전체 회원 수 조회
     public int memberCount(PagenationDto pagenationDto){
         try{
+            // 전체 회원의 숫자를 세는 sql 구문
             String sql = "select count(*) as count from members join color on members.memcolor = color.colorcode";
+            // 만약 pagenationDto 의 멤버변수 searchKey 에 저장된 값이 0이라면 아래 sql 구문 사용
             if(Objects.equals(pagenationDto.getSearchKey(), "0")){
                 sql = "select count(*) as count from members join color on members.memcolor = color.colorcode";
             }
+            // 만약 searchKey 와 searchKeyword 에 저장된 값이 0이 아니고 다른 문자가 있다면 아래 sql 구문 사용
             if(!pagenationDto.getSearchKey().isEmpty() && !pagenationDto.getSearchKeyword().isEmpty()){
                 sql = " select count(*) as count from members join color on members.memcolor = color.colorcode where   " + pagenationDto.getSearchKey() + " like  ?";
                 PreparedStatement ps2 = conn.prepareStatement(sql);
-                ps2.setString(1,"%" + pagenationDto.getSearchKeyword() + "%");
+                ps2.setString(1,"%" + pagenationDto.getSearchKeyword() + "%");  // "% %" 사이의 문자를 집어넣음
                 rs = ps2.executeQuery();
                 if(rs.next()){
                     return rs.getInt("count");

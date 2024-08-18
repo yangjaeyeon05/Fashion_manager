@@ -43,7 +43,7 @@ public class InventoryService {
                 .totaldata(inventoryCount)              // totaldata 에 재고 수량 총 갯수를 담은 변수인 inventoryCount 를 저장
                 .totalPage(totalpages)                  // totalPage에 미리 계산한 총 페이지 수를 담은 변수인 totalpages 를 저장
                 .data(list)                             // 조회된 게시물 정보 목록/리스트인 data 에 List<ProductDto> 타입의 list 변수를 저장
-                .build(); // inventoryDao 의 inventoryRead 에서 받은 list 를 그대로 반환함.
+                .build();
     }
 
     //  재고 현황 업데이트1
