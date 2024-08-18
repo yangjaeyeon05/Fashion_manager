@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PutMapping;
 import web.model.dao.InventoryDao;
-import web.model.dto.InventoryDto;
-import web.model.dto.OrderdetailDto;
-import web.model.dto.ProductDto;
+import web.model.dto.*;
 
 import java.util.List;
 
@@ -20,8 +18,27 @@ public class InventoryService {
 
 
     //  재고 목록 출력
-    public List<ProductDto> inventoryRead(){        // 매개변수는 없고 inventoryDao 에서 LIST<ProductDto> 받아옴
-        return inventoryDao.inventoryRead();        // inventoryDao 의 inventoryRead 에서 받은 list 를 그대로 반환함.
+    public PagenationDto<ProductDto> inventoryRead(PagenationDto pagenationDto){        // 매개변수는 없고 inventoryDao 에서 LIST<ProductDto> 받아옴
+        System.out.println("InventoryService.inventoryRead");
+        System.out.println("pagenationDto = " + pagenationDto);
+
+        int offset = (pagenationDto.getPage() - 1) * pagenationDto.getSize();
+        System.out.println("offset = " + offset);
+
+        int inventoryCount = inventoryDao.inventoryCount();
+
+        int totalpages = inventoryCount % pagenationDto.getSize() == 0 ? (inventoryCount / pagenationDto.getSize()) : (inventoryCount / pagenationDto.getSize()) + 1;
+        System.out.println("totalpages = " + totalpages);
+
+        List<ProductDto> list = inventoryDao.inventoryRead(pagenationDto, offset);
+
+        return PagenationDto.<ProductDto>builder()
+                .page(pagenationDto.getPage())
+                .size(pagenationDto.getSize())
+                .totaldata(inventoryCount)
+                .totalPage(totalpages)
+                .data(list)
+                .build(); // inventoryDao 의 inventoryRead 에서 받은 list 를 그대로 반환함.
     }
 
     //  재고 현황 업데이트1

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PutMapping;
 import web.model.dto.InventoryDto;
 import web.model.dto.OrderdetailDto;
+import web.model.dto.PagenationDto;
 import web.model.dto.ProductDto;
 
 import java.sql.PreparedStatement;
@@ -21,16 +22,18 @@ public class InventoryDao extends Dao{
     ResultSet rs;
 
     //  재고 목록 출력
-    public List<ProductDto> inventoryRead(){
+    public List<ProductDto> inventoryRead(PagenationDto pagenationDto, int offset){
         List<ProductDto> list = new ArrayList<>();  // list 반환하기 위해 새로 선언
         try{
             // 제품 테이블과 제품 디테일 테이블, 재고 테이블 조인 후 sum(pi.invlogchange)를 통해 재고 수량 계산한 레코드도 함께 출력
             String sql = "select p.prodname , prodgender , pd.prodsize , pd.proddetailcode ,  sum( pi.invlogchange) inv \n" +
                     "   from productdetail pd inner join product p  inner join invlog pi \n" +
                     "    on pd.prodcode = p.prodcode and pd.proddetailcode = pi.proddetailcode\n" +
-                    "    group by pd.proddetailcode;";
+                    "    group by pd.proddetailcode limit ?, ?";
 
             ps = conn.prepareStatement(sql);
+            ps.setInt(1,offset);
+            ps.setInt(2,pagenationDto.getSize());
             rs = ps.executeQuery();
             while(rs.next()){
                 list.add(ProductDto.builder()                               // 빌더를 통해서 ProductDto 를 생성하고 list 에 바로 add 함
@@ -46,6 +49,25 @@ public class InventoryDao extends Dao{
             System.out.println("에러 정보는 " + e);
         }
         return list;                        // 저장된 list 반환
+    }
+
+    public int inventoryCount(){
+        try{
+            String sql = "select count(*) as count from " +
+                    " (select p.prodname , prodgender , pd.prodsize , pd.proddetailcode ,  sum( pi.invlogchange) inv " +
+                    " from productdetail pd inner join product p inner join invlog pi " +
+                    " on pd.prodcode = p.prodcode and pd.proddetailcode = pi.proddetailcode group by pi.proddetailcode) as query1";
+
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getInt("count");
+            }
+
+        }catch (Exception e){
+            System.out.println("에러 정보는 " + e);
+        }
+        return 0;
     }
 
     //  재고 현황 업데이트

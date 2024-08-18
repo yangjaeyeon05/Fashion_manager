@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.InventoryDto;
 import web.model.dto.OrderdetailDto;
+import web.model.dto.PagenationDto;
 import web.model.dto.ProductDto;
 import web.service.InventoryService;
 
@@ -18,8 +19,10 @@ public class InventoryController {
 
     //  재고 목록 출력
     @GetMapping("/read")                            // Method 는 GET
-    public List<ProductDto> inventoryRead(){        // 매개변수는 없고 inventoryService 에서 LIST<ProductDto> 받아서 HTML 로 반환
-        return inventoryService.inventoryRead();
+    public PagenationDto<ProductDto> inventoryRead(PagenationDto pagenationDto){        // 매개변수는 없고 inventoryService 에서 LIST<ProductDto> 받아서 HTML 로 반환
+        System.out.println("InventoryController.inventoryRead");
+        System.out.println("pagenationDto = " + pagenationDto);
+        return inventoryService.inventoryRead(pagenationDto);
     }
 
     //  재고 현황 업데이트1
