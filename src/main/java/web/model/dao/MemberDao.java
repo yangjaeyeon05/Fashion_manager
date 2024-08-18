@@ -238,22 +238,22 @@ public class MemberDao extends Dao{
             // 서브쿼리 2 : 서브쿼리 1에서 조회한 것을 바탕으로 제품 테이블의 제품 성별, 제품 사이즈와
             //            특정한 회원 번호(주문한 회원의 번호를 뜻함)를 조건으로 하는 회원 테이블을 조회해서 나온 특정한 회원 번호의 성별과 선호 사이즈가 같다는 조건으로
             //            나온 특정한 제품의 테이블의 모든 필드값을 조회함.
-            String sql = "select query2.* from (\n" +
-                    "\tselect p.* , pt.prodsize   from (  \n" +
-                    "\t\t# 요일별 주문수량 순위\n" +
-                    "\t\tselect dayofweek(od.orddate) dow, sum(odd.ordamount) sum, od.ordcode \n" +
-                    "\t\tfrom orders od \n" +
-                    "\t\tinner join orderdetail odd \n" +
-                    "\t\ton od.ordcode = odd.ordcode \n" +
-                    "\t\tinner join members m\n" +
-                    "\t\ton od.memcode = m.memcode\n" +
-                    "\t\twhere m.memcode != ? \n" +
-                    "\t\tand dayofweek(od.orddate) = dayofweek(now())\n" +
-                    "\t\tgroup by od.ordcode \n" +
-                    "\t\torder by sum desc ) as query1 \n" +
+            String sql = "select query2.* from ( \n" +
+                    "\t select p.* , pt.prodsize   from (  \n" +
+                    "\t\t # 요일별 주문수량 순위\n" +
+                    "\t\t select dayofweek(od.orddate) dow, sum(odd.ordamount) sum, od.ordcode \n" +
+                    "\t\t from orders od \n" +
+                    "\t\t inner join orderdetail odd \n" +
+                    "\t\t on od.ordcode = odd.ordcode \n" +
+                    "\t\t inner join members m\n" +
+                    "\t\t on od.memcode = m.memcode\n" +
+                    "\t\t where m.memcode != ? \n" +
+                    "\t\t and dayofweek(od.orddate) = dayofweek(now())\n" +
+                    "\t\t group by od.ordcode \n" +
+                    "\t\t order by sum desc ) as query1 \n" +
                     "\t# 순위별 제품정보 \n" +
-                    "\tinner join orderdetail od inner join product p inner join productdetail pt\n" +
-                    "\ton query1.ordcode = od.ordcode and pt.proddetailcode = od.proddetailcode and pt.prodcode = p.prodcode\n" +
+                    "\t inner join orderdetail od inner join product p inner join productdetail pt\n" +
+                    "\t on query1.ordcode = od.ordcode and pt.proddetailcode = od.proddetailcode and pt.prodcode = p.prodcode\n" +
                     ") query2 , ( select * from members where memcode = ? ) m where prodgender = m.memgender and prodsize = m.memsize limit 0 , 5";
 
             ps = conn.prepareStatement(sql);

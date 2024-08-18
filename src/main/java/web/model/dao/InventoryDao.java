@@ -99,6 +99,7 @@ public class InventoryDao extends Dao{
     ////
     // ===================================  2024-08-12 김민석 ========================================= //
 
+    // 재고 자동 알림 메소드
     public ProductDto inventoryAlarm(InventoryDto inventoryDto){
         System.out.println("inventoryDto = " + inventoryDto);
         try{
