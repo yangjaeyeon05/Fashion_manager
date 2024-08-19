@@ -56,35 +56,46 @@ public class ViewController {
     //08.16 상품수정 페이지
     @GetMapping("/product/edit")
     public String productEdit(){return "/product/productedit.html";}
-    // 4-1. 매출분석
+
+    // [1] 연단위 매출 조회 페이지 (레코드 단위 : 연도)
     @GetMapping("/sales/total")
     public String totalsales(){return "/sales/total.html";}
 
-    // 4-1-1. 연매출분석
+    // [1-1] 월단위 매출 조회 페이지 (레코드 단위 : 월)
     @GetMapping("/sales/yearly")
     public String yearlySales(){return "/sales/yearly.html";}
 
-    // 4-1-2. 월간매출분석
+    // [1-2] 일단위 매출 조회 페이지 (레코드 : 일 단위)
     @GetMapping("/sales/monthly")
     public String monthlySales(){return "/sales/monthly.html";}
 
-    // 4-2. 매출/상품분석/연단위상품분석
+    // [2] 연단위 판매된 제품 순위 페이지
     @GetMapping("/sales/product/total")
     public String totalItem(){return "/sales/product/total.html";}
 
-    // 4-2-1. 매출/상품분석/월단위상품분석
+    // [2-1] 월단위 판매된 제품 순위 페이지
     @GetMapping("/sales/product/yearly")
     public String yearlyItem(){return "/sales/product/yearly.html";}
 
-    // 4-2-2. 매출/상품분석/일단위상품분석
+    // [2-2] 일단위 판매된 제품 순위 페이지
     @GetMapping("/sales/product/monthly")
     public String monthlyItem(){return "/sales/product/monthly.html";}
 
-    // 4-3. 매출/매출추이분석
-    @GetMapping("/sales/weekly")
-    public String salesWeekly(){return "/sales/weekly.html";}
+    // [2-3] 색상 및 크기별 매출 현황 페이지
+    @GetMapping("/sales/colorsize")
+    public String colorSize(){return "/sales/colorsize.html";}
 
+    // [3] 쿠폰코드별, 날짜구간 2000-00-00 ~ 2000-00-00
+    @GetMapping("/sales/coupon")
+    public String coupons(){return "/sales/coupon.html";}
 
+    // [4] 판매추이 (최근 2주간)
+    @GetMapping("/sales/biweekly")
+    public String salesWeekly(){return "/sales/biweekly.html";}
+
+    // [5] 대비기간매출 페이지, 날짜구간1 2000-00-00 ~ 2000-00-00 vs 날짜구간2 2000-00-00 ~ 2000-00-00
+    @GetMapping("/sales/comparedates")
+    public String compareDates(){return "/sales/comparedates.html";}
 
     //  재고 관리 페이지 - 김민석
     @GetMapping("/product/inventory")   // http://localhost:8080/product/inventory

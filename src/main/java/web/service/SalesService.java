@@ -55,9 +55,9 @@ public class SalesService {
         return salesDao.colorSize(startDate, endDate);
     }
 
-    // [3] 쿠폰코드별
-    public ArrayList<SalesDto> coupons(){
-        return salesDao.coupons();
+    // [3] 쿠폰코드별, 날짜구간 2000-00-00 ~ 2000-00-00
+    public ArrayList<SalesDto> coupons(String startDate, String endDate){
+        return salesDao.coupons(startDate, endDate);
     }
 
     // [4] 판매추이 (최근 2주간)
@@ -65,14 +65,9 @@ public class SalesService {
         return salesDao.biweeklySales();
     }
 
-    // [5] 회원성향분석
-    public ArrayList<SalesDto> memberPreferences(){
-        return salesDao.memberPreferences();
-    }
-
-    // [6] 대비기간매출, 날짜구간1 2000-00-00 ~ 2000-00-00 vs 날짜구간2 2000-00-00 ~ 2000-00-00
-    public ArrayList<ArrayList<SalesDto>> compareDates(String firstDate, String secondDate){
-        return salesDao.compareDates(firstDate, secondDate);
+    // [5] 대비기간매출, 날짜구간1 2000-00-00 ~ 2000-00-00 vs 날짜구간2 2000-00-00 ~ 2000-00-00
+    public ArrayList<SalesDto> compareDates(String firstDateStart, String firstDateEnd, String secondDateStart, String secondDateEnd) {
+        return salesDao.compareDates(firstDateStart, firstDateEnd, secondDateStart, secondDateEnd);
     }
 
 
