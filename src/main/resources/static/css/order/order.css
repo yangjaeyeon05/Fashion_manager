@@ -123,3 +123,17 @@
     display: flex;
     justify-content: space-between;
 }
+/* 페이지네이션 버튼 컬러 변경 */
+.my.pagination > .active > a, 
+.my.pagination > .active > span, 
+.my.pagination > .active > a:hover, 
+.my.pagination > .active > span:hover, 
+.my.pagination > .active > a:focus, 
+.my.pagination > .active > span:focus {
+  background: #2c673e;
+  border-color: #2c673e;
+}
+
+.pagination {
+--bs-pagination-color : #2c673e !important;
+}
