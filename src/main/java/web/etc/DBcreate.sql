@@ -1932,3 +1932,4 @@ insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode,
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (98, 216, 10, 4, 5, 49000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (30, 367, 10, 2, 1, 91000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (174, 332, 10, 1, 2, 67000);
+insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (17, 33, 10, 1, 2, 67000);
