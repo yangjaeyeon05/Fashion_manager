@@ -1,3 +1,6 @@
+let revenueChart;
+let saleAmountChart;
+let incomeChart;
 
 getTotalTable()
 
@@ -30,38 +33,71 @@ function getTotalTable(){
             // 완성된 HTML을 삽입
             document.querySelector("#tablePrintBox").innerHTML = tableHTML
 
-            if (!document.getElementById(revenueChart)){
-                createChart("revenueChart", chartLabel, revenueChartData,'총매출금액')
-            } else {
-                updateChartData(document.getElementById(revenueChart), newData)
-            }
-            if (!document.getElementById(saleAmountChart)){
-                createChart("saleAmountChart", chartLabel, saleAmountChartData,'할인금액')
-            } else {
-                updateChartData(document.getElementById(saleAmountChart), newData)
-            }
-            if (!document.getElementById(incomeChart)){
-                createChart("incomeChart", chartLabel, incomeChartData,'실주문금액')
-            } else {
-                updateChartData(document.getElementById(incomeChart), newData)
-            }
+            // 차트 생성
+            createRevenueChart(chartLabel, revenueChartData,'총매출금액')
+            createsaleAmountChart(chartLabel, saleAmountChartData,'할인금액')
+            createIncomeChart(chartLabel, incomeChartData,'실주문금액')
         }
     })
 }
 
-// 차트 데이터 수정 및 업데이트
-function updateChartData(chart, newData) {
-    // 기존 데이터 수정
-    chart.data.datasets[0].data = newData; // 데이터셋의 데이터 업데이트
+// 차트 생성
+function createRevenueChart(lables, data, name){
+    if (revenueChart){
+        revenueChart.destroy()
+    }
 
-    // 차트 업데이트
-    chart.update();
+    revenueChart = new Chart(document.getElementById('revenueChart'), {
+        type: 'line',
+        data: {
+            labels: lables,
+            datasets: [{
+                label: name,
+                data: data,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                fill: true
+            }]
+        },
+        options: {
+            // chart options
+            responsive: true, // 화면 크기에 따라 차트 크기 조절
+        }
+    });
 }
 
-// 차트 생성
-function createChart(canvasId, lables, data, name){
-    
-    let myChart = new Chart(document.getElementById(canvasId), {
+function createsaleAmountChart(lables, data, name){
+    if (saleAmountChart){
+        saleAmountChart.destroy()
+    }
+
+    saleAmountChart = new Chart(document.getElementById('saleAmountChart'), {
+        type: 'line',
+        data: {
+            labels: lables,
+            datasets: [{
+                label: name,
+                data: data,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                fill: true
+            }]
+        },
+        options: {
+            // chart options
+            responsive: true, // 화면 크기에 따라 차트 크기 조절
+        }
+    });
+}
+
+function createIncomeChart(lables, data, name){
+    if (incomeChart){
+        incomeChart.destroy()
+    }
+
+    incomeChart = new Chart(document.getElementById('incomeChart'), {
         type: 'line',
         data: {
             labels: lables,

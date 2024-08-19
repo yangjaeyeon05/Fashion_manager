@@ -1,11 +1,10 @@
-let revenueChart;
-let saleAmountChart;
-let incomeChart;
+let incomeCalcChart;
+let completedCalcChart;
 
 getCompareDatesTable()
 
 // 대비기간매출
-function getMonthlyTable(){
+function getCompareDatesTable(){
     let firstDateStart = document.querySelector(".firstDateStart").value
     let firstDateEnd = document.querySelector(".firstDateEnd").value
     let secondDateStart = document.querySelector(".secondDateStart").value
@@ -15,7 +14,7 @@ function getMonthlyTable(){
     $.ajax({  // 테이블 데이터 가져오는 ajax
         async : false,
         method : "GET",
-        url : "/sales/monthlytable",
+        url : "/sales/comparedatestable",
         data : {firstDateStart : firstDateStart, 
             firstDateEnd : firstDateEnd, 
             secondDateStart : secondDateStart, 
@@ -23,38 +22,36 @@ function getMonthlyTable(){
         success : r => {
 
             let chartLabel = []
-            let revenueChartData = []
-            let saleAmountChartData = []
-            let incomeChartData = []
+            let incomeCalcChartData = []
+            let completedCalcChartData = []
 
             // 테이블 HTML 생성 루프
             r.forEach(dto => {                
-                chartLabel.push(dto.year)
-                revenueChartData.push(dto.revenue)
-                saleAmountChartData.push(dto.saleAmount)
-                incomeChartData.push(dto.income)
-                tableHTML += `<td>${dto.year}</td><td>${dto.orders}</td><td>${dto.ordered}</td><td>${dto.returned}</td><td>${dto.canceled}</td><td>${dto.completed}</td><td>${currencyFormat(dto.revenue)}</td><td>${currencyFormat(dto.saleAmount)}</td><td>${currencyFormat(dto.income)}</td></tr>`
+                chartLabel.push(dto.prodcatename)
+                incomeCalcChartData.push(dto.revenue)
+                completedCalcChartData.push(dto.saleAmount)
+                tableHTML += `<td>${dto.prodcatename}</td><td>${dto.firstcompleted}</td><td>${currencyFormat(dto.firstincome)}</td><td>${dto.secondcompleted}</td><td>${currencyFormat(dto.secondincome)}</td><td>${dto.completedcalc}</td><td>${incomecalc}</td></tr>`
             })
             
             // 완성된 HTML을 삽입
             document.querySelector("#tablePrintBox").innerHTML = tableHTML
             
             // 차트 생성
-            createRevenueChart(chartLabel, revenueChartData,'총매출금액')
-            createsaleAmountChart(chartLabel, saleAmountChartData,'할인금액')
-            createIncomeChart(chartLabel, incomeChartData,'실주문금액')
+            createIncomeCalcChart(chartLabel, revenueChartData,'실매출신장률')
+            createCompletedCalcChart(chartLabel, saleAmountChartData,'실판매수량신장률')
+        
         }
     })
 }
 
 // 차트 생성
-function createRevenueChart(lables, data, name){
-    if (revenueChart){
-        revenueChart.destroy()
+function createIncomeCalcChart(lables, data, name){
+    if (incomeCalcChart){
+        incomeCalcChart.destroy()
     }
 
-    revenueChart = new Chart(document.getElementById('revenueChart'), {
-        type: 'line',
+    incomeCalcChart = new Chart(document.getElementById('incomeCalcChart'), {
+        type: 'bar',
         data: {
             labels: lables,
             datasets: [{
@@ -73,13 +70,13 @@ function createRevenueChart(lables, data, name){
     });
 }
 
-function createsaleAmountChart(lables, data, name){
-    if (saleAmountChart){
-        saleAmountChart.destroy()
+function createCompletedCalcChart(lables, data, name){
+    if (completedCalcChart){
+        completedCalcChart.destroy()
     }
 
-    saleAmountChart = new Chart(document.getElementById('saleAmountChart'), {
-        type: 'line',
+    completedCalcChart = new Chart(document.getElementById('completedCalcChart'), {
+        type: 'bar',
         data: {
             labels: lables,
             datasets: [{
@@ -97,32 +94,6 @@ function createsaleAmountChart(lables, data, name){
         }
     });
 }
-
-function createIncomeChart(lables, data, name){
-    if (incomeChart){
-        incomeChart.destroy()
-    }
-
-    incomeChart = new Chart(document.getElementById('incomeChart'), {
-        type: 'line',
-        data: {
-            labels: lables,
-            datasets: [{
-                label: name,
-                data: data,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                fill: true
-            }]
-        },
-        options: {
-            // chart options
-            responsive: true, // 화면 크기에 따라 차트 크기 조절
-        }
-    });
-}
-
 
 // 엑셀로 테이블 데이터 다운받기
 function excelExport(){

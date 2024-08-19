@@ -28,17 +28,18 @@ function getYearlyTable(){
                         revenueChartData.push(dto.revenue)
                         saleAmountChartData.push(dto.saleAmount)
                         incomeChartData.push(dto.income)
-                        tableHTML += `<td>${dto.month}</td><td>${dto.orders}</td><td>${dto.ordered}</td><td>${dto.returned}</td><td>${dto.canceled}</td><td>${dto.completed}</td><td>${currencyFormat(dto.revenue)}</td><td>${currencyFormat(dto.saleAmount)}</td><td>${currencyFormat(dto.income)}</td></tr>`
+                        tableHTML += `<td>${dto.month}<td>${dto.orders}</td><td>${dto.ordered}</td><td>${dto.returned}</td><td>${dto.canceled}</td><td>${dto.completed}</td><td>${currencyFormat(dto.revenue)}</td><td>${currencyFormat(dto.saleAmount)}</td><td>${currencyFormat(dto.income)}</td></tr>`
                         return
                     }
                 })
-
+                console.log(hasRecord);
+                
                 if (hasRecord == false) {
                     chartLabel.push(i)
                     revenueChartData.push(0)
                     saleAmountChartData.push(0)
                     incomeChartData.push(0)
-                    tableHTML += `<td>${i}</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>${currencyFormat(0)}</td><td>${currencyFormat(0)}</td><td>${currencyFormat(0)}</td></tr>`
+                    tableHTML += `<td>${i}<td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>${currencyFormat(0)}</td><td>${currencyFormat(0)}</td><td>${currencyFormat(0)}</td></tr>`
                 }
             }
             // 완성된 HTML을 삽입
