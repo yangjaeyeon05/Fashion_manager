@@ -1,7 +1,9 @@
 .memberArea {
     margin-left: 250px;
 }
-
+.memberSearchBox{
+    margin-left: 250px;
+}
 /* .memberPrint {
     display: flex;
     justify-content: space-between;

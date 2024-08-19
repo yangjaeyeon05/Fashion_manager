@@ -12,6 +12,20 @@
 
 <body>
     <div th:replace="~{/sidebar.html:: sidebar}"></div>
+    <div class="memberSearchBox">
+        <select name="" id="memberSearchValue">
+            <option value="0"> 전체 </option>
+            <option value="1"> 이름 </option>
+            <option value="2"> 전화번호 </option>
+            <option value="3"> 이메일 </option>
+            <option value="4"> 성별 </option>
+            <option value="5"> 사이즈 </option>
+            <option value="6"> 블랙리스트 </option>
+        </select>
+        <input type="text" name="" id="memberSearch">
+        <button type="button" onclick="memberList()"> 검색 </button>
+    </div>
+     <!-- searchBox end -->
     <div class="memberArea">
         <div class="memberPrint">
             <div>
@@ -43,6 +57,11 @@
             </div>
         </div>
     </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+
+        </ul>
+    </nav>
 
 
     <script src="/js/member.js"></script>

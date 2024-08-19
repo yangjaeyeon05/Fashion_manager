@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/product/inventorylog.css" rel="stylesheet">
+    <title>재고로그</title>
+</head>
+<body>
+
+    <div th:replace="~{/sidebar.html:: sidebar}"></div>
+    <div id="main">
+        <div class="wrap">
+            <div id="title">
+                <span>재고로그</span>
+            </div>
+            <div class="searchBox">
+                <table class="searchTable table">
+                    <colgroup>
+                        <col width="13%">
+                        <col width="13%">
+                        <col width="13%">
+                        <col width="13%">
+                        <col width="13%">
+                        <col width="35%">
+                    </colgroup>
+                    <tbody> 
+                        <tr> 
+                            <th> 로그날짜 </th> 
+                            <td colspan="5"> 
+                                <div class="dateBox">
+                                    <button type="button" class="btn btn-success btn-sm" onclick="changeDate(0)"> 오늘 </button>
+                                    <button type="button" class="btn btn-success btn-sm" onclick="changeDate(3)"> 3일 </button>
+                                    <button type="button" class="btn btn-success btn-sm" onclick="changeDate(7)"> 1주일 </button>
+                                    <button type="button" class="btn btn-success btn-sm" onclick="changeDate(30)"> 1개월 </button>
+                                    <button type="button" class="btn btn-success btn-sm" onclick="changeDate(90)"> 3개월 </button>         
+                                    <input type="date" class="startDate"/>
+                                    <input type="date" class="endDate"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr> 
+                            <th> 증감사유 </th> 
+                                <td> 
+                                    <select class="invlogdetail"> 
+                                        <option value="0"> 전체 </option>
+                                        <option value="1"> 재고입고 </option>
+                                        <option value="2"> 판매 </option>
+                                        <option value="3"> 취소 </option>
+                                        <option value="4"> 환불 </option>
+                                    </select> 
+                                </td> 
+                            <th> 상세검색 </th> 
+                                <td colspan="3"> 
+                                    <select class="searchKey"> 
+                                        <option value=""> 선택 </option>
+                                        <option value="prodname"> 상품이름 </option>
+                                    </select> 
+                                    <input type="text" class="form-text searchKeyword"/>
+                                </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="btnBox">
+                    <button class="btn btn-success" type="button" onclick="onSearch()"> 검색 </button>                        
+                </div>
+            </div> <!-- searchBox end -->
+            <div> <!-- 재고로그 -->
+                <div class="table-wrapper">
+                    <table class="dataBox table">
+                        <thead class="dataBoxHead">
+                            <tr>
+                                <th> 코드 </th>
+                                <th> 재고변경일 </th>
+                                <th> 증감사유 </th>
+                                <th> 상품이름 </th>
+                                <th> 컬러 </th>
+                                <th> 사이즈 </th>
+                                <th> 수량 </th>
+                            </tr>
+                        </thead>
+                        <tbody class="invlogPrintBox">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>  <!-- 상담목록 출력 end -->
+
+        </div> <!-- wrap end -->
+    </div>
+
+<!-- JS -->
+<script src="/js/product/inventorylog.js"></script>
+</body>
+</html>

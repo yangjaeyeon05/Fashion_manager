@@ -2,7 +2,7 @@ console.log("inventory.js");
 
 
 inventoryRead();
-function inventoryRead() {
+function inventoryRead(page = 1, size = 10) {
     let inventoryArea = document.querySelector("#inventoryArea");
     let html = ``;
 
@@ -10,9 +10,17 @@ function inventoryRead() {
         async: false,
         method: "get",
         url: "/inventory/read",
+        data : {page : page, size : size},
         success: function response(result) {
+
+
             console.log(result);
-            result.forEach(r => {
+            let inventory = result.data;
+            let total = result.totalPage; //전체 페이지수
+            let currentPage = result.page; // 현재 페이지 번호
+
+            if (inventory && inventory.length > 0){
+            inventory.forEach(r => {
                 html += `<tr>
                             <td>
                                 ${r.prodName}
@@ -58,7 +66,26 @@ function inventoryRead() {
                 }) // ajax2 end
                 // ===================================  2024-08-13 김민석 ========================================= //
             }); // forEach end 
+        }
+        let paginationBox = document.querySelector('.pagination');
+                let pageHTML = '';
+
+                if (total > 0){ //if start 총페이지수가 0 보다 많으면
+                for(let i = 1; i<= total; i++){ //for start 반복문을 돌려서
+                    pageHTML += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                    <a class="page-link" href="#" onclick="inventoryRead(${i}, ${size})">${i}</a>
+                    </li>
+                    `;
+                    //페이지의 번호와 데이터에 맞는 버튼 생성
+
+                    } //for end
+                } //if end
+
+                //페이지네이션 버튼출력
+
             inventoryArea.innerHTML = html;
+            paginationBox.innerHTML = pageHTML;
         } // ajax1 success end 
     }) // ajax1 end 
 
@@ -136,14 +163,3 @@ function inventoryChart(prodDetailcode) {
 
 
 
-function invAutoUpdateOrder() {
-
-}
-
-function invAutoUpdateReturn() {
-
-}
-
-function invAutoUpdateCancel() {
-
-}

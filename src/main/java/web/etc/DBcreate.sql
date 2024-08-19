@@ -91,7 +91,7 @@ create table orderdetail(				# 주문상세내역
     ordprice mediumint not null,			# 주문시 가격
     primary key (orddetailcode),
     foreign key (ordcode) references orders(ordcode) on delete cascade,
-    foreign key (proddetailcode) references productdetail(proddetailcode),
+    foreign key (proddetailcode) references productdetail(proddetailcode) on delete cascade,
     foreign key (coupcode) references coupon(coupcode)
     );
 
@@ -103,7 +103,7 @@ create table invlog(					# 재고현황
     invlogdetail tinyint not null, 		# 재고변경내역 1. 재고입고 2. 판매 3. 취소 4. 환불
     invdate date not null default (current_date), # 재고 들어온 시간
     primary key (invlogcode),
-    foreign key (proddetailcode) references productdetail(proddetailcode)
+    foreign key (proddetailcode) references productdetail(proddetailcode) on delete cascade
 	);
 drop table if exists support;
 create table support(					# 상담
@@ -172,7 +172,7 @@ create table polog(
 	totalamount int , 								# 주문금액 주문수량 * 도매가
 	quantitydate date default (current_date) , 		# 주문 날짜
 	arrivaldate date , 								# 도착날짜
-    quantitystate int , 							# 처리상태
+    quantitystate int default 1, 							# 처리상태
     primary key(pocode) , 
     foreign key(wpcode) references wholesaleproduct(wpcode)
 	on delete cascade on update cascade 
@@ -180,8 +180,6 @@ create table polog(
 
 
 # 샘플
-
-select * from polog;
 
 # color
 insert into color(colorname) values('하얀색');
@@ -217,6 +215,16 @@ insert into vendor(vname , vcontact , vaddress) values('스타일스피어' , '0
 insert into vendor(vname , vcontact , vaddress) values('엘레강스엠포리엄' , '02-3333-3333' , '부산시 부산진구 부전로 654, 5층');
 insert into vendor(vname , vcontact , vaddress) values('트렌드아우라' , '02-4444-4444' , '광주시 서구 상무대로 789, 4층');
 insert into vendor(vname , vcontact , vaddress) values('럭소라' , '02-5555-5555' , '대구시 중구 동성로 987, 6층');
+INSERT INTO vendor (vname, vcontact, vaddress)
+VALUES ('에코테크', '02-6666-6666', '서울시 강남구 테헤란로 123, 5층');
+INSERT INTO vendor (vname, vcontact, vaddress)
+VALUES ('하이테크 솔루션', '02-7777-77777', '서울시 마포구 월드컵로 456, 2층');
+INSERT INTO vendor (vname, vcontact, vaddress)
+VALUES ('그린산업', '02-8888-88888', '서울시 송파구 올림픽로 789, 4층');
+INSERT INTO vendor (vname, vcontact, vaddress)
+VALUES ('스타트업 코리아', '02-9999-9999', '서울시 서초구 서초대로 101, 6층');
+INSERT INTO vendor (vname, vcontact, vaddress)
+VALUES ('피닉스 파트너스', '02-0000-0000', '서울시 영등포구 경인로 102, 7층');
 
 select * from vendor;
 
@@ -235,6 +243,7 @@ insert into polog(wpcode , quantity , totalamount , quantitystate) values(2 , 5 
 insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(3 , 2 , 10000 , '2024-08-14' , 2);
 insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(4 , 3 , 30000 , '2024-08-14' , 2);
 insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(5 , 3 , 54000 , '2024-08-14' , 2);
+select * from polog;
 
 # members
 insert into members(memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('유재석', '010-1111-1111', 'you@naver.com', 'M', '1', 'M', '2022-08-01');
@@ -286,7 +295,6 @@ insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddet
 insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
 
 select * from support;
-select * from support order by supcode desc;
 
 # reply
 insert into reply(supcode, replycontent, replydate) values(1, '답글1', '2024-07-31');
@@ -1114,31 +1122,6 @@ insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode,
 
 # /Mockaroo 샘플
 
-select * from support;
-select * from support inner join members on support.memcode = members.memcode where supcode = 9;
-
-use fashionmanager;
-select * from product;
-select * from productdetail;
-select * from productdetail where proddate between '2022-01-01' and '2022-01-03';
-select *
-from productdetail a inner join product b on a.prodcode=b.prodcode inner join productcategory c on a.prodcatecode=c.prodcatecode inner join color d
-on a.colorcode=d.colorcode where a.proddate between '"2022-01-01"' and '"2022-01-03"';
-
-
-
-select prodcode, prodname, prodprice,  
-                    count(ordstate) ordered,  
-                    sum(case when ordstate = 3 then 1 else 0 end) returned,  
-                    sum(case when ordstate = 4 then 1 else 0 end) canceled,  
-                    sum(case when ordstate !=3 and ordstate !=4 then 1 else 0 end) completed,  
-                    sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount, 0) else 0 end) revenue,  
-                    sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(coupsalerate/100), 0) else 0 end) saleAmount,  
-                    sum(case when ordstate !=3 and ordstate !=4 then round(ordprice*ordamount*(1-(coupsalerate/100)), 0) else 0 end) income  
-                    from orderdetail left outer join orders using(ordcode) inner join productdetail using(proddetailcode) inner join product using(prodcode) inner join coupon using(coupcode)  
-                    group by prodcode order by income desc;
-                    
-                    
 # Mockaroo orders & orderdetail 더 추가
 
 insert into orders (memcode, orddate) values (3, '2022-09-03');
