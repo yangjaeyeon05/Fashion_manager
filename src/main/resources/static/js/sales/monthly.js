@@ -24,9 +24,6 @@ function getMonthlyTable(){
     let yearMonth = document.querySelector(".yearMonth").value
     let year = yearMonth.split("-")[0]
     let month = yearMonth.split("-")[1]
-    console.log(year);
-    console.log(month);
-    
     
     tableHTML = ""  // 테이블 HTML
     $.ajax({  // 테이블 데이터 가져오는 ajax

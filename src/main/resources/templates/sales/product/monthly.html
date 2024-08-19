@@ -2,134 +2,108 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>연매출분석</title>
+    <title>일간판매상품조회</title>
 
     <!-- CSS -->
     <link href="/css/main.css" rel="stylesheet">
-    <link href="/css/sales/total.css" rel="stylesheet">
+    <link href="/css/sales/product/monthly.css" rel="stylesheet">
 </head>
 <body>
     <div th:replace="~{/sidebar.html:: sidebar}"></div>
     <div id="main">
         <div class="wrap">
             <div id="title">
-                <span>매출조회</span>
+                <span>일간판매상품조회</span>
             </div>
-            <!-- 상단메뉴 -->
-            <div class="row d-flex p-2" id="topMenu">
-                <div class="col-4 categoryActive" id="total" onclick="location.href='/sales/total'">
-                    연매출조회
-                </div>
-                <div class="col-4" id="yearly" onclick="location.href='/sales/yearly'">
-                    월간매출조회
-                </div>
-                <div class="col-4" id="monthly" onclick="location.href='/sales/monthly'">
-                    일간매출조회
-                </div>
-            </div>
-            <!-- 상단메뉴 -->
             <div class="searchBox">
-                <button type="button" onclick="excelExport()">엑셀로 다운받기</button>
                 <table class="searchTable table">
                     <colgroup>
-                        <col width="13%">
-                        <col width="13%">
-                        <col width="13%">
-                        <col width="13%">
-                        <col width="13%">
-                        <col width="35%">
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="15%">
+                        <col width="10%">
+                        <col width="10%">
                     </colgroup>
-                    <tbody> 
-                        <tr> 
-                            <th> 문의 접수일 </th> 
-                            <td colspan="5"> 
-                                <div class="dateBox">
-                                    <button type="button" class="btn btn-success btn-sm" onclick="changeDate(0)"> 오늘 </button>
-                                    <button type="button" class="btn btn-success btn-sm" onclick="changeDate(3)"> 3일 </button>
-                                    <button type="button" class="btn btn-success btn-sm" onclick="changeDate(7)"> 1주일 </button>
-                                    <button type="button" class="btn btn-success btn-sm" onclick="changeDate(30)"> 1개월 </button>
-                                    <button type="button" class="btn btn-success btn-sm" onclick="changeDate(90)"> 3개월 </button>         
-                                    <input type="date" class="startDate"/>
-                                    <input type="date" class="endDate"/>
+                    <tbody>
+                        <tr>
+                            <th>
+                                <div id="total" onclick="location.href='/sales/product/total'">
+                                    연간판매상품조회
                                 </div>
-                            </td>
+                            </th>
+                            <th>
+                                <div id="yearly" onclick="location.href='/sales/product/yearly'">
+                                    월간판매상품조회
+                                </div>
+                            </th>
+                            <th>
+                                <div class="categoryActive" id="monthly" onclick="location.href='/sales/product/monthly'">
+                                    일간판매상품조회
+                                </div>
+                            </th>
+                            <th>
+                                <div id="colorSize" onclick="location.href='/sales/colorsize'">
+                                    상품색상크기별조회
+                                </div>
+                            </th>
+                            <tr>
+                                <th> 상세조건  </th>
+                                <div class="dateBox">
+                                </div>
+                                    <th> 조회기간 </th>
+                                    <td colspan="1"> <input type="month" value="2021-01" class="yearMonth"/> </td>
+                                    <td colspan="1"></td>
+                                    <td colspan="1"> <button type="button" class="btn btn-success btn-sm" ONCLICK="getProductMonthlyTable()"> 조회 </button> </td>
+                            </tr>
                         </tr>
-                        <tr> 
-                            <th> 처리 상태 </th> 
-                                <td> 
-                                    <select class="supstateBox"> 
-                                        <option value="0"> 전체 </option>
-                                        <option value="1"> 상담전 </option>
-                                        <option value="2"> 진행중 </option>
-                                        <option value="3"> 상담완료 </option>
-                                    </select> 
-                                </td> 
-                            <th> 문의 유형 </th> 
-                                <td> 
-                                    <select class="supcodeBox"> 
-                                        <option value="0"> 전체 </option>
-                                        <option value="1"> 반품문의 </option>
-                                        <option value="2"> 상품문의 </option>
-                                        <option value="3"> 배송문의 </option>
-                                        <option value="4"> 회원문의 </option>
-                                        <option value="5"> 기타 </option>
-                                    </select>     
-                                </td> 
-                            <th> 상세검색 </th> 
-                                <td> 
-                                    <select class="searchKey"> 
-                                        <option value=""> 선택 </option>
-                                        <option value="memname"> 질문자명 </option>
-                                        <option value="ordcode"> 주문번호 </option>
-                                    </select> 
-                                    <input type="text" class="form-text searchKeyword"/>
-                                </td>
+                        <tr>
                         </tr>
+                    <tbody>
+                </table> <!--SearchTable end-->
+            </div> <!--serachBox end-->
+            <!-- 차트 -->
+            <div class="row d-flex" id="chartBox">
+                <div class="col-4 px-1">
+                    <div style="width: 100%; height: 100%;"><canvas id="revenueChart"></canvas></div>
+                </div>
+                <div class="col-4 px-1">
+                    <div style="width: 100%; height: 100%;"><canvas id="saleAmountChart"></canvas></div>
+                </div>
+                <div class="col-4 px-1">
+                    <div style="width: 100%; height: 100%;"><canvas id="incomeChart"></canvas></div>
+                </div>
+                
+            </div>
+            <!-- /차트 -->
+            <button type="button" class="btn btn-success mb-3" onclick="excelExport()">엑셀로 다운받기</button>
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead class="dataBoxHead">
+                        <tr>   
+                            <th>제품코드</th>
+                            <th>제품명</th>
+                            <th>제품가격</th>
+                            <th>제품분류명</th>
+                            <th>주문건수</th>
+                            <th>주문상품수</th>
+                            <th>반품상품수</th>
+                            <th>취소상품수</th>
+                            <th>실주문상품수</th>
+                            <th>총매출금액</th>
+                            <th>할인금액</th>
+                            <th>실매출금액</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablePrintBox">
                     </tbody>
                 </table>
-                <div class="btnBox">
-                    <button class="btn btn-success" type="button" onclick="onSearch()"> 검색 </button>                        
-                </div>
-            </div> <!-- searchBox end -->
-            <div> <!-- 상담목록 -->
-                <div class="ref">
-                    <span> * 문의제목을 클릭하시면 상세한 문의내역을 확인할 수 있습니다. </span>
-                </div>
-                <div class="table-wrapper">
-                    <table class="dataBox table">
-                        <thead class="dataBoxHead">
-                            <tr>
-                                <th> 상담코드 </th>
-                                <th> 접수일 </th>
-                                <th> 처리상태 </th>
-                                <th> 주문번호 </th>
-                                <th> 문의유형 </th>
-                                <th> 문의제목 </th>
-                                <th> 작성자명 </th>
-                            </tr>
-                        </thead>
-                        <tbody class="supportPrintBox">
-                            
-                        </tbody>
-                    </table>
-                </div>
-            </div>  <!-- 상담목록 출력 end -->
-            <h3>최근 일주일 매출 현황</h3>
-            <!-- 차트 -->
-            <div style="width: 800px;"><canvas id="salesChart"></canvas></div>
-            <div>테스트중 : 1년 목록</div>
-            <button type="button" onclick="excelExport()">엑셀로 다운받기</button>
-            <table class="table">
-                <thead>
-                    <tr><th>날짜</th><th>주문건수</th><th>주문상품수</th><th>반품건수</th><th>취소건수</th><th>실주문상품수</th><th>총매출금액</th><th>할인금액</th><th>실매출금액</th></tr>
-                </thead>
-                <tbody id="tableBox">
-                </tbody>
-            </table>
+            </div>
         </div>
     </div>
     <!-- JS -->
-    <script src="/js/sales/total.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="/js/sales/product/monthly.js"></script>
 </body>
 </html>
 
