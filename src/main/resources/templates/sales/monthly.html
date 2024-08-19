@@ -3,45 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <title>월간매출분석</title>
+        <!-- CSS -->
+        <link href="/css/main.css" rel="stylesheet">
+        <link href="/css/sales/monthly.css" rel="stylesheet">
 </head>
 <body>
     <div th:replace="~{/sidebar.html:: sidebar}"></div>
-    <div class="container" id="main">
-        <!-- 상단메뉴 -->
-        <div class="row d-flex p-2" id="topMenu">
-            <div class="col-4 categoryActive" id="total" onclick="location.href='/sales/total'">
-                연매출조회
+    <div id="main">
+        <div class="wrap">
+            <div id="title">
+                <span>매출조회</span>
             </div>
-            <div class="col-4" id="yearly" onclick="location.href='/sales/yearly'">
-                월간매출조회
-            </div>
-            <div class="col-4" id="monthly" onclick="location.href='/sales/monthly'">
-                일간매출조회
-            </div>
-        </div>
-        <!-- /상단메뉴 -->
-        <div class="row" id="main">
-            <h3>최근 일주일 매출 현황</h3>
-            <select class="form-select">
-                <option selected value="2024">2024</option>
-                <option value="2023">2023</option>
-                <option value="2022">2022</option>
-                <option value="2021">2021</option>
-            </select>
-            <table class="table">
-                <thead>
-                    
-                </thead>
-            </table>
+            <div class="searchBox">
+                <table class="searchTable table">
+                    <colgroup>
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="15%">
+                        <col width="10%">
+                        <col width="10%">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th>
+                                <div id="total" onclick="location.href='/sales/total'">
+                                    연매출조회
+                                </div>
+                            </th>
+                            <th>
+                                <div id="yearly" onclick="location.href='/sales/yearly'">
+                                    월간매출조회
+                                </div>
+                            </th>
+                            <th>
+                                <div class="categoryActive" id="monthly" onclick="location.href='/sales/monthly'">
+                                    일간매출조회
+                                </div>
+                            </th>
+                            <th>
+                                <div id="monthly" onclick="location.href='/sales/coupon'">
+                                    쿠폰코드별조회
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th> 상세조건  </th>
+                            <div class="dateBox">
+                            </div>
+                                <th> 조회기간 </th>
+                                <td colspan="1"> <input type="month" value="2021-01" class="yearMonth"/> </td>
+                                <td colspan="1"></td>
+                                <td colspan="1"> <button type="button" class="btn btn-success btn-sm" ONCLICK="getMonthlyTable()"> 조회 </button> </td>
+                        </tr>
+                    <tbody>
+                </table> <!--SearchTable end-->
+            </div> <!--serachBox end-->
             <!-- 차트 -->
-            <div style="width: 800px;"><canvas id="salesChart"></canvas></div>
+            <div class="row d-flex" id="chartBox">
+                <div class="col-4 px-1">
+                    <div style="width: 100%; height: 100%;"><canvas id="revenueChart"></canvas></div>
+                </div>
+                <div class="col-4 px-1">
+                    <div style="width: 100%; height: 100%;"><canvas id="saleAmountChart"></canvas></div>
+                </div>
+                <div class="col-4 px-1">
+                    <div style="width: 100%; height: 100%;"><canvas id="incomeChart"></canvas></div>
+                </div>
+                
+            </div>
+            <!-- /차트 -->
+            <button type="button" class="btn btn-success mb-3" onclick="excelExport()">엑셀로 다운받기</button>
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead class="dataBoxHead">
+                        <tr>   
+                            <th>날짜</th>
+                            <th>주문건수</th>
+                            <th>주문상품수</th>
+                            <th>반품건수</th>
+                            <th>취소건수</th>
+                            <th>실주문상품수</th>
+                            <th>총매출금액</th>
+                            <th>할인금액</th>
+                            <th>실매출금액</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablePrintBox">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    <!--TODO-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-    <script src="/js/sales.js"></script>
-    <!-- <script src="/js/sales.js"></script> -->
+    <script src="/js/sales/monthly.js"></script>
 </body>
 </html>
