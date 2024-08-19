@@ -133,3 +133,7 @@
   background: #2c673e;
   border-color: #2c673e;
 }
+
+.pagination {
+--bs-pagination-color : #2c673e !important;
+}
