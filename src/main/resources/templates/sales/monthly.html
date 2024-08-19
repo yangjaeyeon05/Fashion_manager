@@ -7,15 +7,19 @@
 <body>
     <div th:replace="~{/sidebar.html:: sidebar}"></div>
     <div class="container" id="main">
+        <!-- 상단메뉴 -->
         <div class="row d-flex p-2" id="topMenu">
-            <div class="col-4" id="yearly" onclick="location.href='/sales/yearly'">
+            <div class="col-4 categoryActive" id="total" onclick="location.href='/sales/total'">
                 연매출조회
             </div>
-            <div class="col-4 categoryActive" id="monthly" onclick="location.href='/sales/monthly'">
+            <div class="col-4" id="yearly" onclick="location.href='/sales/yearly'">
                 월간매출조회
             </div>
+            <div class="col-4" id="monthly" onclick="location.href='/sales/monthly'">
+                일간매출조회
+            </div>
         </div>
-
+        <!-- /상단메뉴 -->
         <div class="row" id="main">
             <h3>최근 일주일 매출 현황</h3>
             <select class="form-select">

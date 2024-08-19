@@ -10,8 +10,20 @@
 
 <body>
     <div th:replace="~{/sidebar.html:: sidebar}"></div>
-    <div class="main">
+    <div id="main">
+        <div class="wrap">
         메인페이지
+
+
+
+        <table class="table">
+            <thead>
+                <tr><th>날짜</th><th>주문건수</th><th>주문상품수</th><th>반품건수</th><th>취소건수</th><th>실주문상품수</th><th>총매출금액</th><th>할인금액</th><th>실매출금액</th></tr>
+            </thead>
+            <tbody id="tableBox">
+            </tbody>
+        </table>
+        </div>
     </div>
     
     <script src="/js/index.js"></script>
