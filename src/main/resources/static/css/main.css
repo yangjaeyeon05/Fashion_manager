@@ -12,6 +12,7 @@ a{
 }
 #main{
     margin-left: 250px;
+    align-items: center;
 }
 .nanum-gothic-coding-regular {
     font-family: "Nanum Gothic Coding", monospace;
