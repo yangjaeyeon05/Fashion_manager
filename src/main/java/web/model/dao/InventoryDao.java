@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PutMapping;
 import web.model.dto.InventoryDto;
+import web.model.dto.InventorySearhDto;
 import web.model.dto.OrderdetailDto;
 import web.model.dto.ProductDto;
 
@@ -248,4 +249,63 @@ public class InventoryDao extends Dao{
     }
 
     // ===================================  2024-08-16 김민석 ========================================= //
+
+    //  재고로그 출력 8/18 양재연
+    public List<InventoryDto> invlogAllRead(InventorySearhDto inventorySearhDto){
+        System.out.println("InventoryDao.invlogAllRead");
+        List<InventoryDto> list = new ArrayList<>();
+        try{
+            String sql = "select * from invlog i " +
+                    " inner join productdetail pd on i.proddetailcode = pd.proddetailcode " +
+                    " inner join product p on p.prodcode = pd.prodcode " +
+                    " inner join color c on c.colorcode = pd.colorcode ";
+            // 날짜 검색 조건이 있으면
+            if(inventorySearhDto.getStartDate().isEmpty()) {  // 만약 시작하는 날짜가 없으면 -> 기간 설정 검색을 하지 않는다.
+
+            }else {
+                sql += " where invdate between " + "'"+inventorySearhDto.getStartDate()+"'" + " and " + "'"+inventorySearhDto.getEndDate()+"' ";
+            }
+            // 증감사유 코드가 있을때
+            if(inventorySearhDto.getInvlogdetail() == 0){
+
+            }else {
+                if(inventorySearhDto.getStartDate().isEmpty()){
+                    sql += " where ";
+                }else {
+                    sql += " and ";
+                }
+                sql += " invlogdetail = '"+inventorySearhDto.getInvlogdetail()+"' ";
+            }
+            // 상세검색 조건이 있을때
+            // 검색조건
+            if(inventorySearhDto.getSearchKeyword().isEmpty()){  // 검색 조건이 없으면
+
+            }else{                                              // 검색 조건이 있으면
+                if(inventorySearhDto.getInvlogdetail() == 0 && inventorySearhDto.getStartDate().isEmpty()){  // 검색 조건이 있는데 supcode , supstate가 없으면
+                    sql += " where ";
+                }else{
+                    sql += " and ";
+                }
+                sql += inventorySearhDto.getSearchKey() + " like '%" + inventorySearhDto.getSearchKeyword() + "%'";
+            }
+            sql += " order by invdate desc ";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                InventoryDto inventoryDto = InventoryDto.builder()
+                        .invlogcode(rs.getInt("invlogcode"))
+                        .invdate(rs.getString("invdate"))
+                        .invlogdetail(rs.getInt("invlogdetail"))
+                        .prodname(rs.getString("prodname"))
+                        .colorname(rs.getString("colorname"))
+                        .prodsize(rs.getString("prodsize"))
+                        .invlogchange(rs.getInt("invlogchange"))
+                        .build();
+                list.add(inventoryDto);
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return list;
+    }   // invlogAllRead() end
 }

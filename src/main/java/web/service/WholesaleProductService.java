@@ -2,12 +2,10 @@ package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import web.model.dao.WholesaleProductDao;
 import web.model.dto.PologDto;
+import web.model.dto.VendorDto;
 import web.model.dto.WholesaleProductDto;
 
 import java.util.List;
@@ -32,9 +30,10 @@ public class WholesaleProductService {
     }   // doPo() end
 
     // 3. 발주현황 출력
-    public List<PologDto> poRead(){
+    public List<PologDto> poRead(int quantitystate){
         System.out.println("WholesaleProductService.poRead");
-        List<PologDto> list = wpdao.poRead();
+        System.out.println("quantitystate = " + quantitystate);
+        List<PologDto> list = wpdao.poRead(quantitystate);
         list.forEach(pologDto -> {
             String quantitystatename = convertQs(pologDto.getQuantitystate());
             pologDto.setQuantitystatename(quantitystatename);
@@ -63,6 +62,26 @@ public class WholesaleProductService {
     public boolean invlogadd(int proddetailcode , int quantity){
         return wpdao.invlogadd(proddetailcode , quantity);
     }   // invlogadd() end
+
+    // 6. 거래처불러오기
+    public List<VendorDto> vencoderead(){
+        System.out.println("WholesaleProductService.vencoderead");
+        return wpdao.vencoderead();
+    }   // vencoderead() end
+
+    // 7. 도매상품 추가
+    public boolean wpadd(WholesaleProductDto wpDto){
+        System.out.println("WholesaleProductService.wpadd");
+        System.out.println("wpDto = " + wpDto);
+        return wpdao.wpadd(wpDto);
+    }   // wpadd() end
+
+    // 8. 도매상품 삭제
+    public boolean wpdelete(int wpcode){
+        System.out.println("WholesaleProductService.wpdelete");
+        System.out.println("wpcode = " + wpcode);
+        return wpdao.wpdelete(wpcode);
+    }   // wpdelete() end
 
 
 }   // class end

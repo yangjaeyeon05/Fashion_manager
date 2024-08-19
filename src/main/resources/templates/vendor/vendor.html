@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link href="/css/main.css" rel="stylesheet">
     <link href="/css/vendor/vendor.css" rel="stylesheet">
-    <title>Title</title>
+    <title>거래처관리</title>
 </head>
 <body>
     <div th:replace="~{/sidebar.html:: sidebar}"></div>
@@ -13,6 +13,7 @@
             <div id="title">
                 <span>거래처관리</span>
                 <div>
+                    <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#wpaddModal" onclick="vencoderead()"> 상품등록 </button>                        
                     <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#vendorAddModal"> 거래처등록 </button>                        
                     <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#pologModal" onclick="pologRead()"> 발주현황 </button>  
                 </div>                      
@@ -125,6 +126,12 @@
                     <div class="modal-body">
                         <form>
                             <table class="table vendorAddTable">
+                                <colgroup>
+                                    <col width="20%">
+                                    <col width="30%">
+                                    <col width="20%">
+                                    <col width="30%">
+                                </colgroup>
                                 <tbody> 
                                     <tr> 
                                         <th> 거래처 </th> 
@@ -167,7 +174,7 @@
                             <table class="dataBox table" id="wpTable">
                                 <thead>
                                     <tr>
-                                        <th> 도매코드 </th>
+                                        <th> 선택 </th>
                                         <th> 도매이름 </th>
                                         <th> 도매가 </th>
                                         <th> 상품이름 </th>
@@ -184,13 +191,68 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                        <div class="btnBox">
+                            <button class="btn btn-success" type="button" onclick="wpdelete()"> 삭제 </button>                      
+                        </div>
+                    </div>  <!-- modal-body end -->
                     <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>
                 </div>
             </div> <!-- 거래처별 도매상품  Modal end -->
+
+            <!-- 도매상품등록 Modal -->
+            <div class="modal fade" id="wpaddModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">|도매상품등록</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <table class="table" id="wpaddModal">
+                                <colgroup>
+                                    <col width="20%">
+                                    <col width="30%">
+                                    <col width="20%">
+                                    <col width="30%">
+                                </colgroup>
+                                <tbody> 
+                                    <tr> 
+                                        <th> 상품이름 </th> 
+                                            <td> 
+                                                <input type="text" class="form-text wpname" id="wpname"/>
+                                            </td>
+                                        <th> 원가 </th> 
+                                            <td> 
+                                                <input type="text" class="form-text wpcost" id="wpcost"/>
+                                            </td>    
+                                    </tr>
+                                    <tr> 
+                                        <th> 상품코드 </th> 
+                                            <td> 
+                                                <input type="text" class="form-text proddetailcode" id="proddetailcode"/>
+                                            </td> 
+                                        <th> 거래처 </th> 
+                                        <td> 
+                                            <select class="form-select" id="vendorlist">
+                    
+                                            </select>
+                                        </td> 
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-success" onclick="wpadd()">등록</button>
+                    </div>
+                </div>
+                </div>
+            </div> <!-- 도매상품등록 Modal end -->
 
             <!-- 발주현황 Modal -->
             <div class="modal fade" id="pologModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -201,6 +263,33 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <div class="searchBox">
+                            <table class="searchTable table">
+                                <colgroup>
+                                    <col width="13%">
+                                    <col width="13%">
+                                    <col width="13%">
+                                    <col width="13%">
+                                    <col width="13%">
+                                    <col width="35%">
+                                </colgroup>
+                                <tbody> 
+                                    <tr> 
+                                        <th> 처리 상태 </th> 
+                                            <td colspan="3"> 
+                                                <select class="supstateBox"> 
+                                                    <option value="0"> 전체 </option>
+                                                    <option value="1"> 진행중 </option>
+                                                    <option value="2"> 도착완료 </option>
+                                                </select> 
+                                            </td> 
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="btnBox">
+                                <button class="btn btn-success" type="button" onclick="pologRead()"> 검색 </button>                        
+                            </div>
+                        </div> <!-- searchBox end -->
                         <div class="table-wrapper">
                             <table class="dataBox table" id="poTable">
                                 <thead>

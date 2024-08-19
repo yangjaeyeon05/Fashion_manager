@@ -181,8 +181,6 @@ create table polog(
 
 # 샘플
 
-select * from polog;
-
 # color
 insert into color(colorname) values('하얀색');
 insert into color(colorname) values('검정색');
@@ -210,28 +208,24 @@ insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilen
 insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (3, 4, 2, 'L', "1_양말1c2.png", "2022-08-01");
 insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (4, 3, 3, 'M', "1_모자1c3.png", "2022-08-01");
 insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (5, 2, 4, 'XXL', "1_청바지1c4.png", "2022-08-01");
+select * from productdetail;
 
-select * from wholesaleproduct wp 
-	inner join vendor v on wp.vendorcode = v.vendorcode
-    inner join productdetail pd on wp.proddetailcode = pd.proddetailcode where v.vendorcode = 1;
-
-select p.prodname , sum( pi.invlogchange) inv 
-	from productdetail pd inner join product p  inner join invlog pi
-	on pd.prodcode = p.prodcode and pd.proddetailcode = pi.proddetailcode
-	group by pd.proddetailcode having proddetailcode = 1;
-    
-select * from wholesaleproduct wp 
-	inner join vendor v on wp.vendorcode = v.vendorcode
-	inner join productdetail pd on wp.proddetailcode = pd.proddetailcode
-	inner join color c on pd.colorcode = c.colorcode
-	inner join polog po on po.wpcode = wp.wpcode;
-    
-# 거래처
+#거래처
 insert into vendor(vname , vcontact , vaddress) values('시크보그무역' , '02-1111-1111' , '서울시 종로구 청계천로 500, 3층');
 insert into vendor(vname , vcontact , vaddress) values('스타일스피어' , '02-2222-2222' , '경기도 고양시 일산동구 중앙로 321, 2층');
 insert into vendor(vname , vcontact , vaddress) values('엘레강스엠포리엄' , '02-3333-3333' , '부산시 부산진구 부전로 654, 5층');
 insert into vendor(vname , vcontact , vaddress) values('트렌드아우라' , '02-4444-4444' , '광주시 서구 상무대로 789, 4층');
 insert into vendor(vname , vcontact , vaddress) values('럭소라' , '02-5555-5555' , '대구시 중구 동성로 987, 6층');
+INSERT INTO vendor (vname, vcontact, vaddress)
+VALUES ('에코테크', '02-6666-6666', '서울시 강남구 테헤란로 123, 5층');
+INSERT INTO vendor (vname, vcontact, vaddress)
+VALUES ('하이테크 솔루션', '02-7777-77777', '서울시 마포구 월드컵로 456, 2층');
+INSERT INTO vendor (vname, vcontact, vaddress)
+VALUES ('그린산업', '02-8888-88888', '서울시 송파구 올림픽로 789, 4층');
+INSERT INTO vendor (vname, vcontact, vaddress)
+VALUES ('스타트업 코리아', '02-9999-9999', '서울시 서초구 서초대로 101, 6층');
+INSERT INTO vendor (vname, vcontact, vaddress)
+VALUES ('피닉스 파트너스', '02-0000-0000', '서울시 영등포구 경인로 102, 7층');
 
 select * from vendor;
 
@@ -251,7 +245,6 @@ insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate)
 insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(4 , 3 , 30000 , '2024-08-14' , 2);
 insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(5 , 3 , 54000 , '2024-08-14' , 2);
 select * from polog;
-update polog set quantitystate = 2 , arrivaldate = (current_date) where pocode = 2;
 
 # members
 insert into members(memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('유재석', '010-1111-1111', 'you@naver.com', 'M', '1', 'M', '2022-08-01');
@@ -288,7 +281,7 @@ insert into invlog(proddetailcode, invlogchange, invlogdetail) values (1, 2, 4);
 insert into invlog(proddetailcode, invlogchange, invlogdetail) values (2, 10, 1);
 insert into invlog(proddetailcode, invlogchange, invlogdetail) values (2, -3, 2);
 select * from invlog;
-
+    
 # support
 insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(1, 1, '상담1', '반품문의',	'2024-07-31', null, 1, 1);
 insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담2', '반품문의',	'2024-07-31', 1, 2, null);
@@ -304,7 +297,6 @@ insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddet
 insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
 
 select * from support;
-select * from support order by supcode desc;
 
 # reply
 insert into reply(supcode, replycontent, replydate) values(1, '답글1', '2024-07-31');
@@ -502,7 +494,7 @@ insert into productdetail (prodcode, prodcatecode, colorcode, prodsize, prodfile
 insert into productdetail (prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (49, 10, 8, 'L', '1_재킷c8.png', '2021-04-15');
 insert into productdetail (prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (50, 10, 17, 'XL', '1_재킷c17.png', '2022-09-21');
 
-
+select * from productdetail;
 #color
 insert into color (colorname) values ('빨강색');
 insert into color (colorname) values ('파랑색');
@@ -519,6 +511,8 @@ insert into color (colorname) values ('베이지색');
 insert into color (colorname) values ('금색');
 insert into color (colorname) values ('은색');
 insert into color (colorname) values ('올리브색');
+
+select * from color;
 
 #orders
 insert into orders (memcode, orddate) values (4, '2023-12-19');
@@ -625,8 +619,7 @@ insert into orders (memcode, orddate) values (3, '2023-05-31');
 # orderdetail
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (1, 18, 5, 5, 5, 63000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (2, 93, 3, 4, 4, 64000);
-insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (3, 145, 7, 1, 3, 103000);
-insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (4, 70, 5, 1, 1, 32000);
+insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (3, 145, 7, 1, 3, 103000);insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (4, 70, 5, 1, 1, 32000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (5, 21, 6, 4, 4, 28000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (6, 40, 5, 3, 1, 67000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (7, 136, 3, 5, 2, 81000);
@@ -1255,6 +1248,7 @@ insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode,
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (187, 29, 2, 3, 2, 12000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (248, 71, 1, 5, 4, 81000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (189, 21, 3, 4, 3, 74000);
+select * from orderdetail;
 select * from product;
 select * from productdetail;
 select * from productdetail a inner join product b on a.prodcode=b.prodcode inner join productcategory c on a.prodcatecode=c.prodcatecode inner join color d on a.colorcode=d.colorcode;

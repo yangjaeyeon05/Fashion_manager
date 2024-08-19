@@ -4,6 +4,7 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.InventoryDto;
+import web.model.dto.InventorySearhDto;
 import web.model.dto.OrderdetailDto;
 import web.model.dto.ProductDto;
 import web.service.InventoryService;
@@ -74,4 +75,11 @@ public class InventoryController {
     }
 
     // ===================================  2024-08-16 김민석 ========================================= //
+
+    //  재고로그 출력 8/18 양재연
+    @GetMapping("/invlogallread")
+    public List<InventoryDto> invlogAllRead(InventorySearhDto inventorySearhDto){
+        System.out.println("InventoryController.invlogAllRead");
+       return inventoryService.invlogAllRead(inventorySearhDto);
+    }   // invlogAllRead() end
 }

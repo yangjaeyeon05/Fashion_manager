@@ -95,4 +95,11 @@ public class ViewController {
     // 거래처관리페이지
     @GetMapping("/vendor")
     public String vendor(){return "/vendor/vendor.html";}
+
+    //  재고 관리 페이지
+    @GetMapping("/product/inventorylog")
+    public String inventorylog(){
+        return "/product/inventorylog.html";
+    }
+
 }   // class end

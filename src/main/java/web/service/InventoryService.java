@@ -3,9 +3,11 @@ package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import web.model.dao.InventoryDao;
 import web.model.dto.InventoryDto;
+import web.model.dto.InventorySearhDto;
 import web.model.dto.OrderdetailDto;
 import web.model.dto.ProductDto;
 
@@ -83,4 +85,33 @@ public class InventoryService {
     }
 
     // ===================================  2024-08-16 김민석 ========================================= //
+
+    //  재고로그 출력 8/18 양재연
+    public List<InventoryDto> invlogAllRead(InventorySearhDto inventorySearhDto){
+        System.out.println("InventoryService.invlogAllRead");
+        List<InventoryDto> list =  inventoryDao.invlogAllRead(inventorySearhDto);
+        list.forEach(dto ->{
+            String invlogdetailname = convertInvlogdetail(dto.getInvlogdetail());
+            dto.setInvlogdetailname(invlogdetailname);
+        });
+        return list;
+    }   // invlogAllRead() end
+
+    // * 증감사유 문자변경
+    public String convertInvlogdetail(int invlogdetail){
+        String invlogdetailname = "";
+        if(invlogdetail==1){
+            invlogdetailname = "재고입고";
+        }
+        if(invlogdetail==2){
+            invlogdetailname = "판매";
+        }
+        if(invlogdetail==3){
+            invlogdetailname = "취소";
+        }
+        if(invlogdetail==4){
+            invlogdetailname = "환불";
+        }
+        return invlogdetailname;
+    }
 }
