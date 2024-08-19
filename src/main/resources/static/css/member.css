@@ -1,9 +1,32 @@
+.wrap {
+    margin: 30px;
+}
+
+#title {
+    border-bottom: 3px solid black;
+    margin-top: 20px;
+    padding-bottom: 5px;
+}
+
+#title>span {
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+
 .memberArea {
     margin-left: 250px;
 }
-.memberSearchBox{
+
+.memberSearchBox {
     margin-left: 250px;
 }
+
+/* .page {
+    margin: 0 auto;
+} */
+
 /* .memberPrint {
     display: flex;
     justify-content: space-between;

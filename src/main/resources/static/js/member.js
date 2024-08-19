@@ -6,23 +6,25 @@ function memberList(page = 1, size = 10) {
     let memberArea = document.querySelector(".memberArea");
     let searchKey = document.querySelector("#memberSearchValue").value;
     let searchKeyword = document.querySelector("#memberSearch").value;
-    if(searchKey == 1){
+    if (searchKey == 1) {
         searchKey = "memname"
-    }else if(searchKey == 2){
+    } else if (searchKey == 2) {
         searchKey = "memcontact"
-    }else if(searchKey == 3){
+    } else if (searchKey == 3) {
         searchKey = "mememail"
-    }else if(searchKey == 4){
+    } else if (searchKey == 4) {
         searchKey = "memgender"
-    }else if(searchKey == 5){
+    } else if (searchKey == 5) {
         searchKey = "memsize"
-    }else if(searchKey == 6){
+    } else if (searchKey == 6) {
         searchKey = "blacklist"
         searchKeyword = searchKeyword == "X" ? "0" : "1"
     }
     let html = `
     <div class="memberPrint">
-        <h3> 회원관리 페이지 </h3>
+        <div id = "title">
+            <span> 회원관리 페이지 </span>
+        </div>
         <table class="table">
             <thead>
                 <tr>
@@ -65,7 +67,7 @@ function memberList(page = 1, size = 10) {
     $.ajax({
         method: "get",
         url: "/member/list",
-        data : {page : page, size : size, searchKey : searchKey, searchKeyword : searchKeyword},
+        data: { page: page, size: size, searchKey: searchKey, searchKeyword: searchKeyword },
         success: function response(result) {
             //페이지 데이터 및 페이지네이션 정보 가져 오기
             let members = result.data; //조호된 게시물 정보
@@ -73,9 +75,9 @@ function memberList(page = 1, size = 10) {
             let currentPage = result.page; // 현재 페이지 번호
 
 
-            if (members && members.length > 0){
-            members.forEach(r => {
-                html += `<tbody class="memberPrint">
+            if (members && members.length > 0) {
+                members.forEach(r => {
+                    html += `<tbody class="memberPrint">
                             <tr>
                                 <td class = "memcode">
                                     ${r.memcode}
@@ -115,13 +117,13 @@ function memberList(page = 1, size = 10) {
                         </tbody>
                         
                     `;
-            });
-        }
+                });
+            }
             let paginationBox = document.querySelector('.pagination');
-                let pageHTML = '';
+            let pageHTML = '';
 
-                if (total > 0){ //if start 총페이지수가 0 보다 많으면
-                for(let i = 1; i<= total; i++){ //for start 반복문을 돌려서
+            if (total > 0) { //if start 총페이지수가 0 보다 많으면
+                for (let i = 1; i <= total; i++) { //for start 반복문을 돌려서
                     pageHTML += `
                     <li class="page-item ${i === currentPage ? 'active' : ''}">
                     <a class="page-link" href="#" onclick="memberList(${i}, ${size})">${i}</a>
@@ -129,11 +131,11 @@ function memberList(page = 1, size = 10) {
                     `;
                     //페이지의 번호와 데이터에 맞는 버튼 생성
 
-                    } //for end
-                } //if end
+                } //for end
+            } //if end
 
-                //페이지네이션 버튼출력
-                
+            //페이지네이션 버튼출력
+
             html += '</table>';
             memberArea.innerHTML = html;
 
