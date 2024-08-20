@@ -63,7 +63,6 @@ public class FileService{
 //                xhr.send();
 //    }
     public byte[] exportToExcel(){
-        System.out.println("ExcelService");
         try {
             // 엑셀 파일 인터페이스 구현
             Workbook workbook = new XSSFWorkbook();

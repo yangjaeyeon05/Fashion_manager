@@ -23,7 +23,6 @@ public class FileDao extends Dao{
             // 세션에 저장된 모든 데이터는 Object형이므로 형변환
             HttpSession session = request.getSession();
             ps = (PreparedStatement) session.getAttribute("currentSql");
-            System.out.println("Dao : " + ps);
             return ps.executeQuery(); // 조회된 ResultSet 리턴
         } catch (Exception e) {
             System.out.println("exportToExcel() : " + e);
