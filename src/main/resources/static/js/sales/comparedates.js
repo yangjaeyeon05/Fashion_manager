@@ -28,17 +28,17 @@ function getCompareDatesTable(){
             // 테이블 HTML 생성 루프
             r.forEach(dto => {                
                 chartLabel.push(dto.prodcatename)
-                incomeCalcChartData.push(dto.revenue)
-                completedCalcChartData.push(dto.saleAmount)
-                tableHTML += `<td>${dto.prodcatename}</td><td>${dto.firstcompleted}</td><td>${currencyFormat(dto.firstincome)}</td><td>${dto.secondcompleted}</td><td>${currencyFormat(dto.secondincome)}</td><td>${dto.completedcalc}</td><td>${incomecalc}</td></tr>`
+                incomeCalcChartData.push(dto.incomecalc)
+                completedCalcChartData.push(dto.completedcalc)
+                tableHTML += `<td>${dto.prodcatename}</td><td>${dto.firstcompleted}</td><td>${currencyFormat(dto.firstincome)}</td><td>${dto.secondcompleted}</td><td>${currencyFormat(dto.secondincome)}</td><td>${dto.completedcalc}</td><td>${dto.incomecalc}</td></tr>`
             })
             
             // 완성된 HTML을 삽입
             document.querySelector("#tablePrintBox").innerHTML = tableHTML
             
             // 차트 생성
-            createIncomeCalcChart(chartLabel, revenueChartData,'실매출신장률')
-            createCompletedCalcChart(chartLabel, saleAmountChartData,'실판매수량신장률')
+            createIncomeCalcChart(chartLabel, incomeCalcChartData,'실매출신장률')
+            createCompletedCalcChart(chartLabel, completedCalcChartData,'실판매수량신장률')
         
         }
     })

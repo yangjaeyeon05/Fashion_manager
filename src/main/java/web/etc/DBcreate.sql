@@ -42,7 +42,6 @@ create table productdetail(				# 상품상세정보
     foreign key (prodcatecode) references productcategory(prodcatecode),
     foreign key (colorcode) references color(colorcode)
     );
-select * from productdetail a inner join product b on a.prodcode=b.prodcode inner join productcategory c on a.prodcatecode=c.prodcatecode inner join color d on a.colorcode=d.colorcode;
     
 drop table if exists members;
 create table members(					# 회원
@@ -181,6 +180,13 @@ create table polog(
 
 # 샘플
 
+# admin
+insert into admin(adminid, adminpw) values ('qwe123', 'qwe123');
+insert into admin(adminid, adminpw) values ('asd456', 'asd456');
+insert into admin(adminid, adminpw) values ('zxc789', 'zxc789');
+insert into admin(adminid, adminpw) values ('rty012', 'rty012');
+insert into admin(adminid, adminpw) values ('fgh345', 'fgh345');
+
 # color
 insert into color(colorname) values('하얀색');
 insert into color(colorname) values('검정색');
@@ -225,19 +231,7 @@ insert into productcategory (prodcatename) values ('조끼');
 insert into productcategory (prodcatename) values ('장목양말');
 insert into productcategory (prodcatename) values ('트레이닝복');
 
-# product
-insert into product(prodname, prodprice, prodgender, proddesc) values ("반팔티1", 10000, 'M', '티셔츠설명');
-insert into product(prodname, prodprice, prodgender, proddesc) values ("장갑1", 10000, 'M', '장갑설명');
-insert into product(prodname, prodprice, prodgender, proddesc) values ("양말1", 15000, 'U', '양말설명');
-insert into product(prodname, prodprice, prodgender, proddesc) values ("모자1", 20000, 'F', '모자설명');
-insert into product(prodname, prodprice, prodgender, proddesc) values ("청바지1", 22000, 'F', '청바지설명');
 
-# productdetail
-insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (1, 1, 1, 'S', "1_반팔티1c1.png", "2022-08-01");
-insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (2, 5, 2, 'M', "1_장갑1c2.png", "2022-08-01");
-insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (3, 4, 2, 'L', "1_양말1c2.png", "2022-08-01");
-insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (4, 3, 3, 'M', "1_모자1c3.png", "2022-08-01");
-insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (5, 2, 4, 'XXL', "1_청바지1c4.png", "2022-08-01");
 
 # 거래처
 insert into vendor(vname , vcontact , vaddress) values('시크보그무역' , '02-1111-1111' , '서울시 종로구 청계천로 500, 3층');
@@ -245,35 +239,11 @@ insert into vendor(vname , vcontact , vaddress) values('스타일스피어' , '0
 insert into vendor(vname , vcontact , vaddress) values('엘레강스엠포리엄' , '02-3333-3333' , '부산시 부산진구 부전로 654, 5층');
 insert into vendor(vname , vcontact , vaddress) values('트렌드아우라' , '02-4444-4444' , '광주시 서구 상무대로 789, 4층');
 insert into vendor(vname , vcontact , vaddress) values('럭소라' , '02-5555-5555' , '대구시 중구 동성로 987, 6층');
-INSERT INTO vendor (vname, vcontact, vaddress)
-VALUES ('에코테크', '02-6666-6666', '서울시 강남구 테헤란로 123, 5층');
-INSERT INTO vendor (vname, vcontact, vaddress)
-VALUES ('하이테크 솔루션', '02-7777-77777', '서울시 마포구 월드컵로 456, 2층');
-INSERT INTO vendor (vname, vcontact, vaddress)
-VALUES ('그린산업', '02-8888-88888', '서울시 송파구 올림픽로 789, 4층');
-INSERT INTO vendor (vname, vcontact, vaddress)
-VALUES ('스타트업 코리아', '02-9999-9999', '서울시 서초구 서초대로 101, 6층');
-INSERT INTO vendor (vname, vcontact, vaddress)
-VALUES ('피닉스 파트너스', '02-0000-0000', '서울시 영등포구 경인로 102, 7층');
-
-select * from vendor;
-
-# 도매상품
-insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('반팔-WH-S' , 7000 , 1, 1);
-insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('반팔-WH-M' , 7000 , 2, 1);
-insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('양말-BL' , 5000 , 3, 2);
-insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('모자-WH' , 10000 , 4, 4);
-insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('청바지-BLUE' , 18000 , 5, 5);
-
-select * from wholesaleproduct;
-
-# 발주로그
-insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(1 , 3 , 21000 , '2024-08-16' , 1);
-insert into polog(wpcode , quantity , totalamount , quantitystate) values(2 , 5 , 35000 , 1);
-insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(3 , 2 , 10000 , '2024-08-14' , 2);
-insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(4 , 3 , 30000 , '2024-08-14' , 2);
-insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(5 , 3 , 54000 , '2024-08-14' , 2);
-select * from polog;
+INSERT INTO vendor (vname, vcontact, vaddress) VALUES ('에코테크', '02-6666-6666', '서울시 강남구 테헤란로 123, 5층');
+INSERT INTO vendor (vname, vcontact, vaddress) VALUES ('하이테크 솔루션', '02-7777-77777', '서울시 마포구 월드컵로 456, 2층');
+INSERT INTO vendor (vname, vcontact, vaddress) VALUES ('그린산업', '02-8888-88888', '서울시 송파구 올림픽로 789, 4층');
+INSERT INTO vendor (vname, vcontact, vaddress) VALUES ('스타트업 코리아', '02-9999-9999', '서울시 서초구 서초대로 101, 6층');
+INSERT INTO vendor (vname, vcontact, vaddress) VALUES ('피닉스 파트너스', '02-0000-0000', '서울시 영등포구 경인로 102, 7층');
 
 # members
 insert into members(memname, memcontact, mememail, memgender, memcolor, memsize, memjoindate) values ('유재석', '010-1111-1111', 'you@naver.com', 'M', '1', 'M', '2022-08-01');
@@ -696,66 +666,13 @@ insert into orders (memcode, orddate) values (49, '2021-08-31');
 insert into orders (memcode, orddate) values (16, '2024-05-17');
 insert into orders (memcode, orddate) values (49, '2024-08-01');
 
-# orderdetail
-insert into orderdetail(ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (1, 1, 1, 1, 1, 10000);
-insert into orderdetail(ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (1, 2, 2, 2, 2, 10000);
-insert into orderdetail(ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (1, 3, 1, 3, 3, 10000);
-insert into orderdetail(ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (2, 3, 1, 4, 1, 10000);
-insert into orderdetail(ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (2, 4, 3, 5, 2, 10000);
-
-# invlog
-insert into invlog(proddetailcode, invlogchange, invlogdetail) values (1, 10, 1);
-insert into invlog(proddetailcode, invlogchange, invlogdetail) values (1, -2, 2);
-insert into invlog(proddetailcode, invlogchange, invlogdetail) values (1, 2, 4);
-insert into invlog(proddetailcode, invlogchange, invlogdetail) values (2, 10, 1);
-insert into invlog(proddetailcode, invlogchange, invlogdetail) values (2, -3, 2);
-
-# support
-insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(1, 1, '상담1', '반품문의',	'2024-07-31', null, 1, 1);
-insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담2', '반품문의',	'2024-07-31', 1, 2, null);
-insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(3, 2, '상담3', '반품문의',	'2024-07-31', 2, 3, null);
-insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(4, 3, '상담4', '교환문의',	'2024-07-31', null, 1, 3);
-insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(5, 4, '상담5', '나문희',	'2024-07-31', null, 1, 5);
-insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(1, 1, '상담1', '반품문의',	'2024-07-31', null, 1, 1);
-insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(3, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
-insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
-insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
-insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
-insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
-insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
-
-select * from support;
-
-# reply
-insert into reply(supcode, replycontent, replydate) values(1, '답글1', '2024-07-31');
-insert into reply(supcode, replycontent, replydate) values(2, '답글2', '2024-07-31');
-insert into reply(supcode, replycontent, replydate) values(3, '답글3', '2024-07-31');
-insert into reply(supcode, replycontent, replydate) values(4, '답글4', '2024-07-31');
-insert into reply(supcode, replycontent, replydate) values(5, '답글5', '2024-07-31');
-select * from reply;
-
-# admin
-insert into admin(adminid, adminpw) values ('qwe123', 'qwe123');
-insert into admin(adminid, adminpw) values ('asd456', 'asd456');
-insert into admin(adminid, adminpw) values ('zxc789', 'zxc789');
-insert into admin(adminid, adminpw) values ('rty012', 'rty012');
-insert into admin(adminid, adminpw) values ('fgh345', 'fgh345');
-select * from product;
-select * from productdetail;
-select * from color;
-select * from productcategory;
-
-# mockaroo 추가 샘플
-
-# color
-
-# members
-
-
-
-
 
 # product
+insert into product(prodname, prodprice, prodgender, proddesc) values ("반팔티1", 10000, 'M', '티셔츠설명');
+insert into product(prodname, prodprice, prodgender, proddesc) values ("장갑1", 10000, 'M', '장갑설명');
+insert into product(prodname, prodprice, prodgender, proddesc) values ("양말1", 15000, 'U', '양말설명');
+insert into product(prodname, prodprice, prodgender, proddesc) values ("모자1", 20000, 'F', '모자설명');
+insert into product(prodname, prodprice, prodgender, proddesc) values ("청바지1", 22000, 'F', '청바지설명');
 insert into product (prodname, prodprice, prodgender, proddesc) values ('민소매1', 40000, 'M', '민소매1설명');
 insert into product (prodname, prodprice, prodgender, proddesc) values ('반바지1', 19000, 'F', '반바지1설명');
 insert into product (prodname, prodprice, prodgender, proddesc) values ('원피스1', 18000, 'F', '원피스1설명');
@@ -803,6 +720,11 @@ insert into product (prodname, prodprice, prodgender, proddesc) values ('장목�
 insert into product (prodname, prodprice, prodgender, proddesc) values ('트레이닝복3', 23000, 'F', '트레이닝복3설명');
 
 # productdetail
+insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (1, 1, 1, 'S', "1_반팔티1c1.png", "2022-08-01");
+insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (2, 5, 2, 'M', "1_장갑1c2.png", "2022-08-01");
+insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (3, 4, 2, 'L', "1_양말1c2.png", "2022-08-01");
+insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (4, 3, 3, 'M', "1_모자1c3.png", "2022-08-01");
+insert into productdetail(prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (5, 2, 4, 'XXL', "1_청바지1c4.png", "2022-08-01");
 insert into productdetail (prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (6, 6, 5, 'S', '1_민소매c5.png', '2023-03-23');
 insert into productdetail (prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (6, 6, 12, 'M', '2_민소매c12.png', '2022-04-25');
 insert into productdetail (prodcode, prodcatecode, colorcode, prodsize, prodfilename, proddate) values (6, 6, 3, 'L', '3_민소매c3.png', '2021-03-10');
@@ -1256,6 +1178,11 @@ insert into productdetail (prodcode, prodcatecode, colorcode, prodsize) values (
 insert into productdetail (prodcode, prodcatecode, colorcode, prodsize) values (50, 20, 12, 'XXL');
 
 # orderdetail
+insert into orderdetail(ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (1, 1, 1, 1, 1, 10000);
+insert into orderdetail(ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (1, 2, 2, 2, 2, 10000);
+insert into orderdetail(ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (1, 3, 1, 3, 3, 10000);
+insert into orderdetail(ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (2, 3, 1, 4, 1, 10000);
+insert into orderdetail(ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (2, 4, 3, 5, 2, 10000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (1, 18, 5, 5, 5, 63000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (2, 93, 3, 4, 4, 64000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (3, 145, 7, 1, 3, 103000);
@@ -1356,11 +1283,6 @@ insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode,
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (98, 150, 6, 1, 1, 98000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (99, 29, 6, 4, 4, 37000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (100, 65, 7, 3, 5, 20000);
-
-# /Mockaroo 샘플
-
-# Mockaroo orders & orderdetail 더 추가
-
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (101, 55, 2, 3, 1, 87000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (102, 68, 10, 4, 2, 34000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (103, 144, 7, 1, 3, 33000);
@@ -1511,7 +1433,6 @@ insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode,
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (248, 109, 8, 5, 1, 74000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (249, 86, 4, 4, 5, 37000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (250, 107, 9, 5, 3, 27000);
-
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (163, 6, 6, 3, 2, 38000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (37, 33, 3, 1, 4, 68000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (112, 21, 5, 3, 1, 14000);
@@ -1712,7 +1633,6 @@ insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode,
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (187, 29, 2, 3, 2, 12000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (248, 71, 1, 5, 4, 81000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (189, 21, 3, 4, 3, 74000);
-
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (62, 197, 6, 5, 1, 10000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (149, 180, 3, 4, 3, 20000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (41, 262, 9, 4, 4, 48000);
@@ -1914,3 +1834,45 @@ insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode,
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (30, 367, 10, 2, 1, 91000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (174, 332, 10, 1, 2, 67000);
 insert into orderdetail (ordcode, proddetailcode, ordamount, ordstate, coupcode, ordprice) values (17, 33, 10, 1, 2, 67000);
+
+# support
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(1, 1, '상담1', '반품문의',	'2024-07-31', null, 1, 1);
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담2', '반품문의',	'2024-07-31', 1, 2, null);
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(3, 2, '상담3', '반품문의',	'2024-07-31', 2, 3, null);
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(4, 3, '상담4', '교환문의',	'2024-07-31', null, 1, 3);
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(5, 4, '상담5', '나문희',	'2024-07-31', null, 1, 5);
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(1, 1, '상담1', '반품문의',	'2024-07-31', null, 1, 1);
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(3, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
+insert into support(memcode, supcategory, suptitle, supcontent, supdate, proddetailcode, supstate, ordcode) values(2, 2, '상담3', '반품문의',	'2024-07-31', 2, 1, null);
+
+# reply
+insert into reply(supcode, replycontent, replydate) values(1, '답글1', '2024-07-31');
+insert into reply(supcode, replycontent, replydate) values(2, '답글2', '2024-07-31');
+insert into reply(supcode, replycontent, replydate) values(3, '답글3', '2024-07-31');
+insert into reply(supcode, replycontent, replydate) values(4, '답글4', '2024-07-31');
+insert into reply(supcode, replycontent, replydate) values(5, '답글5', '2024-07-31');
+
+# invlog 재고로그
+insert into invlog(proddetailcode, invlogchange, invlogdetail) values (1, 10, 1);
+insert into invlog(proddetailcode, invlogchange, invlogdetail) values (1, -2, 2);
+insert into invlog(proddetailcode, invlogchange, invlogdetail) values (1, 2, 4);
+insert into invlog(proddetailcode, invlogchange, invlogdetail) values (2, 10, 1);
+insert into invlog(proddetailcode, invlogchange, invlogdetail) values (2, -3, 2);
+
+# 도매상품
+insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('반팔-WH-S' , 7000 , 1, 1);
+insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('반팔-WH-M' , 7000 , 2, 1);
+insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('양말-BL' , 5000 , 3, 2);
+insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('모자-WH' , 10000 , 4, 4);
+insert into wholesaleproduct(wpname , wpcost , proddetailcode , vendorcode) values('청바지-BLUE' , 18000 , 5, 5);
+
+# 발주로그
+insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(1 , 3 , 21000 , '2024-08-16' , 1);
+insert into polog(wpcode , quantity , totalamount , quantitystate) values(2 , 5 , 35000 , 1);
+insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(3 , 2 , 10000 , '2024-08-14' , 2);
+insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(4 , 3 , 30000 , '2024-08-14' , 2);
+insert into polog(wpcode , quantity , totalamount , arrivaldate , quantitystate) values(5 , 3 , 54000 , '2024-08-14' , 2);

@@ -14,7 +14,7 @@ function getProductMonthlyTable(){
     $.ajax({  // 테이블 데이터 가져오는 ajax
         async : false,
         method : "GET",
-        url : "/sales/product/totaltable",
+        url : "/sales/product/monthlytable",
         data : {year : year, month : month},
         success : r => {
             console.log("response");
