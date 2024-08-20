@@ -177,6 +177,7 @@ public class ProdcutDao extends  Dao {
                 }
                 sql+=" prodname "+" like '%" + productSearchDto.getSearchKeyword() + "%'";//검색할 단어가 들어간 상품 검색
             }
+            sql += " order by proddetailcode desc";
             PreparedStatement ps=conn.prepareStatement(sql);
             System.out.println(" sql  = " +  sql );
             // 엑셀 내보내기시 필요 코드 2

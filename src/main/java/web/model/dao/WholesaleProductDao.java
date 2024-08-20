@@ -96,6 +96,7 @@ public class WholesaleProductDao extends Dao{
             }else {
                 sql += " where quantitystate = '"+quantitystate+"' ";
             }
+            sql += " order by pocode desc";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){

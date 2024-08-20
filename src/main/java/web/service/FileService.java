@@ -25,7 +25,7 @@ public class FileService{
     FileDao fileDao;
 
     // 08.08 이재명 pc주소
-    String uploadPath = "C:\\Users\\tj-bu-703-021\\Desktop\\Fashion_manager\\build\\resources\\main\\static\\upload\\";
+    String uploadPath = "C:\\Users\\tj-bu-703-008\\Desktop\\Fashion_manager\\build\\resources\\main\\static\\upload";
 
 
     // [1] 현재 보이는 표 데이터를 엑셀로 내보내기
