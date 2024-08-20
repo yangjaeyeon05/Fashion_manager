@@ -228,8 +228,8 @@ function wpRead(vendorcode){
                         ${wp.inv} 
                         </td>
                         <td>
-                            <input type="number" class="quantity" data-cost="${wp.wpcost}"/>
-                            <button type="button" class="btn btn-success" onclick="doPo(${wp.wpcode} , ${wp.wpcost} )" > + </button>
+                            <input type="number" id="quantity${wp.wpcode}" class = "quantity" data-cost="${wp.wpcost}"/>
+                            <button type="button" class="btn btn-success" onclick="doPo(${wp.wpcode} , ${wp.wpcost} , ${wp.wpcode} )" > + </button>
                             <span class="totalamount"> </span>
                         </td>
                         </tr>`
@@ -239,7 +239,7 @@ function wpRead(vendorcode){
     // 출력
     wpPrintbox.innerHTML = html;
     // 입력 필드에 대한 keypress 이벤트 핸들러 추가
-    document.querySelectorAll('.quantity').forEach(input => {   // 모든 .quantity 클래스를 가진 입력필드 선태
+    document.querySelectorAll(".quantity").forEach(input => {   // 모든 .quantity 클래스를 가진 입력필드 선태
         input.addEventListener('keypress', function (event) {   // 각 입력필드에 keypress 이벤트리스너 츠가
             if (event.code === 'Enter') {                       // 엔터키가 눌려지면
                 const wpcost = this.getAttribute('data-cost');  // data-cost 속성에서 가격 값을 가져와 , 각 입력 필드라는 것을 알기 위해 this도 같이 전달
@@ -276,17 +276,20 @@ function addFunc(inputElement, wpcost) {
 }
 
 // 발주
-function doPo(wpcode , wpcost){
+function doPo(wpcode , wpcost , wpcode){
     console.log('wpcode()');
     console.log(wpcode);
     console.log(wpcost);
     // 주문 수량
-    let quantity = document.querySelector(".quantity").value;
+    let quantity = document.querySelector(`#quantity${wpcode}`).value;
+    console.log(quantity);
     // 주문 총금액
     let totalamount = quantity * wpcost;
+    console.log(totalamount);
     let info = {
         wpcode  : wpcode , quantity : quantity , totalamount : totalamount
     }
+    console.log(info);
     $.ajax({
         async : false , 
         method : 'post' , 
@@ -354,6 +357,8 @@ function pologRead(){
                     </tr>`; 
         }
     )   // forEach end
+    console.log(poList);
+    console.log(html);
     // 출력
     // console.log(html);
     poPrintbox.innerHTML = html;
