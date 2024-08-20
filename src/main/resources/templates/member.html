@@ -4,7 +4,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title> 회원 목록 </title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='/css/member.css'>
 
@@ -12,56 +12,60 @@
 
 <body>
     <div th:replace="~{/sidebar.html:: sidebar}"></div>
-    <div class="memberSearchBox">
-        <select name="" id="memberSearchValue">
-            <option value="0"> 전체 </option>
-            <option value="1"> 이름 </option>
-            <option value="2"> 전화번호 </option>
-            <option value="3"> 이메일 </option>
-            <option value="4"> 성별 </option>
-            <option value="5"> 사이즈 </option>
-            <option value="6"> 블랙리스트 </option>
-        </select>
-        <input type="text" name="" id="memberSearch">
-        <button type="button" onclick="memberList()"> 검색 </button>
-    </div>
-     <!-- searchBox end -->
-    <div class="memberArea">
-        <div class="memberPrint">
-            <div>
-                회원번호
-            </div>
-            <div>
-                이름
-            </div>
-            <div>
-                전화번호
-            </div>
-            <div>
-                이메일
-            </div>
-            <div>
-                성별
-            </div>
-            <div>
-                사이즈
-            </div>
-            <div>
-                회원 가입 날짜
-            </div>
-            <div>
-                최근 접속일
-            </div>
-            <div>
-                선호 색상
+    <div class="wrap">
+        <div class="memberSearchBox">
+            <select name="" id="memberSearchValue">
+                <option value="0"> 전체 </option>
+                <option value="1"> 이름 </option>
+                <option value="2"> 전화번호 </option>
+                <option value="3"> 이메일 </option>
+                <option value="4"> 성별 </option>
+                <option value="5"> 사이즈 </option>
+                <option value="6"> 블랙리스트 </option>
+            </select>
+            <input type="text" name="" id="memberSearch">
+            <button type="button" onclick="memberList()"> 검색 </button>
+        </div>
+
+
+        <!-- searchBox end -->
+        <div class="memberArea">
+            <div class="memberPrint">
+                <div>
+                    회원번호
+                </div>
+                <div>
+                    이름
+                </div>
+                <div>
+                    전화번호
+                </div>
+                <div>
+                    이메일
+                </div>
+                <div>
+                    성별
+                </div>
+                <div>
+                    사이즈
+                </div>
+                <div>
+                    회원 가입 날짜
+                </div>
+                <div>
+                    최근 접속일
+                </div>
+                <div>
+                    선호 색상
+                </div>
             </div>
         </div>
-    </div>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination my">
 
-        </ul>
-    </nav>
+            </ul>
+        </nav>
+    </div>
 
 
     <script src="/js/member.js"></script>

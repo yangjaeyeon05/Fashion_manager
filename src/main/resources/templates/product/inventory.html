@@ -4,7 +4,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title> 재고 관리 </title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='/css/product/inventory.css'>
 
@@ -13,44 +13,59 @@
 <body>
     <div th:replace="~{/sidebar.html:: sidebar}"></div>
     <!-- // ===================================  2024-08-13 김민석 html 수정(테이블) ========================================= //-->
-    <div class="inventoryArea">
-        <h3> 재고 관리 페이지 </h3>
-        <table class="table">
-            <thead class="inventoryRead">
-                <tr>
-                    <th>
-                        제품명
-                    </th>
-                    <th>
-                        성별
-                    </th>
-                    <th>
-                        사이즈
-                    </th>
-                    <th>
-                        재고 현황
-                    </th>
-                    <th>
-                        비고
-                    </th>
-                    <th>
-                        그래프 출력
-                    </th>
-                    <th>
-                        재고 알림
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="inventoryRead" id="inventoryArea">
 
-            </tbody>
-        </table>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-    
-            </ul>
-        </nav>
+    <div class="wrap">
+        <div class="inventoryArea">
+            <div id="title">
+                <span> 재고 관리 페이지 </span>
+            </div>
+            <table class="table">
+                <thead class="inventoryRead">
+                    <tr>
+                        <th>
+                            제품명
+                        </th>
+                        <th>
+                            성별
+                        </th>
+                        <th>
+                            사이즈
+                        </th>
+                        <th>
+                            재고 현황
+                        </th>
+                        <th>
+                            비고
+                        </th>
+                        <th>
+                            그래프 출력
+                        </th>
+                        <th>
+                            재고 알림
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="inventoryRead" id="inventoryArea">
 
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination my">
+
+                </ul>
+            </nav>
+
+            <td>
+                <div class="modal">
+                    <div class="modal_popup">
+                        <h3> 재고 현황 그래프 </h3>
+                        <canvas id="myChart" width="300" height="300"></canvas>
+                        <button type="button" class="close_btn">닫기</button>
+                    </div>
+                </div>
+                <button style="display: none;" type="button" class="modal_btn"> 재고 현황 그래프 </button>
+
+        </div>
     </div>
     <!-- // ===================================  2024-08-13 김민석 html 수정(테이블) ========================================= // -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>

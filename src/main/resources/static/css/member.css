@@ -1,11 +1,51 @@
+.wrap {
+    margin: 30px;
+}
+
+#title {
+    border-bottom: 3px solid black;
+    margin-top: 20px;
+    padding-bottom: 5px;
+}
+
+#title>span {
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+
 .memberArea {
     margin-left: 250px;
 }
-.memberSearchBox{
+
+.memberSearchBox {
     margin-left: 250px;
 }
+
+/* .page {
+    margin: 0 auto;
+} */
+
 /* .memberPrint {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid black;
 } */
+.pagination {
+    margin-left: 250px;
+}
+
+.my.pagination>.active>a,
+.my.pagination>.active>span,
+.my.pagination>.active>a:hover,
+.my.pagination>.active>span:hover,
+.my.pagination>.active>a:focus,
+.my.pagination>.active>span:focus {
+    background: #2c673e;
+    border-color: #2c673e;
+}
+
+.pagination {
+    --bs-pagination-color: #2c673e !important;
+}

@@ -10,7 +10,9 @@
 <body>
 <div th:replace="~{/sidebar.html:: sidebar}"></div>
 <div id="main">
-    <h1>상품 등록</h1>
+    <div id="title">
+        <span>상품등록</span>
+    </div>
     <form id="productAdd">
         <div class="form-container">
             <div class="form-group">
@@ -40,8 +42,7 @@
                     <option value="M"> M </option>
                     <option value="L"> L </option>
                     <option value="XL"> XL </option>
-                    <option value="2XL"> 2XL </option>
-                    <option value="3XL"> 3XL </option>
+                    <option value="XXL"> XXL </option>
                 </select>
             </div>
             <div class="form-group">
@@ -66,7 +67,7 @@
             </div>
         </div>
         <div class="form-group submit-button">
-            <button type="button" onclick="productAdd()">등록하기</button>
+            <button class="searchBtn btn btn-success" type="button" onclick="productAdd()">등록하기</button>
         </div>
     </form>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
